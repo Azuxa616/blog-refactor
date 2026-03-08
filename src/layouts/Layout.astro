@@ -1,0 +1,21 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+---
+
+<!doctype html>
+<html lang="zh-CN" class="dark">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Azuxa's BlogWorld</title>
+		<meta name="description" content="Azuxa's BlogWorld" />
+	</head>
+	<body class="font-sans antialiased bg-background text-foreground">
+		<slot />
+	</body>
+</html>

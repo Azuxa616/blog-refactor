@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full">
+		<div class="flex flex-col row-start-2 items-center sm:items-start w-full relative z-10">
+			{/* 背景图片区域 */}
+			<div class="relative w-full h-full">
+				{/* 背景图片 */}
+				<div class="fixed inset-0 z-0">
+					<img
+						src="/imgs/index-bg-img-03.png"
+						alt="background"
+						class="object-cover w-full h-full"
+					/>
+				</div>
+			</div>
+			{/* 首页初始显示区域 */}
+			<div class="relative flex flex-col items-center justify-center gap-4 min-h-screen min-w-screen text-center">
+				{/* 标题区域 */}
+				<div class="relative flex flex-col items-center justify-center gap-4 min-h-screen min-w-screen text-center text-white">
+					{/* 主标题 */}
+					<h1 class="text-6xl font-bold">Welcome to Azuxa&apos;s BlogWorld</h1>
+					{/* 副标题 */}
+					<p class="text-3xl font-mono">Not just a blog, but</p>
+				</div>
+			</div>
+		</div>
+	</main>
+</Layout>
