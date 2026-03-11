@@ -16,7 +16,7 @@ const {
 } = Astro.props
 ---
 
-<div class="animate-bounce cursor-pointer ${className}" :onclick="${onClick}">
+<div class="animate-bounce cursor-pointer ${className}" onclick={onClick}>
   <img 
     src="/svgs/arrow-down.svg" 
     alt="向下滚动" 

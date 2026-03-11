@@ -39,7 +39,7 @@ import FooterBar from '../components/FooterBar.astro';
       <div style="height: 100vh; visibility: hidden; pointer-events: none" />
 
       <!-- GitHub 展示区 -->
-      <div x-show="isExpanded" x-transition:enter="transition ease-out duration-300">
+      <div x-show="isExpanded" x-transition>
         <GithubSection />
       </div>
     </main>

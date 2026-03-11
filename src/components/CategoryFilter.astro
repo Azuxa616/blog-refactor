@@ -55,68 +55,29 @@ const categoriesJson = JSON.stringify(categories)
   <!-- 标题栏 -->
   <div class="flex items-center justify-between mb-4">
     <h3 class="text-lg font-bold text-foreground">分类</h3>
-    <a
-      x-show="selectedCategory !== 'all' && selectedCategory"
-      :href="buildUrl('all')"
-      class="px-3 py-1 text-sm bg-primary text-white hover:bg-gray-200 hover:text-gray-800 rounded-full"
-    >
-      重置筛选
-    </a>
+    {selectedCategory !== 'all' && (
+      <a
+        href={`/articles${searchTerm ? `?search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
+        class="px-3 py-1 text-sm bg-primary text-white hover:bg-gray-200 hover:text-gray-800 rounded-full"
+      >
+        重置筛选
+      </a>
+    )}
   </div>
 
   <!-- 分类标签列表 -->
-  <div 
-    x-data="{
-      categories: ${categoriesJson},
-      selected: '${selectedCategory}',
-      
-      get sortedCategories() {
-        return [...this.categories].sort((a, b) => (b.articleCount || 0) - (a.articleCount || 0))
-      },
-      
-      minFontSize: 14,
-      maxFontSize: 24,
-      
-      get maxCount() {
-        const counts = this.categories.map(c => c.articleCount || 0)
-        return Math.max(...counts)
-      },
-      
-      get minCount() {
-        const counts = this.categories.map(c => c.articleCount || 0)
-        return Math.min(...counts)
-      },
-      
-      getFontSize(count) {
-        const max = this.maxCount
-        const min = this.minCount
-        if (max === min) return (this.minFontSize + this.maxFontSize) / 2
-        const ratio = (count - min) / (max - min)
-        return this.minFontSize + ratio * (this.maxFontSize - this.minFontSize)
-      },
-      
-      buildUrl(categoryId) {
-        const params = new URLSearchParams()
-        if ('${searchTerm}') params.set('search', '${searchTerm}')
-        if ('${sortType}' && '${sortType}' !== 'latest') params.set('sort', '${sortType}')
-        if (categoryId !== 'all') params.set('category', categoryId)
-        const queryString = params.toString()
-        return queryString ? \`/articles?\${queryString}\` : '/articles'
-      }
-    }"
-    class="flex flex-wrap gap-3"
-    x-cloak
-  >
-    <template x-for="(category, index) in sortedCategories" :key="category.slug">
+  <div class="flex flex-wrap gap-3">
+    {categories.map((category, index) => (
       <a
-        :href="buildUrl(category.slug)"
-        class="font-bold transition-all duration-200 hover:opacity-80 px-2 py-1 rounded-full"
-        :class="selected === category.slug 
-          ? 'text-white bg-primary' 
-          : '\${categoryColors[index % categoryColors.length]} hover:text-opacity-80'"
-        :style="{ fontSize: \`\${getFontSize(category.articleCount || 0)}px\`, lineHeight: '1.2' }"
-        x-text="\`\${category.name} (\${category.articleCount || 0})\`"
-      ></a>
-    </template>
+        href={`/articles?category=${category.slug}${searchTerm ? `&search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
+        class={`font-bold transition-all duration-200 hover:opacity-80 px-2 py-1 rounded-full ${
+          selectedCategory === category.slug
+            ? 'text-white bg-primary'
+            : `${categoryColors[index % categoryColors.length]} hover:text-opacity-80`
+        }`}
+      >
+        {category.name} ({category.articleCount || 0})
+      </a>
+    ))}
   </div>
 </div>

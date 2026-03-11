@@ -25,10 +25,11 @@ const {
 const shouldRender = totalPages > 1
 ---
 
-<template x-if="${shouldRender}">
+{shouldRender && (
   <div 
-    x-data="{
+    x-data={`{
       page: ${currentPage},
+      totalPages: ${totalPages},
       getVisiblePages() {
         if (this.totalPages <= 1) return []
         
@@ -67,7 +68,7 @@ const shouldRender = totalPages > 1
         this.page = newPage
         this.visiblePages = this.getVisiblePages()
       }
-    }"
+    }`}
     class="flex justify-center items-center gap-2 ${className}"
     x-cloak
   >
@@ -93,7 +94,7 @@ const shouldRender = totalPages > 1
           :class="page === pageNum 
             ? 'bg-primary text-white shadow-lg mt-[-10px]' 
             : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-          :aria-label="`第 \${pageNum} 页`"
+          :aria-label="'第 ' + pageNum + ' 页'"
           :aria-current="page === pageNum ? 'page' : undefined"
           x-text="pageNum"
         ></button>
@@ -102,12 +103,12 @@ const shouldRender = totalPages > 1
 
     <!-- 下一页按钮 -->
     <button
-      @click="changePage(Math.min(${totalPages}, page + 1))"
-      :disabled="page === ${totalPages}"
+      @click="changePage(Math.min(totalPages, page + 1))"
+      :disabled="page === totalPages"
       class="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-600 hover:bg-gray-200"
       aria-label="下一页"
     >
       下一页
     </button>
   </div>
-</template>
+)}

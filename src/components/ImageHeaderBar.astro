@@ -40,12 +40,12 @@ const fallbackSrc = '/imgs/404.jpg'
 <!-- 文章模式 -->
 {mode === 'article' && (
   <div
-    x-data="{ currentSrc: '${src}' }"
+    x-data={`{ currentSrc: '${src}', fallbackSrc: '${fallbackSrc}' }`}
     class="relative w-full h-64 md:h-96 overflow-hidden"
   >
     <img
       :src="currentSrc"
-      :onerror="currentSrc = '${fallbackSrc}'"
+      @error="currentSrc = fallbackSrc"
       alt={articleTitle || "article cover"}
       class="absolute inset-0 w-full h-full object-cover object-center"
     />
@@ -81,7 +81,7 @@ const fallbackSrc = '/imgs/404.jpg'
                 width={24}
                 height={24}
                 class="rounded-full border border-white/20"
-                x-on:error="$el.src = '/imgs/avatar.jpg'"
+                @error="$el.src = '/imgs/avatar.jpg'"
               />
               <span>{author.username}</span>
             </div>
@@ -109,12 +109,12 @@ const fallbackSrc = '/imgs/404.jpg'
 <!-- 默认模式 -->
 {mode !== 'article' && (
   <div
-    x-data="{ currentSrc: '${src}' }"
+    x-data={`{ currentSrc: '${src}', fallbackSrc: '${fallbackSrc}' }`}
     class="relative w-full h-100 overflow-hidden"
   >
     <img
       :src="currentSrc"
-      :onerror="currentSrc = '${fallbackSrc}'"
+      @error="currentSrc = fallbackSrc"
       alt="articles"
       class="absolute inset-0 w-full h-full object-cover object-center blur-lg"
     />

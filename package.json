@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/alpinejs": "^5.0.0",
+    "@astrojs/alpinejs": "^0.5.0",
     "@astrojs/node": "^9.5.4",
     "@fontsource-variable/inter": "^5.2.8",
     "@fontsource-variable/jetbrains-mono": "^5.2.8",
@@ -31,6 +31,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.7",
     "@types/fs-extra": "^11.0.4",
     "@types/react-syntax-highlighter": "^15.5.13",
     "@types/uuid": "^11.0.0"

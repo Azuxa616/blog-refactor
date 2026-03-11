@@ -44,30 +44,39 @@ const repeatedTextListJson = JSON.stringify(repeatedTextList)
 ---
 
 <span
-  x-data="{
+  x-data={`{
     displayedInitialText: '',
     dynamicText: '',
     currentIndex: 0,
-    phase: 'initial', // initial, waiting, typing, deleting, complete
+    phase: 'initial',
     showCursor: true,
     isDeleting: false,
     timer: null,
+    initialText: ${JSON.stringify(initialText)},
+    repeatedTextList: ${repeatedTextListJson},
+    initialTypingSpeed: ${initialTypingSpeed},
+    repeatedTypingSpeed: ${repeatedTypingSpeed},
+    gapInterval: ${gapInterval},
+    loop: ${loop},
+    deleteSpeed: ${deleteSpeed},
+    cursor: ${JSON.stringify(cursor)},
+    cursorBlinkInterval: ${cursorBlinkInterval},
     
     getCurrentTargetText() {
-      return this.phase === 'typing' || this.phase === 'deleting' 
-        ? ${repeatedTextListJson}[this.currentIndex] || ''
+      return (this.phase === 'typing' || this.phase === 'deleting') 
+        ? this.repeatedTextList[this.currentIndex] || ''
         : ''
     },
     
     next() {
       switch(this.phase) {
         case 'initial':
-          if ('${initialText}') {
-            if (this.displayedInitialText.length < '${initialText}'.length) {
+          if (this.initialText) {
+            if (this.displayedInitialText.length < this.initialText.length) {
               this.phase = 'typing'
-              this.type('${initialText}', this.displayedInitialText.length + 1, 'displayedInitialText', ${initialTypingSpeed})
+              this.type(this.initialText, this.displayedInitialText.length + 1, 'displayedInitialText', this.initialTypingSpeed)
             } else {
-              this.phase = ${repeatedTextListJson}.length > 0 ? 'waiting' : 'complete'
+              this.phase = this.repeatedTextList.length > 0 ? 'waiting' : 'complete'
             }
           } else {
             this.phase = 'waiting'
@@ -75,28 +84,34 @@ const repeatedTextListJson = JSON.stringify(repeatedTextList)
           break
           
         case 'waiting':
-          if (${repeatedTextListJson}.length > 0) {
+          if (this.repeatedTextList.length > 0) {
             this.isDeleting = !this.isDeleting
             this.phase = this.isDeleting ? 'deleting' : 'typing'
+            if (this.timer) clearTimeout(this.timer)
+            this.timer = setTimeout(() => this.next(), this.gapInterval)
           }
           break
           
         case 'typing':
           const targetText = this.getCurrentTargetText()
           if (this.dynamicText.length < targetText.length) {
-            this.type(targetText, this.dynamicText.length + 1, 'dynamicText', ${repeatedTypingSpeed})
+            this.type(targetText, this.dynamicText.length + 1, 'dynamicText', this.repeatedTypingSpeed)
           } else {
             this.phase = 'waiting'
+            if (this.timer) clearTimeout(this.timer)
+            this.timer = setTimeout(() => this.next(), this.gapInterval)
           }
           break
           
         case 'deleting':
           if (this.dynamicText.length > 0) {
-            this.deleteChar(${deleteSpeed})
+            this.deleteChar(this.deleteSpeed)
           } else {
-            this.currentIndex = (this.currentIndex + 1) % ${repeatedTextListJson}.length
-            if (${loop} || this.currentIndex !== 0) {
+            this.currentIndex = (this.currentIndex + 1) % this.repeatedTextList.length
+            if (this.loop || this.currentIndex !== 0) {
               this.phase = 'waiting'
+              if (this.timer) clearTimeout(this.timer)
+              this.timer = setTimeout(() => this.next(), this.gapInterval)
             } else {
               this.phase = 'complete'
             }
@@ -123,16 +138,17 @@ const repeatedTextListJson = JSON.stringify(repeatedTextList)
         this.next()
       }, speed)
     }
-  }"
+  }`}
   x-init="
-    if ('${cursor}') {
-      setInterval(() => { showCursor = !showCursor }, ${cursorBlinkInterval})
+    if (this.cursor) {
+      setInterval(() => { showCursor = !showCursor }, cursorBlinkInterval)
     }
     next()
   "
-  :class="className"
+  :class="${className}"
+  class="${className}"
 >
   <span x-text="displayedInitialText"></span>
   <span x-text="dynamicText"></span>
-  <span x-show="'${cursor}' && showCursor" x-text="'${cursor}'"></span>
+  <span x-show="cursor && showCursor" x-text="cursor"></span>
 </span>

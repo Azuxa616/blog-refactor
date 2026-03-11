@@ -24,15 +24,16 @@ const menuItems = [
 ---
 
 <div 
-  x-data="{ 
+  x-data={`{ 
     isExpanded: $store.appState.isExpanded || false,
+    useSwitch: ${isUseSwitch},
     toggleExpanded() {
       this.isExpanded = !this.isExpanded
       $store.appState.isExpanded = this.isExpanded
     }
-  }"
+  }`}
   class="fixed top-0 left-0 right-0 z-50 flex items-center justify-start w-full h-16 border px-8 gap-10 transition-colors duration-300"
-  :class="isExpanded || !${isUseSwitch} ? 'bg-white/60 backdrop-blur-sm text-black dark:text-white border-gray-200' : 'bg-transparent text-white'"
+  :class="isExpanded || !useSwitch ? 'bg-white/60 backdrop-blur-sm text-black dark:text-white border-gray-200' : 'bg-transparent text-white'"
   x-cloak
 >
   <div class="text-xl font-bold">Azuxa&apos;s BlogSpace</div>
@@ -44,7 +45,7 @@ const menuItems = [
                after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5
                after:transition-all after:duration-300 after:ease-out
                hover:after:w-full"
-        :class="isExpanded || !${isUseSwitch} ? 'after:bg-black' : 'after:bg-white'"
+        :class="isExpanded || !useSwitch ? 'after:bg-black' : 'after:bg-white'"
         x-text="item.label"
       />
     </template>
