@@ -1,0 +1,17 @@
+---
+// 主题脚本组件 - 服务端组件
+// 在 HTML head 中注入主题初始化脚本，防止页面闪烁
+---
+
+<script is:inline>
+  (function() {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
+</script>

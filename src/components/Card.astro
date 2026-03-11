@@ -1,0 +1,18 @@
+---
+// 卡片组件
+interface Props {
+  class?: string;
+  padding?: string;
+}
+
+const {
+  class: className = "",
+  padding = "p-8"
+} = Astro.props;
+---
+
+<div class={`relative flex 
+bg-card-background backdrop-blur-sm border 
+border-white/20 shadow-xl rounded-2xl ${padding} hover:shadow-2xl transition-all duration-300 ${className}`}>
+  <slot />
+</div>

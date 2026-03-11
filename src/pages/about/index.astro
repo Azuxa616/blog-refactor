@@ -1,0 +1,115 @@
+---
+import Card from '@/components/Card'
+---
+
+<Card showDecorativeBg={true}>
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    <div class="text-center mb-16">
+      <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">关于本站</h1>
+      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+        欢迎来到我的个人博客，这里记录了我的技术探索、生活感悟和创作历程。
+      </p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 mb-16">
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-4">技术栈</h2>
+        <p class="text-slate-600 mb-6">
+          本站采用现代化的技术栈构建，致力于提供最佳的性能和用户体验。
+        </p>
+        <ul class="space-y-3 text-slate-700">
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 flex-shrink-0"></span>
+            <span><strong>前端框架：</strong>Astro 5.x + React 19</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 flex-shrink-0"></span>
+            <span><strong>样式方案：</strong>Tailwind CSS 4.x</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 flex-shrink-0"></span>
+            <span><strong>数据库：</strong>SQLite (LibSQL/Turso)</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 flex-shrink-0"></span>
+            <span><strong>ORM：</strong>Drizzle ORM</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 flex-shrink-0"></span>
+            <span><strong>部署：</strong>Node.js Server</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl">
+        <h2 class="text-2xl font-semibold text-slate-900 mb-4">特色功能</h2>
+        <p class="text-slate-600 mb-6">
+          博客支持多种内容创作和管理功能，方便您浏览和管理。
+        </p>
+        <ul class="space-y-3 text-slate-700">
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 flex-shrink-0"></span>
+            <span><strong>文章管理：</strong>支持 Markdown 编辑、分类、标签</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 flex-shrink-0"></span>
+            <span><strong>图片管理：</strong>拖拽上传、图库选择</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 flex-shrink-0"></span>
+            <span><strong>代码高亮：</strong>支持多种编程语言</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 flex-shrink-0"></span>
+            <span><strong>响应式设计：</strong>完美适配各种设备</span>
+          </li>
+          <li class="flex items-start">
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 flex-shrink-0"></span>
+            <span><strong>夜间模式：</strong>护眼的暗色主题</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl mb-16">
+      <h2 class="text-2xl font-semibold text-slate-900 mb-6">联系方式</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-blue-100">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">Email</h3>
+          <p class="text-slate-600">contact@example.com</p>
+        </div>
+
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-gray-100">
+            <svg class="w-8 h-8 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84-1.235 1.156-1.604 1.156-2.082 0-1.986-1.008-3.881-1.236-5.467-1.387-5.931-1.334-5.467-5.931z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">GitHub</h3>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-slate-600 hover:text-blue-600 transition">github.com/username</a>
+        </div>
+
+        <div class="text-center">
+          <div class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-green-100">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 mb-2">Website</h3>
+          <a href="/" class="text-slate-600 hover:text-blue-600 transition">返回首页</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <p class="text-slate-500">
+        © {new Date().getFullYear()} Azuxa's BlogSpace · 用技术记录生活
+      </p>
+    </div>
+  </div>
+</Card>
