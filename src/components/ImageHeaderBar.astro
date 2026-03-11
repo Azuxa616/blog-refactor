@@ -1,0 +1,126 @@
+---
+// ImageHeaderBar.astro
+// 带图片的头部栏组件
+// 支持默认和文章两种模式，使用 Alpine.js 处理图片加载错误
+// 注意：使用 Alpine.js 替代 React 的 useState 和 useEffect
+
+interface ImageHeaderBarProps {
+  src: string
+  title?: string
+  subtitle?: string
+  mode?: 'default' | 'article'
+  articleTitle?: string
+  publishedAt?: string
+  author?: {
+    username: string
+    avatar: string
+  }
+  readTime?: number
+  category?: {
+    name: string
+    color: string
+  }
+}
+
+const {
+  src,
+  title,
+  subtitle,
+  mode = 'default',
+  articleTitle,
+  publishedAt,
+  author,
+  readTime,
+  category
+} = Astro.props
+
+const fallbackSrc = '/imgs/404.jpg'
+---
+
+<!-- 文章模式 -->
+{mode === 'article' && (
+  <div
+    x-data="{ currentSrc: '${src}' }"
+    class="relative w-full h-64 md:h-96 overflow-hidden"
+  >
+    <img
+      :src="currentSrc"
+      :onerror="currentSrc = '${fallbackSrc}'"
+      alt={articleTitle || "article cover"}
+      class="absolute inset-0 w-full h-full object-cover object-center"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+
+    <div class="absolute inset-0 flex flex-col justify-end md:p-10 z-10">
+      <div class="text-white max-w-4xl">
+        {category && (
+          <div class="mb-4">
+            <span
+              class="inline-block px-3 py-1 rounded-full text-sm font-medium"
+              style={{
+                backgroundColor: category.color + '40',
+                color: category.color,
+                border: `1px solid ${category.color}60`
+              }}
+            >
+              {category.name}
+            </span>
+          </div>
+        )}
+
+        <h1 class="text-2xl md:text-4xl font-bold mb-4 leading-tight">
+          {articleTitle}
+        </h1>
+
+        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-200">
+          {author && (
+            <div class="flex items-center gap-2">
+              <img
+                src={author.avatar || '/imgs/avatar.jpg'}
+                alt={author.username}
+                width={24}
+                height={24}
+                class="rounded-full border border-white/20"
+                x-on:error="$el.src = '/imgs/avatar.jpg'"
+              />
+              <span>{author.username}</span>
+            </div>
+          )}
+
+          {publishedAt && (
+            <>
+              <span>•</span>
+              <span>{new Date(publishedAt).toLocaleDateString('zh-CN')}</span>
+            </>
+          )}
+
+          {readTime && (
+            <>
+              <span>•</span>
+              <span>{readTime} 分钟阅读</span>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+<!-- 默认模式 -->
+{mode !== 'article' && (
+  <div
+    x-data="{ currentSrc: '${src}' }"
+    class="relative w-full h-100 overflow-hidden"
+  >
+    <img
+      :src="currentSrc"
+      :onerror="currentSrc = '${fallbackSrc}'"
+      alt="articles"
+      class="absolute inset-0 w-full h-full object-cover object-center blur-lg"
+    />
+    <div class="absolute inset-0 flex flex-col items-center justify-center bg-none bg-opacity-40 z-10">
+      <h1 class="text-4xl font-bold text-[#254889]">{title}</h1>
+      <p class="text-lg text-[#254889]">{subtitle}</p>
+    </div>
+  </div>
+)}

@@ -1,0 +1,30 @@
+---
+// 主视觉区组件
+// 用于首页的欢迎区域
+// 添加中文注释
+
+interface Props {
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  className = ''
+} = Astro.props
+---
+
+<div class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center text-white ${className}">
+  <h1 class="text-6xl font-bold">Welcome to Azuxa&apos;s BlogWorld</h1>
+  <Typewriter
+    initialText="Not just a blog, but"
+    repeatedTextList={[" a notebook", " a showcase", " a ground", " a world"]}
+    initialTypingSpeed={120}
+    repeatedTypingSpeed={100}
+    gapInterval={2000}
+    loop={true}
+    deleteSpeed={60}
+    cursor="_"
+    cursorBlinkInterval={500}
+    className="text-3xl font-mono"
+  />
+</div>

@@ -1,0 +1,67 @@
+---
+// WebStatisticDataCard.astro
+// 网站统计数据卡片组件
+// 展示网站的基本统计信息，包括文章数量、总字数、访客数等
+
+import Card from './Card.astro'
+
+interface Props {
+  /** 卡片标题，默认 "网站统计" */
+  title?: string
+  /** 文章数目，默认 4 */
+  articleCount?: number
+  /** 本站总字数，默认 "2.6k" */
+  totalWords?: string
+  /** 本站访客数，默认 10 */
+  visitorCount?: number
+  /** 本站总浏览量，默认 34 */
+  totalViews?: number
+  /** 最后更新距今天数，默认 25 */
+  lastUpdatedDays?: number
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  title = "网站统计",
+  articleCount = 4,
+  totalWords = "2.6k",
+  visitorCount = 10,
+  totalViews = 34,
+  lastUpdatedDays = 25,
+  className = ""
+} = Astro.props
+---
+
+<Card class={className}>
+  <div class="flex flex-col gap-6 w-full">
+    <h3 class="text-2xl font-bold mb-2 text-center">{title}</h3>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="flex flex-col items-center p-4 rounded-xl text-blue-600">
+        <span class="text-1xl font-medium mb-1">文章数目</span>
+        <span class="text-3xl font-bold">{articleCount}</span>
+      </div>
+
+      <div class="flex flex-col items-center p-4 rounded-xl text-green-600">
+        <span class="text-1xl font-medium mb-1">本站总字数</span>
+        <span class="text-3xl font-bold">{totalWords}</span>
+      </div>
+
+      <div class="flex flex-col items-center p-4 rounded-xl text-purple-600">
+        <span class="text-1xl font-medium mb-1">本站访客数</span>
+        <span class="text-3xl font-bold">{visitorCount}</span>
+      </div>
+
+      <div class="flex flex-col items-center p-4 rounded-xl text-orange-600">
+        <span class="text-1xl font-medium mb-1">本站总浏览量</span>
+        <span class="text-3xl font-bold">{totalViews}</span>
+      </div>
+    </div>
+
+    <div class="flex flex-col items-center p-4 rounded-xl text-gray-600">
+      <span class="text-1xl font-medium mb-1">最后更新时间</span>
+      <span class="text-3xl font-bold">{lastUpdatedDays} 天前</span>
+    </div>
+  </div>
+</Card>

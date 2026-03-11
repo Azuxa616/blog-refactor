@@ -1,0 +1,25 @@
+---
+// SkeletonAvatar.astro
+// 圆形头像骨架组件
+// 用于创建头像加载占位，支持多种尺寸
+
+import SkeletonBox from './SkeletonBox.astro'
+
+interface Props {
+  /** 尺寸变体：sm-小(32px), md-中(48px), lg-大(64px), xl-超大(128px) */
+  size?: "sm" | "md" | "lg" | "xl"
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const { size = "md", className = "" } = Astro.props
+
+const sizeClasses = {
+  sm: "w-8 h-8",
+  md: "w-12 h-12",
+  lg: "w-16 h-16",
+  xl: "w-32 h-32",
+}
+---
+
+<SkeletonBox variant="circular" className={`${sizeClasses[size]} ${className}`} />

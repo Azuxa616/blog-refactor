@@ -1,0 +1,27 @@
+---
+// 向下滚动按钮组件
+// 用于首页的向下滚动交互
+// 添加中文注释
+
+interface Props {
+  /** 点击回调函数 */
+  onClick?: string
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  onClick = "window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })",
+  className = ''
+} = Astro.props
+---
+
+<div class="animate-bounce cursor-pointer ${className}" :onclick="${onClick}">
+  <img 
+    src="/svgs/arrow-down.svg" 
+    alt="向下滚动" 
+    width={40} 
+    height={40} 
+    class="object-cover" 
+  />
+</div>

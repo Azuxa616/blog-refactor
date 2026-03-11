@@ -1,0 +1,129 @@
+---
+// GitHub 展示区组件
+// 用于显示 GitHub 用户信息和仓库列表
+// 添加中文注释
+
+import { githubData } from '../data/github'
+
+interface Props {
+  /** GitHub 数据 */
+  data?: typeof githubData
+  /** 是否加载中 */
+  isLoading?: boolean
+  /** 错误信息 */
+  error?: string | null
+}
+
+const {
+  data = githubData,
+  isLoading = false,
+  error = null
+} = Astro.props
+---
+
+<div class="relative flex items-start justify-center w-full text-center gap-8 bg-background">
+  <div class="flex flex-col items-center justify-center p-10 gap-8 rounded-2xl my-30 w-full">
+    <!-- 加载状态 -->
+    <div x-show="${isLoading}" x-cloak class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      <p class="ml-4 text-muted">加载 GitHub 数据中...</p>
+    </div>
+
+    <!-- 错误状态 -->
+    <div x-show="${error}" x-cloak class="flex items-center justify-center py-12">
+      <p class="text-red-500">{error}</p>
+    </div>
+
+    <!-- 正常状态 -->
+    <template x-if="!${isLoading} && !${error}">
+      <div x-show="true" x-cloak>
+        <!-- 用户信息卡片 -->
+        <div class="flex items-center gap-4 mb-8">
+          <img 
+            :src="data?.user?.avatar_url || '${data?.user?.avatar_url}'" 
+            :alt="data?.user?.name || 'GitHub 用户'"
+            class="w-24 h-24 rounded-full border-4 border-white shadow-lg"
+          />
+          <div class="text-left">
+            <h2 class="text-2xl font-bold text-foreground" x-text="data?.user?.name || '${data?.user?.name}'"></h2>
+            <p class="text-muted" x-text="data?.user?.bio || '暂无简介'"></p>
+            <div class="flex gap-4 mt-2 text-sm text-muted">
+              <span x-text="`\${data?.user?.followers || 0} 关注者`"></span>
+              <span x-text="`\${data?.user?.following || 0} 关注中`"></span>
+              <span x-text="`\${data?.user?.public_repos || 0} 仓库`"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 已学技能 -->
+        <div class="mb-8">
+          <h3 class="text-xl font-bold text-foreground mb-4">已学技能</h3>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <template x-for="skill in data?.skills?.learned || ${JSON.stringify(data?.skills?.learned)}" :key="skill.name">
+              <div class="flex items-center gap-2 px-4 py-2 bg-card-background rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                <img :src="skill.imgUrl" :alt="skill.name" class="w-6 h-6" />
+                <div class="flex items-center gap-2">
+                  <span class="font-medium" x-text="skill.name"></span>
+                  <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      class="h-full bg-primary transition-all duration-300"
+                      :style="{ width: skill.proficiency + '%' }"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- 正在学习 -->
+        <div>
+          <h3 class="text-xl font-bold text-foreground mb-4">正在学习</h3>
+          <div class="flex flex-wrap gap-3 justify-center">
+            <template x-for="skill in data?.skills?.practicing || ${JSON.stringify(data?.skills?.practicing)}" :key="skill.name">
+              <div class="flex items-center gap-2 px-4 py-2 bg-card-background rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
+                <img :src="skill.imgUrl" :alt="skill.name" class="w-6 h-6" />
+                <div class="flex items-center gap-2">
+                  <span class="font-medium" x-text="skill.name"></span>
+                  <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
+                    <div 
+                      class="h-full bg-secondary transition-all duration-300"
+                      :style="{ width: skill.proficiency + '%' }"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- 仓库列表 -->
+        <div class="mt-8">
+          <h3 class="text-xl font-bold text-foreground mb-4">公开仓库</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <template x-for="repo in data?.repos || ${JSON.stringify(data?.repos)}" :key="repo.id">
+              <a 
+                :href="repo.html_url" 
+                target="_blank"
+                rel="noopener noreferrer"
+                class="block p-4 bg-card-background rounded-lg border border-gray-200 hover:border-primary hover:shadow-md transition-all"
+              >
+                <h4 class="font-bold text-foreground mb-2" x-text="repo.name"></h4>
+                <p class="text-sm text-muted mb-2 line-clamp-2" x-text="repo.description || '暂无描述'"></p>
+                <div class="flex items-center justify-between text-xs text-muted">
+                  <span x-show="repo.language" x-text="repo.language"></span>
+                  <div class="flex items-center gap-2">
+                    <span x-show="repo.stargazers_count" class="flex items-center gap-1">
+                      ⭐ <span x-text="repo.stargazers_count"></span>
+                    </span>
+                    <span x-show="repo.license?.name" x-text="repo.license?.name"></span>
+                  </div>
+                </div>
+              </a>
+            </template>
+          </div>
+        </div>
+      </div>
+    </template>
+  </div>
+</div>

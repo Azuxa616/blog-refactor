@@ -1133,39 +1133,46 @@ pnpm install
 - [x] 删除 `src/contexts/` 目录
 
 ### 第四阶段：静态组件迁移
-- [ ] 迁移 Avatar.tsx → Avatar.astro（添加中文注释）
-- [ ] 迁移 BusinessCard.tsx → BusinessCard.astro（添加中文注释）
-- [ ] 迁移 Card.tsx → Card.astro（添加中文注释）
-- [ ] 迁移 CategoryCard.tsx → CategoryCard.astro（添加中文注释）
-- [ ] 拆分并迁移 GithubCard.tsx → GithubUserCard.astro + GithubRepoList.astro 等（添加中文注释）
-- [ ] 迁移 ImageHeaderBar.tsx → ImageHeaderBar.astro（添加中文注释）
-- [ ] 迁移 MenuButton.tsx → MenuButton.astro（添加中文注释）
-- [ ] 迁移 PageHeader.tsx → PageHeader.astro（添加中文注释）
-- [ ] 迁移 SkillsCard.tsx → SkillsCard.astro（添加中文注释）
-- [ ] 迁移 WebStatisticDataCard.tsx → WebStatisticDataCard.astro（添加中文注释）
-- [ ] 迁移 FloatingActionButton.tsx → FloatingActionButton.astro（添加中文注释）
-- [ ] 迁移 Skeleton.tsx → Skeleton.astro（添加中文注释）
+- [x] 迁移 Avatar.tsx → Avatar.astro（添加中文注释）
+- [x] 迁移 BusinessCard.tsx → BusinessCard.astro（添加中文注释）
+- [x] 迁移 Card.tsx → Card.astro（已存在，跳过）
+- [x] 迁移 CategoryCard.tsx → CategoryCard.astro（添加中文注释）
+- [x] 拆分并迁移 GithubCard.tsx → GithubUserCard.astro + GithubRepoList.astro 等（添加中文注释）
+- [x] 迁移 ImageHeaderBar.tsx → ImageHeaderBar.astro（添加中文注释）
+- [x] 迁移 MenuButton.tsx → MenuButton.astro（添加中文注释）
+- [x] 迁移 PageHeader.tsx → PageHeader.astro（添加中文注释）
+- [x] 迁移 SkillsCard.tsx → SkillsCard.astro（添加中文注释）
+- [x] 迁移 WebStatisticDataCard.tsx → WebStatisticDataCard.astro（添加中文注释）
+- [x] 迁移 FloatingActionButton.tsx → FloatingActionButton.astro（添加中文注释）
+- [x] 迁移 Skeleton.tsx → Skeleton.astro（添加中文注释）
 
 ### 第五阶段：Alpine.js 工具函数
-- [ ] 创建 src/lib/alpine-utils.ts
-- [ ] 实现 pageExpand() 工具函数（添加中文注释）
-- [ ] 创建 alpine-components.js
-- [ ] 在布局中引入 alpine-components.js
+- [x] 创建 src/lib/alpine-utils.ts
+- [x] 实现 pageExpand() 工具函数（添加中文注释）
+- [x] 创建 alpine-components.js
+- [x] 在布局中引入 alpine-components.js
 
 ### 第六阶段：动态组件重构
-- [ ] 重构 HeaderBar.tsx → HeaderBar.astro（Alpine.js，添加中文注释）
-- [ ] 重构 BlogItem.tsx → BlogItem.astro（Alpine.js，添加中文注释）
-- [ ] 重构 Modal.tsx → Modal.astro（Alpine.js，添加中文注释）
-- [ ] 重构 Pagination.tsx → Pagination.astro（Alpine.js，添加中文注释）
-- [ ] 重构 CategoryFilter.tsx → CategoryFilter.astro（Alpine.js，添加中文注释）
-- [ ] 拆分 ContentPage.tsx → 多个子组件（Alpine.js，添加中文注释）
-- [ ] 重构 GalleryPage.tsx → GalleryPage.astro（Alpine.js，添加中文注释）
-- [ ] 拆分 HomeClient.tsx → HeroSection.astro + Typewriter.astro + GithubSection.astro 等（Alpine.js，添加中文注释）
-- [ ] 重构 Typewriter.tsx → Typewriter.astro（Alpine.js，添加中文注释）
-- [ ] 重构 ImageDetailModal.tsx → ImageDetailModal.astro（Alpine.js，添加中文注释）
-- [ ] 重构 ImagePicker.tsx → ImagePicker.astro（Alpine.js，添加中文注释）
-- [ ] 重构 ImageUploader.tsx → ImageUploader.astro（Alpine.js，添加中文注释）
-- [ ] 重构 UploadModal.tsx → UploadModal.astro（Alpine.js，添加中文注释）
+- [x] 重构 HeaderBar.tsx → HeaderBar.astro（Alpine.js，添加中文注释）
+- [x] 重构 BlogItem.tsx → BlogItem.astro（Alpine.js，添加中文注释）
+- [x] 重构 Modal.tsx → Modal.astro（Alpine.js，添加中文注释）
+- [x] 重构 Pagination.tsx → Pagination.astro（Alpine.js，添加中文注释）
+- [x] 重构 CategoryFilter.tsx → CategoryFilter.astro（Alpine.js，添加中文注释）
+- [x] 删除 ContentPage.tsx（后台管理页面，不需要）
+- [x] 删除 GalleryPage.tsx（后台管理页面，不需要）
+- [x] 拆分 HomeClient.tsx → HeroSection.astro + Typewriter.astro + ArrowDownButton.astro + GithubSection.astro（Alpine.js，添加中文注释）
+- [x] 重构 Typewriter.tsx → Typewriter.astro（Alpine.js，添加中文注释）
+- [x] 删除 ImageDetailModal.tsx（后台组件，不需要）
+- [x] 删除 ImagePicker.tsx（后台组件，不需要）
+- [x] 删除 ImageUploader.tsx（后台组件，不需要）
+- [x] 删除 UploadModal.tsx（后台组件，不需要）
+
+### 第七阶段：页面重构
+- [x] 更新 pages/index.astro（使用 Alpine.js，添加中文注释）
+- [ ] 更新 pages/articles/index.astro（使用新的文章工具函数，添加中文注释）
+- [ ] 更新 pages/articles/[id].astro（使用 Content Layer，添加中文注释）
+- [ ] 更新 pages/about/index.astro（静态内容，添加中文注释）
+- [ ] （如需要）更新 pages/links/index.astro（添加中文注释）
 
 ### 第七阶段：页面重构
 - [ ] 更新 pages/index.astro（使用 Alpine.js，添加中文注释）

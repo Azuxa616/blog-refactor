@@ -1,0 +1,197 @@
+---
+// GithubUserCard.astro
+// GitHub 用户信息卡片组件
+// 展示 GitHub 用户的头像、名称、统计信息、热力图和操作按钮
+
+import { SkeletonAvatar } from './Skeleton.astro'
+import { SkeletonText } from './Skeleton.astro'
+import { SkeletonHeatmap } from './Skeleton.astro'
+import { SkeletonStatCard } from './Skeleton.astro'
+import { buildContributionSnapshot } from './GithubUtils.astro'
+
+interface GitHubUser {
+  avatar_url: string
+  name: string
+  login: string
+  bio: string | null
+  followers: number
+  following: number
+  public_repos: number
+}
+
+interface GitHubRepo {
+  id: number
+  name: string
+  description: string | null
+  html_url: string
+  updated_at: string
+  language: string | null
+  license: {
+    name: string
+    spdx_id: string
+  } | null
+  stargazers_count: number
+}
+
+interface Props {
+  /** GitHub 用户信息 */
+  user: GitHubUser | null
+  /** 仓库列表 */
+  repos: GitHubRepo[]
+  /** 是否加载中 */
+  isLoading?: boolean
+  /** 错误信息 */
+  error?: string | null
+}
+
+const { user, repos = [], isLoading = false, error = null } = Astro.props
+
+// 构建贡献热力图数据
+const contribution = buildContributionSnapshot(repos)
+
+// 用户显示数据（如果加载中或无用户，则使用空对象）
+const displayUser = user || {
+  avatar_url: "",
+  name: "",
+  login: "",
+  bio: null,
+  followers: 0,
+  following: 0,
+  public_repos: 0,
+}
+
+// 统计数据块配置
+const statBlocks = [
+  { label: "Followers", caption: "关注者", value: displayUser.followers.toLocaleString(), accent: "text-blue-600" },
+  { label: "Following", caption: "关注中", value: displayUser.following.toLocaleString(), accent: "text-purple-600" },
+  { label: "Public Repos", caption: "公开项目", value: displayUser.public_repos.toLocaleString(), accent: "text-emerald-600" },
+  { label: "Activity", caption: "近 6 周活跃", value: (contribution.total || repos.length).toLocaleString(), accent: "text-amber-600" },
+]
+---
+
+<!-- 错误提示 -->
+{error && (
+  <div class="flex items-center justify-center w-full max-w-xl p-4 rounded-xl bg-red-50 border border-red-200">
+    <p class="text-sm text-red-600">{error}</p>
+  </div>
+)}
+
+<!-- 用户信息头部 -->
+<header class="flex items-center gap-6 text-center">
+  <!-- 头像 -->
+  <div class="relative">
+    <div class="absolute inset-0 -m-4 rounded-3xl" />
+    <div class="relative overflow-hidden rounded-3xl border">
+      {isLoading || !user ? (
+        <SkeletonAvatar size="xl" />
+      ) : (
+        <img
+          src={displayUser.avatar_url}
+          alt={`${displayUser.name || displayUser.login} 的头像`}
+          width={500}
+          height={500}
+          class="h-full w-full object-cover"
+        />
+      )}
+    </div>
+  </div>
+
+  <!-- 用户名称和操作按钮 -->
+  <div class="flex-1 space-y-3">
+    <div class="flex flex-col flex-wrap content-center gap-3">
+      {isLoading || !user ? (
+        <>
+          <SkeletonText width="w-48" height="h-8" />
+          <SkeletonText width="w-24" height="h-6" />
+        </>
+      ) : (
+        <>
+          <h2 class="text-4xl font-bold text-white">
+            {displayUser.name || displayUser.login}
+          </h2>
+          <span class="rounded-full border border-slate-200/80 px-3 py-1 text-sm">
+            @{displayUser.login}
+          </span>
+        </>
+      )}
+    </div>
+    <div class="flex flex-col gap-3 items-center justify-center max-w-45 m-auto">
+      <!-- GitHub 访问按钮 -->
+      <a
+        href="https://github.com/Azuxa616"
+        target="_blank"
+        rel="noopener noreferrer"
+        class:list={[
+          "w-full group flex items-center gap-3 bg-gradient-to-r from-gray-900 to-gray-800",
+          "hover:from-gray-800 hover:to-gray-700 text-white px-6 py-3 rounded-xl font-medium",
+          "shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+        ]}
+      >
+        <img src="/svgs/github.svg" alt="github" width={20} height={20} class="opacity-90 group-hover:opacity-100 transition-opacity" />
+        <span>访问 GitHub</span>
+      </a>
+      <!-- Gitee 访问按钮 -->
+      <a
+        href="https://gitee.com/Azuxa616"
+        target="_blank"
+        rel="noopener noreferrer"
+        class:list={[
+          "w-full group flex items-center gap-3 bg-gradient-to-r from-[#d81e06] to-[#c0392b]",
+          "hover:from-[#c0392b] hover:to-[#a93226] text-white px-6 py-3 rounded-xl font-medium",
+          "shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
+        ]}
+      >
+        <img src="/svgs/gitee.svg" alt="gitee" width={20} height={20} class="opacity-90 group-hover:opacity-100 transition-opacity" />
+        <span>访问 Gitee</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- 贡献热力图 -->
+  <div class="rounded-2xl border bg-gray-50 p-4 shadow-inner">
+    <div class="mb-4 flex items-center justify-between">
+      <div>
+        <p class="text-sm font-semibold">近 6 周提交热力图</p>
+        {isLoading || !user ? (
+          <SkeletonText width="w-32" height="h-3" class="mt-1" />
+        ) : (
+          <p class="text-xs text-slate-500">
+            活跃天数 {contribution.activeDays} / 42
+          </p>
+        )}
+      </div>
+      {isLoading || !user ? (
+        <div class="h-6 w-20 rounded-full bg-gray-200 animate-pulse" />
+      ) : (
+        <span class="rounded-full px-3 py-1 text-xs font-medium bg-emerald-100 text-emerald-600">
+          {contribution.total} 次互动
+        </span>
+      )}
+    </div>
+    <!-- 动态导入 GithubHeatmap 组件 -->
+    <GithubHeatmap contribution={contribution} />
+  </div>
+
+  <!-- 统计数据块 -->
+  <div class="grid grid-cols-2 gap-4">
+    {isLoading || !user ? (
+      Array.from({ length: 4 }).map((_, index) => (
+        <SkeletonStatCard key={`skeleton-stat-${index}`} />
+      ))
+    ) : (
+      statBlocks.map((stat) => (
+        <div key={stat.label} class="rounded-2xl border bg-gray-50 p-4 text-center shadow-sm">
+          <p class="text-xs uppercase tracking-widest">{stat.label}</p>
+          <p class={`mt-2 text-2xl font-semibold ${stat.accent}`}>{stat.value}</p>
+          <p class="mt-1 text-xs text-slate-400">{stat.caption}</p>
+        </div>
+      ))
+    )}
+  </div>
+</header>
+
+<!-- 贡献热力图组件（内嵌） -->
+<script>
+  // 贡献热力图渲染逻辑
+  // 将在运行时由 Alpine.js 或其他客户端脚本处理
+</script>

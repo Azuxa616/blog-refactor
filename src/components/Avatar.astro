@@ -1,0 +1,33 @@
+---
+// Avatar.astro
+// 头像组件
+// 用于显示用户头像的静态组件，支持自定义尺寸
+
+interface Props {
+  /** 头像图片 URL，默认为蝴蝶图标 */
+  src?: string
+  /** 头像宽度，单位像素，默认 100 */
+  width?: number
+  /** 头像高度，单位像素，默认 100 */
+  height?: number
+  /** 图片替代文本，默认 "avatar" */
+  alt?: string
+}
+
+const {
+  src = "/imgs/butterfly-icon.png",
+  width = 100,
+  height = 100,
+  alt = "avatar"
+} = Astro.props
+---
+
+<div>
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    class="rounded-full"
+  />
+</div>

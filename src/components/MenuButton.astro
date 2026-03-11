@@ -1,0 +1,31 @@
+---
+// MenuButton.astro
+// 菜单按钮组件
+// 带有下划线动画效果的导航链接按钮，支持自定义文字颜色
+
+interface Props {
+  /** 按钮文本内容 */
+  children: string
+  /** 链接目标地址 */
+  href: string
+  /** 文字颜色，默认 'white' */
+  textColor?: 'white' | 'black'
+}
+
+const { children, href, textColor = 'white' } = Astro.props
+
+const isWhiteText = textColor === 'white'
+---
+
+<a
+  href={href}
+  class:list={[
+    'relative px-4 py-2 transition-colors duration-200 font-semibold',
+    'after:content-[\'\'] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5',
+    'after:transition-all after:duration-300 after:ease-out',
+    'hover:after:w-full',
+    isWhiteText ? 'after:bg-white' : 'after:bg-black'
+  ]}
+>
+  {children}
+</a>

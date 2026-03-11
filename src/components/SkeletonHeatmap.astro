@@ -1,0 +1,33 @@
+---
+// SkeletonHeatmap.astro
+// GitHub 风格热力图骨架组件
+// 用于创建贡献热力图的加载占位
+
+interface Props {
+  /** 显示的周数，默认 6 */
+  weeks?: number
+  /** 每周的天数，默认 7 */
+  daysPerWeek?: number
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  weeks = 6,
+  daysPerWeek = 7,
+  className = "",
+} = Astro.props
+---
+
+<div class={`flex gap-1 ${className}`}>
+  {Array.from({ length: weeks }).map((_, weekIndex) => (
+    <div key={weekIndex} class="flex flex-col gap-1">
+      {Array.from({ length: daysPerWeek }).map((_, dayIndex) => (
+        <div
+          key={`${weekIndex}-${dayIndex}`}
+          class="h-5 w-5 rounded-sm animate-pulse bg-slate-200/60 dark:bg-slate-700/60"
+        />
+      ))}
+    </div>
+  ))}
+</div>

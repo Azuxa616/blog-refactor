@@ -1,0 +1,52 @@
+---
+// 头部导航栏组件
+// 使用 Alpine.js 管理展开/收起状态和样式切换
+// 添加中文注释
+
+interface Props {
+  /** 是否使用展开状态切换 */
+  isUseSwitch?: boolean
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  isUseSwitch = true,
+  className = ''
+} = Astro.props
+
+const menuItems = [
+  { href: "/", label: "首页" },
+  { href: "/articles", label: "文章" },
+  { href: "/about", label: "关于" },
+  { href: "/links", label: "友链" },
+]
+---
+
+<div 
+  x-data="{ 
+    isExpanded: $store.appState.isExpanded || false,
+    toggleExpanded() {
+      this.isExpanded = !this.isExpanded
+      $store.appState.isExpanded = this.isExpanded
+    }
+  }"
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-start w-full h-16 border px-8 gap-10 transition-colors duration-300"
+  :class="isExpanded || !${isUseSwitch} ? 'bg-white/60 backdrop-blur-sm text-black dark:text-white border-gray-200' : 'bg-transparent text-white'"
+  x-cloak
+>
+  <div class="text-xl font-bold">Azuxa&apos;s BlogSpace</div>
+  <div class="flex items-center gap-4">
+    <template x-for="item in ${JSON.stringify(menuItems)}" :key="item.href">
+      <a 
+        :href="item.href"
+        class="relative px-4 py-2 transition-colors duration-200 font-semibold
+               after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5
+               after:transition-all after:duration-300 after:ease-out
+               hover:after:w-full"
+        :class="isExpanded || !${isUseSwitch} ? 'after:bg-black' : 'after:bg-white'"
+        x-text="item.label"
+      />
+    </template>
+  </div>
+</div>

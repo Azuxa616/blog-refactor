@@ -1,0 +1,38 @@
+---
+// SkeletonText.astro
+// 骨架文本组件
+// 用于创建文本加载占位，支持多行显示
+
+import SkeletonBox from './SkeletonBox.astro'
+
+interface Props {
+  /** 宽度类名，默认 "w-full" */
+  width?: string
+  /** 高度类名，默认 "h-4" */
+  height?: string
+  /** 额外的 CSS 类名 */
+  className?: string
+  /** 显示的行数，默认 1 */
+  lines?: number
+}
+
+const {
+  width = "w-full",
+  height = "h-4",
+  className = "",
+  lines = 1,
+} = Astro.props
+---
+
+{lines === 1 ? (
+  <SkeletonBox className={`${width} ${height} ${className}`} />
+) : (
+  <div class="flex flex-col gap-2">
+    {Array.from({ length: lines }).map((_, index) => (
+      <SkeletonBox
+        key={index}
+        className={`${width} ${height} ${index === lines - 1 ? 'w-3/4' : ''} ${className}`}
+      />
+    ))}
+  </div>
+)}

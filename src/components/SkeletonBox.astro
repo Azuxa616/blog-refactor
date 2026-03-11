@@ -1,0 +1,30 @@
+---
+// SkeletonBox.astro
+// 基础骨架盒子组件
+// 用于创建加载占位元素，支持多种圆角样式
+
+import { clsx } from 'clsx'
+
+interface Props {
+  /** 额外的 CSS 类名 */
+  className?: string
+  /** 圆角变体：default-圆角, circular-圆形, rounded-大圆角 */
+  variant?: "default" | "circular" | "rounded"
+}
+
+const { className = "", variant = "default" } = Astro.props
+
+const variantClasses = {
+  default: "rounded",
+  circular: "rounded-full",
+  rounded: "rounded-lg",
+}
+---
+
+<div
+  class={clsx(
+    "animate-pulse bg-slate-200/60 dark:bg-slate-700/60",
+    variantClasses[variant],
+    className
+  )}
+/>

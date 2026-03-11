@@ -1,0 +1,138 @@
+---
+// 打字机效果组件
+// 使用 Alpine.js 实现打字机效果
+// 添加中文注释
+
+interface Props {
+  /** 初始文本 */
+  initialText?: string
+  /** 重复显示的文本列表 */
+  repeatedTextList?: string[]
+  /** 初始打字速度（毫秒） */
+  initialTypingSpeed?: number
+  /** 重复文本的打字速度（毫秒） */
+  repeatedTypingSpeed?: number
+  /** 文本之间的间隔时间（毫秒） */
+  gapInterval?: number
+  /** 是否循环播放 */
+  loop?: boolean
+  /** 删除速度（毫秒） */
+  deleteSpeed?: number
+  /** 光标字符 */
+  cursor?: string
+  /** 光标闪烁间隔（毫秒） */
+  cursorBlinkInterval?: number
+  /** 额外的 CSS 类名 */
+  className?: string
+}
+
+const {
+  initialText = '',
+  repeatedTextList = [],
+  initialTypingSpeed = 100,
+  repeatedTypingSpeed = 100,
+  gapInterval = 2000,
+  loop = true,
+  deleteSpeed = 50,
+  cursor = '|',
+  cursorBlinkInterval = 500,
+  className = ''
+} = Astro.props
+
+// 将数组转换为 JSON 字符串供 Alpine 使用
+const repeatedTextListJson = JSON.stringify(repeatedTextList)
+---
+
+<span
+  x-data="{
+    displayedInitialText: '',
+    dynamicText: '',
+    currentIndex: 0,
+    phase: 'initial', // initial, waiting, typing, deleting, complete
+    showCursor: true,
+    isDeleting: false,
+    timer: null,
+    
+    getCurrentTargetText() {
+      return this.phase === 'typing' || this.phase === 'deleting' 
+        ? ${repeatedTextListJson}[this.currentIndex] || ''
+        : ''
+    },
+    
+    next() {
+      switch(this.phase) {
+        case 'initial':
+          if ('${initialText}') {
+            if (this.displayedInitialText.length < '${initialText}'.length) {
+              this.phase = 'typing'
+              this.type('${initialText}', this.displayedInitialText.length + 1, 'displayedInitialText', ${initialTypingSpeed})
+            } else {
+              this.phase = ${repeatedTextListJson}.length > 0 ? 'waiting' : 'complete'
+            }
+          } else {
+            this.phase = 'waiting'
+          }
+          break
+          
+        case 'waiting':
+          if (${repeatedTextListJson}.length > 0) {
+            this.isDeleting = !this.isDeleting
+            this.phase = this.isDeleting ? 'deleting' : 'typing'
+          }
+          break
+          
+        case 'typing':
+          const targetText = this.getCurrentTargetText()
+          if (this.dynamicText.length < targetText.length) {
+            this.type(targetText, this.dynamicText.length + 1, 'dynamicText', ${repeatedTypingSpeed})
+          } else {
+            this.phase = 'waiting'
+          }
+          break
+          
+        case 'deleting':
+          if (this.dynamicText.length > 0) {
+            this.deleteChar(${deleteSpeed})
+          } else {
+            this.currentIndex = (this.currentIndex + 1) % ${repeatedTextListJson}.length
+            if (${loop} || this.currentIndex !== 0) {
+              this.phase = 'waiting'
+            } else {
+              this.phase = 'complete'
+            }
+          }
+          break
+          
+        case 'complete':
+          break
+      }
+    },
+    
+    type(text, length, targetVar, speed) {
+      if (this.timer) clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this[targetVar] = text.slice(0, length)
+        this.next()
+      }, speed)
+    },
+    
+    deleteChar(speed) {
+      if (this.timer) clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.dynamicText = this.dynamicText.slice(0, -1)
+        this.next()
+      }, speed)
+    }
+  }"
+  x-init="
+    if ('${cursor}') {
+      setInterval(() => { showCursor = !showCursor }, ${cursorBlinkInterval})
+    }
+    next()
+  "
+  :class="className"
+>
+  <span x-text="displayedInitialText"></span>
+  <span x-text="dynamicText"></span>
+  <span x-show="'${cursor}' && showCursor" x-text="'${cursor}'"></span>
+</span>

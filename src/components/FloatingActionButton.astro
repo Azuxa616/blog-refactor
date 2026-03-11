@@ -1,0 +1,124 @@
+---
+// FloatingActionButton.astro
+// 浮动操作按钮组件
+// 提供回到顶部和主题切换功能
+// 使用 Alpine.js 的全局 store 和 $watch 替代 React 的 useState 和 useEffect
+
+// 注意：此组件需要 Alpine.js 的全局 store 支持
+// 在 alpine-components.js 中需要定义相关的 store 和逻辑
+---
+
+<div
+  x-data="{
+    isVisible: false,
+    isDark: window.matchMedia('(prefers-color-scheme: dark)').matches,
+    init() {
+      // 初始化主题状态
+      const storedTheme = localStorage.getItem('theme')
+      if (storedTheme) {
+        this.isDark = storedTheme === 'dark'
+      } else {
+        this.isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      }
+
+      // 初始化可见状态
+      this.updateVisibility()
+
+      // 监听滚动事件
+      window.addEventListener('scroll', () => {
+        this.updateVisibility()
+      }, { passive: true })
+    },
+    updateVisibility() {
+      this.isVisible = window.scrollY > 0
+    },
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
+    },
+    toggleDarkMode() {
+      this.isDark = !this.isDark
+      if (this.isDark) {
+        document.documentElement.classList.add('dark')
+        localStorage.setItem('theme', 'dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        localStorage.setItem('theme', 'light')
+      }
+    }
+  }"
+  class:list={[
+    'fixed bottom-6 right-6 z-50 transition-all duration-300 ease-in-out',
+    'opacity-0 translate-y-4 pointer-events-none',
+    'opacity-100 translate-y-0'
+  ]}
+  x-show="isVisible"
+  x-transition.opacity.duration.300ms
+  x-transition.translate.duration.300ms
+>
+  <div class="flex flex-col gap-3">
+    <!-- 回到顶部按钮 -->
+    <button
+      @click="scrollToTop()"
+      class="w-12 h-12 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+      aria-label="回到顶部"
+    >
+      <svg
+        class="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width={2}
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        />
+      </svg>
+    </button>
+
+    <!-- 主题切换按钮 -->
+    <button
+      @click="toggleDarkMode()"
+      class="w-12 h-12 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+      aria-label="切换主题"
+    >
+      <!-- 深色模式图标 -->
+      <template x-if="!isDark">
+        <svg
+          class="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width={2}
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        </svg>
+      </template>
+
+      <!-- 浅色模式图标 -->
+      <template x-if="isDark">
+        <svg
+          class="w-5 h-5 text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width={2}
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+      </template>
+    </button>
+  </div>
+</div>
