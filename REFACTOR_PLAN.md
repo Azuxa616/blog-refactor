@@ -1133,10 +1133,10 @@ pnpm install
 
 ### 第六阶段：页面重构
 - [x] 更新 pages/index.astro（使用 Alpine.js，添加中文注释）
-- [ ] 更新 pages/articles/index.astro（使用新的文章工具函数，添加中文注释）
-- [ ] 更新 pages/articles/[id].astro（使用 Content Layer，添加中文注释）
-- [ ] 更新 pages/about/index.astro（静态内容，更新技术栈描述）
-- [ ] （如需要）更新 pages/links/index.astro（添加中文注释）
+- [x] 更新 pages/articles/index.astro（使用新的文章工具函数，添加中文注释）
+- [x] 更新 pages/articles/[id].astro（使用 Content Layer，添加中文注释）
+- [x] 更新 pages/about/index.astro（静态内容，更新技术栈描述）
+- [x] （如需要）更新 pages/links/index.astro（添加中文注释）
 
 ### 第七阶段：类型系统
 - [ ] 创建 src/types/post.ts（添加中文注释）

@@ -1,101 +1,102 @@
 ---
 // 文章详情页
-import ImageHeaderBar from '@/components/ImageHeaderBar';
-import ArticleActions from '@/components/ArticleActions';
-import { storage } from '@/lib/storage';
+// 使用 Alpine.js 管理交互
+// 添加中文注释
 
-export const prerender = false;
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { getCategories } from '@/lib/utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts');
+  return posts.map((post) => ({
+    params: { id: post.slug },
+    props: { post },
+  }));
+}
 
 const { id } = Astro.params;
+const post = (await getCollection('posts')).find(p => p.slug === id);
 
-if (!id) {
-  return Astro.redirect('/articles');
+if (!post) {
+  return Astro.redirect('/404');
 }
 
-const article = await storage.getArticleById(id);
-
-if (!article) {
-  return Astro.redirect('/articles');
-}
-
-try {
-  await storage.incrementViewCount(id);
-} catch (error) {
-  console.error('更新浏览量失败:', error);
-}
-
-let category = article.category;
-if (!category && article.categoryId) {
-  const categoryData = await storage.getCategoryById(article.categoryId);
-  if (categoryData) {
-    category = categoryData;
-  }
-}
-
-const publishedAt = article.publishedAt || article.createdAt;
-const content = article.content || "";
-const author = article.author
-  ? {
-      username: article.author.username,
-      avatar: article.author.avatar || "/imgs/avatar.jpg",
-    }
-  : { username: "Unknown", avatar: "/imgs/avatar.jpg" };
-
-const categoryDisplay = category
-  ? {
-      name: category.name,
-      color: category.color || "#3b82f6",
-    }
-  : undefined;
-
-const readTime = article.readTime || (content ? Math.ceil(content.length / 400) : 1);
-
-// 简单的 Markdown 渲染函数
-function renderMarkdown(content: string): string {
-  let html = content
-    // 代码块
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto my-4"><code class="text-sm">$2</code></pre>')
-    // 行内代码
-    .replace(/`([^`]+)`/g, '<code class="bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm">$1</code>')
-    // 标题
-    .replace(/^### (.+)$/gm, '<h3 class="text-xl font-bold mt-6 mb-3">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-2xl font-bold mt-8 mb-4">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="text-3xl font-bold mt-8 mb-4">$1</h1>')
-    // 粗体和斜体
-    .replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>')
-    // 链接
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-blue-500 hover:underline">$1</a>')
-    // 无序列表
-    .replace(/^- (.+)$/gm, '<li class="ml-4">$1</li>')
-    // 有序列表
-    .replace(/^\d+\. (.+)$/gm, '<li class="ml-4">$1</li>')
-    // 引用块
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-4 border-gray-300 pl-4 italic my-4">$1</blockquote>')
-    // 水平线
-    .replace(/^---$/gm, '<hr class="my-8 border-gray-300" />')
-    // 段落（最后处理，保持换行）
-    .replace(/\n\n/g, '</p><p class="my-4">')
-    .replace(/\n/g, '<br />');
-
-  return `<p class="my-4">${html}</p>`;
-}
+const { Content } = await post.render();
+const categories = await getCategories();
+const category = categories.find(c => c.slug === post.data.category);
 ---
 
-<article class="min-h-screen bg-background">
-  <ImageHeaderBar
-    client:load
-    mode="article"
-    src={article.coverImage || "/imgs/index-bg-img-04.png"}
-    articleTitle={article.title}
-    publishedAt={publishedAt}
-    author={author}
-    readTime={readTime}
-    category={categoryDisplay}
-  />
+<Layout title={post.data.title}>
+  <article class="min-h-screen bg-background">
+    <!-- 文章头部 -->
+    <header class="relative h-64 overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"></div>
+      <div class="absolute inset-0 bg-black/30"></div>
+      <div class="relative z-10 h-full flex items-center justify-center">
+        <div class="text-center px-4">
+          {post.data.coverImage && (
+            <img 
+              src={post.data.coverImage} 
+              alt={post.data.title} 
+              class="w-32 h-32 object-cover rounded-full border-4 border-white/20 mb-6 mx-auto shadow-2xl"
+            />
+          )}
+          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+            {post.data.title}
+          </h1>
+          <div class="flex items-center justify-center gap-4 text-white/90">
+            {category && (
+              <span class="px-3 py-1 rounded-full text-sm font-medium" style={`background-color: ${category.data.color}`}>
+                {category.name}
+              </span>
+            )}
+            <span class="text-sm">
+              {post.data.publishDate.toLocaleDateString('zh-CN')}
+            </span>
+            {post.data.updatedDate && (
+              <span class="text-sm">
+                · 更新于 {post.data.updatedDate.toLocaleDateString('zh-CN')}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
 
-  <div class="max-w-4xl mx-auto px-10 py-8 prose prose-lg bg-card-background bg-opacity-50" set:html={renderMarkdown(content)} />
+    <!-- 文章内容 -->
+    <div class="max-w-4xl mx-auto px-4 py-12">
+      <div class="prose prose-lg dark:prose-invert max-w-none">
+        <Content />
+      </div>
+      
+      <!-- 文章元数据 -->
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="mt-8 pt-8 border-t">
+          <h3 class="text-lg font-semibold mb-3">标签</h3>
+          <div class="flex flex-wrap gap-2">
+            {post.data.tags.map(tag => (
+              <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-sm">
+                #{tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
-  <ArticleActions client:load />
-</article>
+      {/* 转载信息 */}
+      {post.data.isRepost && (
+        <div class="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+          <p class="text-sm text-yellow-800 dark:text-yellow-200">
+            <strong>转载声明：</strong> 本文转载自 {post.data.originalAuthor || '原作者'}
+            {post.data.originalLink && (
+              <a href={post.data.originalLink} target="_blank" rel="noopener noreferrer" class="ml-2 hover:underline">
+                查看原文
+              </a>
+            )}
+          </p>
+        </div>
+      )}
+    </div>
+  </article>
+</Layout>
