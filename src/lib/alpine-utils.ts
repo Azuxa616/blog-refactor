@@ -105,3 +105,106 @@ export function imageFallback() {
     }
   }
 }
+
+/**
+ * 打字机效果
+ * 用于实现文字逐字显示的效果
+ */
+export function typewriter() {
+  return {
+    displayedInitialText: '',
+    dynamicText: '',
+    currentIndex: 0,
+    phase: 'initial',
+    showCursor: true,
+    isDeleting: false,
+    timer: null,
+    cursorInterval: null,
+    
+    getCurrentTargetText() {
+      return (this.phase === 'typing' || this.phase === 'deleting') 
+        ? this.repeatedTextList[this.currentIndex] || ''
+        : ''
+    },
+    
+    next() {
+      switch(this.phase) {
+        case 'initial':
+          if (this.initialText) {
+            if (this.displayedInitialText.length < this.initialText.length) {
+              this.phase = 'typing'
+              this.type(this.initialText, this.displayedInitialText.length + 1, 'displayedInitialText', this.initialTypingSpeed)
+            } else {
+              this.phase = this.repeatedTextList.length > 0 ? 'waiting' : 'complete'
+            }
+          } else {
+            this.phase = 'waiting'
+          }
+          break
+          
+        case 'waiting':
+          if (this.repeatedTextList.length > 0) {
+            this.isDeleting = !this.isDeleting
+            this.phase = this.isDeleting ? 'deleting' : 'typing'
+            if (this.timer) clearTimeout(this.timer)
+            this.timer = setTimeout(() => this.next(), this.gapInterval)
+          }
+          break
+          
+        case 'typing':
+          const targetText = this.getCurrentTargetText()
+          if (this.dynamicText.length < targetText.length) {
+            this.type(targetText, this.dynamicText.length + 1, 'dynamicText', this.repeatedTypingSpeed)
+          } else {
+            this.phase = 'waiting'
+            if (this.timer) clearTimeout(this.timer)
+            this.timer = setTimeout(() => this.next(), this.gapInterval)
+          }
+          break
+          
+        case 'deleting':
+          if (this.dynamicText.length > 0) {
+            this.deleteChar(this.deleteSpeed)
+          } else {
+            this.currentIndex = (this.currentIndex + 1) % this.repeatedTextList.length
+            if (this.loop || this.currentIndex !== 0) {
+              this.phase = 'waiting'
+              if (this.timer) clearTimeout(this.timer)
+              this.timer = setTimeout(() => this.next(), this.gapInterval)
+            } else {
+              this.phase = 'complete'
+            }
+          }
+          break
+          
+        case 'complete':
+          break
+      }
+    },
+    
+    type(text, length, targetVar, speed) {
+      if (this.timer) clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this[targetVar] = text.slice(0, length)
+        this.next()
+      }, speed)
+    },
+    
+    deleteChar(speed) {
+      if (this.timer) clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.dynamicText = this.dynamicText.slice(0, -1)
+        this.next()
+      }, speed)
+    },
+    
+    init() {
+      if (this.cursor) {
+        this.cursorInterval = setInterval(() => { 
+          this.showCursor = !this.showCursor 
+        }, this.cursorBlinkInterval)
+      }
+      this.next()
+    }
+  }
+}

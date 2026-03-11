@@ -5,7 +5,7 @@
 
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { getCategories } from '@/lib/utils/posts';
+import { getCategories } from '@/lib/utils/categories';
 
 export async function getStaticPaths() {
   const posts = await getCollection('posts');

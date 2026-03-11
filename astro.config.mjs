@@ -3,10 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import alpinejs from '@astrojs/alpinejs';
-
-// 定义内容集合（暂时注释，待 astro:content 模块可用）
-/*
-const { defineCollection, z } = await import('astro/content');
+import { defineCollection, z } from 'astro:content';
 
 const posts = defineCollection({
   type: 'content',
@@ -33,7 +30,6 @@ const categories = defineCollection({
     color: z.string(),
   }),
 });
-*/
 
 // https://astro.build/config
 export default defineConfig({
@@ -42,9 +38,9 @@ export default defineConfig({
     mode: 'standalone'
   }),
   integrations: [alpinejs()],
-  // contentCollection: {
-  //   collections: { posts, categories },
-  // },
+  contentCollection: {
+    collections: { posts, categories },
+  },
 
   vite: {
     plugins: [tailwindcss()]

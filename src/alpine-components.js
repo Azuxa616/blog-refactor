@@ -1,7 +1,7 @@
 // Alpine.js 组件注册文件
 // 注册全局 Alpine 组件和 store
 
-import { pageExpand, navigation, modal, imageFallback } from './lib/alpine-utils'
+import { pageExpand, navigation, modal, imageFallback, typewriter } from './lib/alpine-utils'
 
 // 注册全局 Alpine 组件
 document.addEventListener('alpine:init', () => {
@@ -16,6 +16,9 @@ document.addEventListener('alpine:init', () => {
   
   // 图片加载错误处理
   Alpine.data('imageFallback', imageFallback)
+  
+  // 打字机效果
+  Alpine.data('typewriter', typewriter)
   
   // 全局 store - 用于跨组件共享状态
   Alpine.store('appState', {

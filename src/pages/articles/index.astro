@@ -7,7 +7,8 @@ import ImageHeaderBar from '../../components/ImageHeaderBar.astro';
 import BlogItem from '../../components/BlogItem.astro';
 import CategoryFilter from '../../components/CategoryFilter.astro';
 import Card from '../../components/Card.astro';
-import { getAllPosts, getCategories } from '../../lib/utils/posts';
+import { getAllPosts } from '../../lib/utils/posts';
+import { getCategories } from '../../lib/utils/categories';
 import type { CollectionEntry } from 'astro:content';
 
 export const prerender = false;
