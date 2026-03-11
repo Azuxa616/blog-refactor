@@ -232,6 +232,7 @@ export default defineConfig({
   contentCollection: {
     collections: {
       posts: {
+        type: 'content',
         schema: defineCollection({
           type: 'content',
           schema: z.object({
@@ -250,14 +251,11 @@ export default defineConfig({
       },
       categories: {
         type: 'data',
-        schema: defineCollection({
-          type: 'data',
-          schema: z.object({
-            name: z.string(),
-            slug: z.string(),
-            description: z.string().optional(),
-            color: z.string(),
-          }),
+        schema: z.object({
+          name: z.string(),
+          slug: z.string(),
+          description: z.string().optional(),
+          color: z.string(),
         }),
       },
     },
@@ -273,8 +271,8 @@ src/
     │   ├── 2024-01-01-first-post.md
     │   └── 2024-01-02-second-post.md
     └── categories/     # 分类数据
-    ├── tech.md
-    └── life.md
+        ├── tech.md
+        └── life.md
 ```
 
 #### 任务 2.3：创建文章工具函数
@@ -409,7 +407,7 @@ const sizeClasses = {
 11. `FloatingActionButton.astro` - 浮动操作按钮组件
 12. `Skeleton.astro` - 骨架屏组件
 
-### 3.5 阶段五：组件重构（动态组件 - Alpine.js）
+### 3.5 阶段五：动态组件重构（Alpine.js）
 
 #### 任务 5.1：创建 Alpine 工具函数
 ```typescript
@@ -464,9 +462,40 @@ export function pageExpand() {
 }
 ```
 
-#### 任务 5.2：迁移动态组件
+#### 任务 5.2：创建 Alpine 组件注册文件
+```javascript
+// src/alpine-components.js
+// Alpine.js 组件注册
 
-##### 5.2.1 HeaderBar.astro
+import { pageExpand } from './lib/alpine-utils'
+
+// 注册全局 Alpine 组件
+document.addEventListener('alpine:init', () => {
+  Alpine.data('pageExpand', pageExpand)
+})
+```
+
+#### 任务 5.3：在布局中引入 Alpine
+```astro
+---
+// layouts/Layout.astro
+import '../alpine-components.js'
+---
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+```
+
+#### 任务 5.4：迁移动态组件
+
+##### 5.4.1 HeaderBar.astro
 ```astro
 ---
 // 头部导航栏组件
@@ -502,7 +531,7 @@ const menuItems = [
 </div>
 ```
 
-##### 5.2.2 Modal.astro
+##### 5.4.2 Modal.astro
 ```astro
 ---
 // 模态框组件
@@ -575,24 +604,23 @@ const sizeClasses = {
 </script>
 ```
 
-##### 5.2.3 其他动态组件清单
+##### 5.4.3 其他动态组件清单
 按照类似模式迁移以下组件：
 
 1. `BlogItem.astro` - 博客文章卡片（处理图片加载错误）
 2. `Pagination.astro` - 分页组件（管理分页状态）
 3. `CategoryFilter.astro` - 分类筛选器（管理筛选状态）
-4. `ContentPage.astro` - 内容页（拆分后）
-5. `GalleryPage.astro` - 画廊页面（管理图片展示）
-6. `HomeClient.astro` - 首页客户端（拆分后）
-7. `Typewriter.astro` - 打字机效果组件
-8. `ImageDetailModal.astro` - 图片详情模态框
-9. `ImagePicker.astro` - 图片选择器
-10. `ImageUploader.astro` - 图片上传器
-11. `UploadModal.astro` - 上传模态框
+4. `Typewriter.astro` - 打字机效果组件
+5. 删除 ContentPage.tsx（后台管理页面，不需要）
+6. 删除 GalleryPage.tsx（后台管理页面，不需要）
+7. 删除 ImageDetailModal.tsx（后台组件，不需要）
+8. 删除 ImagePicker.tsx（后台组件，不需要）
+9. 删除 ImageUploader.tsx（后台组件，不需要）
+10. 删除 UploadModal.tsx（后台组件，不需要）
 
-#### 任务 5.3：拆分复杂组件
+#### 任务 5.5：拆分复杂组件
 
-##### 5.3.1 拆分 GithubCard.tsx
+##### 5.5.1 拆分 GithubCard.tsx
 ```
 GithubCard.tsx (18KB)
 ├── GithubUserCard.astro      # 用户信息卡片
@@ -601,26 +629,16 @@ GithubCard.tsx (18KB)
 └── GithubSkillsSection.astro   # 技能展示区
 ```
 
-##### 5.3.2 拆分 HomeClient.tsx
+##### 5.5.2 拆分 HomeClient.tsx
 ```
 HomeClient.tsx (6.5KB)
 ├── HeroSection.astro          # 主视觉区
 ├── Typewriter.astro            # 打字机效果
 ├── ArrowDownButton.astro       # 向下滚动按钮
-├── GithubSection.astro         # GitHub 展示区
-└── MainContent.astro           # 主内容容器
+└── GithubSection.astro         # GitHub 展示区
 ```
 
-##### 5.3.3 拆分 ContentPage.tsx
-```
-ContentPage.tsx (30KB)
-├── ArticleHeader.astro         # 文章头部
-├── ArticleContent.astro        # 文章内容
-├── ArticleFooter.astro          # 文章底部
-├── ArticleNavigation.astro     # 文章导航
-├── ArticleComments.astro        # 文章评论
-└── RelatedArticles.astro        # 相关文章
-```
+##### 5.5.3 拆分 ContentPage.tsx（已删除，后台不需要）
 
 ### 3.6 阶段六：页面重构
 
@@ -976,61 +994,9 @@ rm src/types/article.ts（如果存在）
 # 保留通用类型
 ```
 
-### 3.8 阶段八：配置 Alpine.js
+### 3.8 阶段八：测试与验证
 
-#### 任务 8.1：配置 Astro 集成
-```typescript
-// astro.config.mjs
-import { defineConfig } from 'astro/config'
-import tailwind from '@astrojs/tailwind'
-import node from '@astrojs/node'
-import alpinejs from '@astrojs/alpinejs'
-
-export default defineConfig({
-  integrations: [
-    tailwind(),
-    node(),
-    alpinejs(),
-  ],
-  // ...
-})
-```
-
-#### 任务 8.2：创建 Alpine 组件注册文件
-```javascript
-// src/alpine-components.js
-// Alpine.js 组件注册
-
-import { pageExpand } from './lib/alpine-utils'
-
-// 注册全局 Alpine 组件
-document.addEventListener('alpine:init', () => {
-  Alpine.data('pageExpand', pageExpand)
-  // 可以继续添加其他 Alpine 组件
-})
-```
-
-#### 任务 8.3：在布局中引入 Alpine
-```astro
----
-// layouts/Layout.astro
-import '../alpine-components.js'
----
-
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>{title}</title>
-  </head>
-  <body>
-    <slot />
-  </body>
-</html>
-```
-
-### 3.9 阶段九：测试与验证
-
-#### 任务 9.1：功能测试
+#### 任务 8.1：功能测试
 - [ ] 首页正常加载，滚动交互正常
 - [ ] 文章列表页正常显示，筛选和搜索正常
 - [ ] 文章详情页正常渲染 Markdown
@@ -1041,19 +1007,19 @@ import '../alpine-components.js'
 - [ ] 分类筛选正常
 - [ ] 主题切换正常（如保留）
 
-#### 任务 9.2：样式测试
+#### 任务 8.2：样式测试
 - [ ] 所有页面样式与原项目一致
 - [ ] 响应式布局正常
 - [ ] 暗色模式正常（如保留）
 - [ ] 动画效果流畅
 
-#### 任务 9.3：性能测试
+#### 任务 8.3：性能测试
 - [ ] 页面加载速度提升（移除 React）
 - [ ] Lighthouse 评分
 - [ ] 首次内容绘制（FCP）
 - [ ] 最大内容绘制（LCP）
 
-#### 任务 9.4：类型检查
+#### 任务 8.4：类型检查
 ```bash
 # 运行 Astro 类型检查
 pnpm astro check
@@ -1061,7 +1027,7 @@ pnpm astro check
 # 如有 TypeScript 错误，逐一修复
 ```
 
-#### 任务 9.5：构建测试
+#### 任务 8.5：构建测试
 ```bash
 # 生产构建
 pnpm build
@@ -1070,16 +1036,16 @@ pnpm build
 pnpm preview
 ```
 
-### 3.10 阶段十：文档与清理
+### 3.9 阶段九：文档与清理
 
-#### 任务 10.1：更新 README.md
+#### 任务 9.1：更新 README.md
 
-#### 任务 10.2：更新 AGENTS.md
+#### 任务 9.2：更新 AGENTS.md
 - 更新技术栈部分
 - 删除数据库相关命令
 - 更新组件说明
 
-#### 任务 10.3：清理无用文件
+#### 任务 9.3：清理无用文件
 ```bash
 # 删除测试文件
 rm -rf tests/
@@ -1091,7 +1057,7 @@ rm src/components/Example.tsx
 pnpm install
 ```
 
-#### 任务 10.4：创建迁移指南
+#### 任务 9.4：创建迁移指南
 
 ## 四、详细 TODO 清单
 
@@ -1146,49 +1112,40 @@ pnpm install
 - [x] 迁移 FloatingActionButton.tsx → FloatingActionButton.astro（添加中文注释）
 - [x] 迁移 Skeleton.tsx → Skeleton.astro（添加中文注释）
 
-### 第五阶段：Alpine.js 工具函数
+### 第五阶段：动态组件重构（Alpine.js）
 - [x] 创建 src/lib/alpine-utils.ts
 - [x] 实现 pageExpand() 工具函数（添加中文注释）
 - [x] 创建 alpine-components.js
 - [x] 在布局中引入 alpine-components.js
-
-### 第六阶段：动态组件重构
 - [x] 重构 HeaderBar.tsx → HeaderBar.astro（Alpine.js，添加中文注释）
 - [x] 重构 BlogItem.tsx → BlogItem.astro（Alpine.js，添加中文注释）
 - [x] 重构 Modal.tsx → Modal.astro（Alpine.js，添加中文注释）
 - [x] 重构 Pagination.tsx → Pagination.astro（Alpine.js，添加中文注释）
 - [x] 重构 CategoryFilter.tsx → CategoryFilter.astro（Alpine.js，添加中文注释）
-- [x] 删除 ContentPage.tsx（后台管理页面，不需要）
-- [x] 删除 GalleryPage.tsx（后台管理页面，不需要）
 - [x] 拆分 HomeClient.tsx → HeroSection.astro + Typewriter.astro + ArrowDownButton.astro + GithubSection.astro（Alpine.js，添加中文注释）
 - [x] 重构 Typewriter.tsx → Typewriter.astro（Alpine.js，添加中文注释）
+- [x] 删除 ContentPage.tsx（后台管理页面，不需要）
+- [x] 删除 GalleryPage.tsx（后台管理页面，不需要）
 - [x] 删除 ImageDetailModal.tsx（后台组件，不需要）
 - [x] 删除 ImagePicker.tsx（后台组件，不需要）
 - [x] 删除 ImageUploader.tsx（后台组件，不需要）
 - [x] 删除 UploadModal.tsx（后台组件，不需要）
 
-### 第七阶段：页面重构
+### 第六阶段：页面重构
 - [x] 更新 pages/index.astro（使用 Alpine.js，添加中文注释）
 - [ ] 更新 pages/articles/index.astro（使用新的文章工具函数，添加中文注释）
 - [ ] 更新 pages/articles/[id].astro（使用 Content Layer，添加中文注释）
-- [ ] 更新 pages/about/index.astro（静态内容，添加中文注释）
+- [ ] 更新 pages/about/index.astro（静态内容，更新技术栈描述）
 - [ ] （如需要）更新 pages/links/index.astro（添加中文注释）
 
-### 第七阶段：页面重构
-- [ ] 更新 pages/index.astro（使用 Alpine.js，添加中文注释）
-- [ ] 更新 pages/articles/index.astro（使用新的文章工具函数，添加中文注释）
-- [ ] 更新 pages/articles/[id].astro（使用 Content Layer，添加中文注释）
-- [ ] 更新 pages/about/index.astro（静态内容，添加中文注释）
-- [ ] （如需要）更新 pages/links/index.astro（添加中文注释）
-
-### 第八阶段：类型系统
+### 第七阶段：类型系统
 - [ ] 创建 src/types/post.ts（添加中文注释）
 - [ ] 创建 src/types/component.ts（添加中文注释）
 - [ ] 删除旧的数据库相关类型
 - [ ] 运行 pnpm astro check 检查类型错误
 - [ ] 修复所有类型错误
 
-### 第九阶段：测试验证
+### 第八阶段：测试验证
 - [ ] 首页功能测试（滚动、打字机效果、GitHub 数据）
 - [ ] 文章列表页功能测试（搜索、筛选、分页）
 - [ ] 文章详情页功能测试（Markdown 渲染）
@@ -1199,10 +1156,9 @@ pnpm install
 - [ ] 生产构建测试
 - [ ] 预览构建结果测试
 
-### 第十阶段：文档与清理
+### 第九阶段：文档与清理
 - [ ] 更新 README.md（技术栈、开发命令）
 - [ ] 更新 AGENTS.md（删除数据库相关内容）
-- [ ] 创建文章迁移指南
 - [ ] 清理无用文件和目录
 - [ ] 重新安装依赖（pnpm install）
 - [ ] 提交代码到重构分支
@@ -1250,13 +1206,12 @@ pnpm install
 | 阶段二：文章系统重构 | 9 | 1-1.5 天 |
 | 阶段三：删除管理后台 | 15 | 0.5 天 |
 | 阶段四：静态组件迁移 | 12 | 1-1.5 天 |
-| 阶段五：Alpine.js 工具函数 | 4 | 0.5 天 |
-| 阶段六：动态组件重构 | 13 | 2-3 天 |
-| 阶段七：页面重构 | 5 | 1 天 |
-| 阶段八：类型系统 | 5 | 0.5 天 |
-| 阶段九：测试验证 | 9 | 1-1.5 天 |
-| 阶段十：文档与清理 | 6 | 0.5 天 |
-| **总计** | **84** | **8.5-11.5 天** |
+| 阶段五：动态组件重构（Alpine.js） | 17 | 2-3 天 |
+| 阶段六：页面重构 | 5 | 1 天 |
+| 阶段七：类型系统 | 5 | 0.5 天 |
+| 阶段八：测试验证 | 9 | 1-1.5 天 |
+| 阶段九：文档与清理 | 5 | 0.5 天 |
+| **总计** | **83** | **8.5-11 天** |
 
 ## 七、重构后的优势
 
