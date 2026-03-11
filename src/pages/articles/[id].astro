@@ -5,26 +5,18 @@
 
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { getCategories } from '@/lib/utils/categories';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map((post) => ({
-    params: { id: post.slug },
-    props: { post },
-  }));
-}
+export const prerender = false;
 
 const { id } = Astro.params;
-const post = (await getCollection('posts')).find(p => p.slug === id);
+const posts = await getCollection('posts');
+const post = posts.find(p => p.slug === id);
 
 if (!post) {
   return Astro.redirect('/404');
 }
 
 const { Content } = await post.render();
-const categories = await getCategories();
-const category = categories.find(c => c.slug === post.data.category);
 ---
 
 <Layout title={post.data.title}>
@@ -46,11 +38,6 @@ const category = categories.find(c => c.slug === post.data.category);
             {post.data.title}
           </h1>
           <div class="flex items-center justify-center gap-4 text-white/90">
-            {category && (
-              <span class="px-3 py-1 rounded-full text-sm font-medium" style={`background-color: ${category.data.color}`}>
-                {category.name}
-              </span>
-            )}
             <span class="text-sm">
               {post.data.publishDate.toLocaleDateString('zh-CN')}
             </span>
