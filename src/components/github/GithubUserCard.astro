@@ -3,11 +3,12 @@
 // GitHub 用户信息卡片组件
 // 展示 GitHub 用户的头像、名称、统计信息、热力图和操作按钮
 
-import { SkeletonAvatar } from './Skeleton.astro'
-import { SkeletonText } from './Skeleton.astro'
-import { SkeletonHeatmap } from './Skeleton.astro'
-import { SkeletonStatCard } from './Skeleton.astro'
+import { SkeletonAvatar } from '../Skeleton.astro'
+import { SkeletonText } from '../Skeleton.astro'
+import { SkeletonHeatmap } from '../Skeleton.astro'
+import { SkeletonStatCard } from '../Skeleton.astro'
 import { buildContributionSnapshot } from './GithubUtils.astro'
+import GithubHeatmap from './GithubHeatmap.astro'
 
 interface GitHubUser {
   avatar_url: string
@@ -176,11 +177,11 @@ const statBlocks = [
   <div class="grid grid-cols-2 gap-4">
     {isLoading || !user ? (
       Array.from({ length: 4 }).map((_, index) => (
-        <SkeletonStatCard key={`skeleton-stat-${index}`} />
+        <SkeletonStatCard />
       ))
     ) : (
       statBlocks.map((stat) => (
-        <div key={stat.label} class="rounded-2xl border bg-gray-50 p-4 text-center shadow-sm">
+        <div class="rounded-2xl border bg-gray-50 p-4 text-center shadow-sm">
           <p class="text-xs uppercase tracking-widest">{stat.label}</p>
           <p class={`mt-2 text-2xl font-semibold ${stat.accent}`}>{stat.value}</p>
           <p class="mt-1 text-xs text-slate-400">{stat.caption}</p>

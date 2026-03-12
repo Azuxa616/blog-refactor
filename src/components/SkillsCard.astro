@@ -80,12 +80,11 @@ const averageProficiency =
             {learned.map((skill, index) => {
               const preset = tonePresets.mastery
               const gaugeStyle = buildGaugeStyle(skill.proficiency, preset.gaugeColor)
-
+ 
               return (
                 <div
-                  key={`learned-${skill.name}-${index}`}
-                  class={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl border border-white/40 bg-gradient-to-br ${preset.backgroundClass} p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-200/70 hover:shadow-xl ${preset.glowClass}`}
-                >
+                    class={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl border border-white/40 bg-gradient-to-br ${preset.backgroundClass} p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-200/70 hover:shadow-xl ${preset.glowClass}`}
+                  >
                   <div class="absolute inset-0 mt-15 z-0 flex items-center justify-start opacity-30">
                     {skill.imgUrl && (
                       <img src={skill.imgUrl} alt={skill.name} width={200} height={300} />
@@ -135,12 +134,11 @@ const averageProficiency =
             {practicing.map((skill, index) => {
               const preset = tonePresets.growth
               const gaugeStyle = buildGaugeStyle(skill.proficiency, preset.gaugeColor)
-
+ 
               return (
                 <div
-                  key={`practice-${skill.name}-${index}`}
-                  class={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl border border-white/40 bg-gradient-to-br ${preset.backgroundClass} p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-200/70 hover:shadow-xl ${preset.glowClass}`}
-                >
+                    class={`group relative overflow-hidden flex items-center justify-between gap-4 rounded-2xl border border-white/40 bg-gradient-to-br ${preset.backgroundClass} p-4 transition-all duration-300 hover:-translate-y-1 hover:border-slate-200/70 hover:shadow-xl ${preset.glowClass}`}
+                  >
                   <div class="absolute inset-0 mt-15 z-0 flex items-center justify-start opacity-30">
                     {skill.imgUrl && (
                       <img src={skill.imgUrl} alt={skill.name} width={200} height={300} />

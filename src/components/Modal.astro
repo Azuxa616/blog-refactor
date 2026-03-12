@@ -72,15 +72,3 @@ const sizeClasses = {
   </div>
 </div>
 
-<script>
-  // 模态框打开/关闭时锁定/解锁滚动
-  document.addEventListener('alpine:init', () => {
-    Alpine.effect(() => {
-      const modalEl = document.querySelector('[x-data]')
-      if (modalEl) {
-        const open = Alpine.$data(modalEl)?.open
-        document.body.style.overflow = open ? 'hidden' : ''
-      }
-    })
-  })
-</script>

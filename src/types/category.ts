@@ -1,4 +1,4 @@
-import { BaseEntity } from './common';
+import type { BaseEntity } from './common';
 // 分类相关类型
 export interface Category extends BaseEntity {
     name: string;                   //名称

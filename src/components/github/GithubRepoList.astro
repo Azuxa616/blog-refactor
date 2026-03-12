@@ -3,7 +3,7 @@
 // GitHub 仓库列表组件
 // 展示仓库列表，最多显示 3 个精选仓库
 
-import { SkeletonText } from './Skeleton.astro'
+import { SkeletonText } from '../Skeleton.astro'
 import GithubRepoCard from './GithubRepoCard.astro'
 
 interface GitHubRepo {
@@ -52,7 +52,7 @@ const highlightedRepos = sortedRepos.slice(0, 3)
     {isLoading || !user || highlightedRepos.length === 0 ? (
       // 骨架屏
       Array.from({ length: 3 }).map((_, index) => (
-        <li key={`skeleton-repo-${index}`} class="rounded-2xl border bg-gray-100 p-4">
+        <li class="rounded-2xl border bg-gray-100 p-4">
           <div class="flex flex-col gap-2">
             <SkeletonText width="w-32" height="h-5" />
             <SkeletonText width="w-full" height="h-4" />
@@ -63,7 +63,7 @@ const highlightedRepos = sortedRepos.slice(0, 3)
     ) : (
       // 仓库卡片列表
       highlightedRepos.map((repo) => (
-        <GithubRepoCard key={repo.id} repo={repo} />
+        <GithubRepoCard repo={repo} />
       ))
     )}
   </ul>

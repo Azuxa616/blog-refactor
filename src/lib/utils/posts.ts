@@ -14,7 +14,7 @@ export async function getAllPosts(): Promise<PostWithSlug[]> {
   const posts = await getCollection('posts');
   return posts.map(post => ({
     ...post,
-    slug: post.slug,
+    slug: post.id.replace('.md', ''),
   })).sort((a, b) =>
     b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   );
@@ -23,11 +23,11 @@ export async function getAllPosts(): Promise<PostWithSlug[]> {
 // 根据 slug 获取单篇文章
 export async function getPostBySlug(slug: string): Promise<PostWithSlug | undefined> {
   const posts = await getCollection('posts');
-  const post = posts.find(post => post.slug === slug);
+  const post = posts.find(post => post.id === `${slug}.md`);
   if (post) {
     return {
       ...post,
-      slug: post.slug,
+      slug: post.id.replace('.md', ''),
     };
   }
   return undefined;

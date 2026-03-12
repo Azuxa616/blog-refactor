@@ -1,4 +1,4 @@
-import { BaseEntity } from './common';
+import type { BaseEntity } from './common';
 // 标签相关类型
 export interface Tag extends BaseEntity {
     name: string;

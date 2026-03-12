@@ -30,7 +30,6 @@ const {
   <div class="flex flex-col gap-2">
     {Array.from({ length: lines }).map((_, index) => (
       <SkeletonBox
-        key={index}
         className={`${width} ${height} ${index === lines - 1 ? 'w-3/4' : ''} ${className}`}
       />
     ))}

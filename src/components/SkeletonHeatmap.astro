@@ -21,12 +21,9 @@ const {
 
 <div class={`flex gap-1 ${className}`}>
   {Array.from({ length: weeks }).map((_, weekIndex) => (
-    <div key={weekIndex} class="flex flex-col gap-1">
+    <div class="flex flex-col gap-1">
       {Array.from({ length: daysPerWeek }).map((_, dayIndex) => (
-        <div
-          key={`${weekIndex}-${dayIndex}`}
-          class="h-5 w-5 rounded-sm animate-pulse bg-slate-200/60 dark:bg-slate-700/60"
-        />
+        <div class="h-5 w-5 rounded-sm animate-pulse bg-slate-200/60 dark:bg-slate-700/60" />
       ))}
     </div>
   ))}

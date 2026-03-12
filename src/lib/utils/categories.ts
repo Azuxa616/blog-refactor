@@ -3,11 +3,9 @@
 
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
-import type { PostWithSlug } from './posts';
 
 // 分类数据类型（包含文章数量）
 export interface CategoryWithCount extends CollectionEntry<'categories'> {
-  slug: string;
   articleCount: number;
 }
 
@@ -18,15 +16,14 @@ export async function getCategories(): Promise<CategoryWithCount[]> {
 
   return categories.map(cat => ({
     ...cat,
-    slug: cat.slug,
-    articleCount: posts.filter(post => post.data.category === cat.slug).length,
+    articleCount: posts.filter(post => post.data.category === cat.data.slug).length,
   }));
 }
 
 // 根据 slug 获取单个分类
 export async function getCategoryBySlug(slug: string): Promise<CategoryWithCount | undefined> {
   const categories = await getCategories();
-  return categories.find(cat => cat.slug === slug);
+  return categories.find(cat => cat.data.slug === slug);
 }
 
 // 根据分类名称获取分类

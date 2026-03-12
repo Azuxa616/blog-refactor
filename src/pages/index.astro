@@ -4,6 +4,7 @@
 // 添加中文注释
 
 import Layout from '../layouts/Layout.astro';
+import HeaderBar from '../components/HeaderBar.astro';
 import HeroSection from '../components/HeroSection.astro';
 import Typewriter from '../components/Typewriter.astro';
 import ArrowDownButton from '../components/ArrowDownButton.astro';
@@ -17,6 +18,9 @@ import FooterBar from '../components/FooterBar.astro';
     @wheel="handleWheel($event)"
     class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full"
   >
+    <!-- 头部导航栏 -->
+    <HeaderBar />
+
     <!-- 背景图片 -->
     <div class="relative w-full h-full">
       <div class="fixed inset-0 z-0">
@@ -39,12 +43,12 @@ import FooterBar from '../components/FooterBar.astro';
       <div style="height: 100vh; visibility: hidden; pointer-events: none" />
 
       <!-- GitHub 展示区 -->
-      <div x-show="isExpanded" x-transition>
+      <div>
         <GithubSection />
       </div>
     </main>
 
     <!-- 页脚 -->
-    <FooterBar x-show="isExpanded" />
+    <FooterBar />
   </div>
 </Layout>

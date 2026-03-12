@@ -1,181 +1,180 @@
-# AGENTS.md - Developer Guide for Blog Refactor
+# AGENTS.md - Developer Guide
 
-## Project Overview
-
-This is an Astro 5.x blog application migrated from Next.js. It uses TypeScript, React, Tailwind CSS 4.x, Drizzle ORM with SQLite, and shadcn/ui-style components.
+Astro 5.x SSR blog with Alpine.js, Tailwind CSS 4.x, TypeScript strict mode, Zod content validation.
 
 ## Tech Stack
 
-- **Framework**: Astro 5.x
+- **Framework**: Astro 5.17+ with Node adapter (SSR)
 - **Package Manager**: pnpm
-- **Language**: TypeScript
-- **UI**: React 19 + Tailwind CSS 4.x
-- **Database**: SQLite (LibSQL/Turso) with Drizzle ORM
-- **Fonts**: Inter (sans) + JetBrains Mono (mono)
+- **Language**: TypeScript (strict mode, `astro/tsconfigs/strict`)
+- **UI**: Astro + Alpine.js + Tailwind CSS 4.x
+- **Content**: Astro Content Collections + Zod
+- **Storybook**: @storybook/html-vite 8.6.14
 
 ## Commands
 
-### Development
 ```bash
-pnpm dev          # Start dev server at http://localhost:4321
-pnpm build        # Build for production
-pnpm preview      # Preview production build
-pnpm astro        # Run Astro CLI
+pnpm dev               # Start dev server (http://localhost:4321)
+pnpm build             # Build for production
+pnpm preview           # Preview production build
+pnpm astro check       # Type-check with Astro
+pnpm storybook         # Start Storybook (http://localhost:6010)
+pnpm build-storybook   # Build Storybook static export
 ```
 
-### Database (Drizzle)
-```bash
-pnpm drizzle-kit push    # Push schema to database
-pnpm drizzle-kit studio # Open Drizzle Studio
-```
+### Testing
 
-### Running a Single Test
-This project does not have a test framework configured. If adding tests:
+To add Vitest:
 ```bash
-pnpm vitest run <file>   # Run single test file
+pnpm add -D vitest @vitest/ui
+pnpm vitest run <file>   # Run single test
 pnpm vitest <file>       # Watch mode
 ```
 
 ## Code Style Guidelines
 
-### General Rules
-- Use strict TypeScript (`astro/tsconfigs/strict` extends)
-- Prefer functional components with TypeScript
-- Use Astro components (`.astro`) for static content, React (`.tsx`) for interactive UI
-- Keep components small and focused
+### General Principles
+- Use TypeScript strictly; avoid JavaScript unless necessary
+- Prefer minimal, safe changes over large refactors
+- Follow existing project structure and coding style
+- Chinese comments for documentation
+- No ESLint/Prettier - use standard formatting
 
-### Imports
+### Import Organization
 ```typescript
-// Group imports by type (IDE will handle sorting)
-import { useState, useEffect } from 'react'
-import { cn } from '@/lib/utils'
-import { type Article } from '@/types/article'
+// External libraries
+import { defineCollection, z } from 'astro:content'
+import { glob } from 'astro/loaders'
 
-// Use @ alias for src/ directory
-// @ refers to F:\MyProjects\blog-Azx616\blog-refactor\src
+// Internal imports (use @ alias for src/)
+import { cn } from '@/lib/utils'
+import type { Post } from '@/types'
 ```
 
 ### Naming Conventions
-- **Components**: PascalCase (e.g., `ArticleCard.astro`, `Button.tsx`)
-- **Files**: kebab-case for Astro pages, PascalCase for components
-- **Types**: PascalCase with descriptive names (e.g., `ArticleWithAuthor`)
-- **Variables**: camelCase
-- **Constants**: UPPER_SNAKE_CASE for true constants, camelCase otherwise
+- **Components**: PascalCase (`BlogItem.astro`, `Layout.astro`)
+- **Pages**: kebab-case (`blog/index.astro`)
+- **Types/Interfaces**: PascalCase (`PostListItem`, `CategoryData`)
+- **Variables/Functions**: camelCase (`getPostList`, `userName`)
+- **Constants**: UPPER_SNAKE_CASE (`API_ENDPOINT`, `MAX_ITEMS`)
 
 ### TypeScript Guidelines
 - Always define return types for functions
 - Use `import type` for type-only imports
-- Avoid `any`, use `unknown` when type is truly unknown
-- Enable strict null checks
+- Avoid `any`; use `unknown` for truly unknown types
+- Use `z.coerce.date()` for date parsing
 
 ```typescript
-// Good
-function getArticle(id: string): Promise<Article | null> {
-  // ...
-}
-
-// Avoid
-function getArticle(id: string) {
-  // ...
-}
+async function getPosts(): Promise<PostListItem[]> { }
 ```
 
-### React Patterns
-- Use functional components with hooks
-- Prefer composition over inheritance
-- Extract reusable logic into custom hooks
-- Use `use client` directive for client-side interactive components
+### Astro Component Patterns
+- Define props interfaces in frontmatter
+- Use Alpine.js (`x-data`, `@click`, etc.) for interactivity
+- Client scripts in `/src/alpine-components.js`
 
 ```astro
 ---
-// Client component in Astro
-import { ClientComponent } from '@/components/ClientComponent'
+// 组件注释（中文）
+interface Props { title?: string; isExpanded?: boolean }
+const { title = "默认标题", isExpanded = false } = Astro.props
 ---
-<ClientComponent client:load />
+
+<div class={cn("card", isExpanded && "expanded")} x-data="{ show: false }">
+  <h2>{title}</h2>
+  <button @click="show = !show">Toggle</button>
+</div>
 ```
 
 ### Tailwind CSS
-- Use Tailwind Merge (`cn()` utility) for conditional classes
-- Follow mobile-first responsive design
-- Use semantic color names from design system
+- Use `cn()` from `@/lib/utils` for conditional classes
+- Mobile-first responsive design
+- Dark mode: use `dark:` prefix (enabled by default)
 
 ```typescript
-import { cn } from '@/lib/utils'
+<div class={cn("base-class p-4", isActive && "active-class", "hover:shadow-lg dark:bg-gray-800")} />
+```
 
-<div className={cn(
-  "base-class",
-  isActive && "active-class",
-  className
-)} />
+### Content Collections
+- Define schemas in `src/content.config.ts` with Zod
+- Store posts in `src/content/posts/`, categories in `src/content/categories/`
+- Use `glob()` loader for markdown files
+
+```typescript
+const posts = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
+  schema: z.object({ title: z.string(), publishDate: z.coerce.date(), category: z.string() }),
+})
 ```
 
 ### Error Handling
 - Use try/catch for async operations
-- Return typed error results or use error boundaries in React
-- Log errors appropriately (no sensitive data)
+- Return typed error results (pattern: `{ data, error }`)
+- Log errors without sensitive data
 
 ```typescript
-async function fetchData() {
+async function fetchData(): Promise<{ data: Post[], error: string | null }> {
   try {
-    const result = await db.query(...)
-    return { data: result, error: null }
+    const posts = await getCollection('posts')
+    return { data: posts, error: null }
   } catch (e) {
     console.error('Fetch failed:', e)
-    return { data: null, error: 'Failed to fetch data' }
+    return { data: [], error: 'Failed to fetch posts' }
   }
 }
 ```
 
-### Database (Drizzle ORM)
-- Define schemas in `src/lib/db/schema.ts`
-- Use migrations: `pnpm drizzle-kit push`
-- Keep queries close to usage or in dedicated repository files
+### Alpine.js Integration
+- Register components in `src/alpine-components.js`
+- Use Alpine for state management and simple interactivity
+- Keep logic small and testable
 
-### Astro Specific
-- Use frontmatter `---` for component script
-- Access environment variables via `import.meta.env`
-- Use getStaticPaths for dynamic static routes
-
-```astro
----
-export async function getStaticPaths() {
-  const posts = await getAllPosts()
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post }
-  }))
-}
-
-const { post } = Astro.props
----
+```javascript
+document.addEventListener('alpine:init', () => {
+  Alpine.data('modal', () => ({ isOpen: false, open() { this.isOpen = true }, close() { this.isOpen = false } }))
+})
 ```
 
 ## Project Structure
 
 ```
 src/
-├── components/     # React/Astro components
-├── contexts/       # React Context providers
-├── layouts/        # Astro layouts
-├── lib/
-│   ├── config/    # App configuration
-│   ├── db/        # Drizzle schema & queries
-│   ├── storage/   # Storage service
-│   └── utils/     # Helper functions
-├── pages/         # Astro file-based routing
-├── styles/        # Global styles
-└── types/         # TypeScript type definitions
+├── components/         # Astro UI components
+├── layouts/           # Page layouts
+├── pages/             # File-based routing
+├── stories/           # Storybook stories
+├── lib/               # Config and utils
+├── types/             # TypeScript definitions
+├── styles/            # Global CSS
+├── content/           # Markdown content (posts, categories)
+└── alpine-components.js  # Alpine.js data
+
+.storybook/             # Storybook config
 ```
 
 ## Environment Variables
 
-Copy `.env.example` to `.env`:
-- `DATABASE_URL` - SQLite file path or Turso connection string
-- `JWT_SECRET` - Secret for JWT token signing
-- Other app-specific variables
+`.env` file:
+- `PUBLIC_APP_VERSION` - App version
+- `PUBLIC_AUTHOR` - Author name
+- `PUBLIC_SITE_URL` - Site URL
+- `ADMIN_USERNAME` - Admin username
+- `GITHUB_NAME` - GitHub username
+
+Access via `import.meta.env.VARIABLE_NAME`
 
 ## Additional Notes
 
-- Dark mode is the default theme
-- Use Zod for runtime validation (already included)
-- Markdown content stored in database, rendered with remark/rehype
+- Dark mode enabled by default (add `class="dark"` to `<html>`)
+- Alpine.js handles all client-side interactivity
+- No framework testing configured
+- Uses Lucide React for icons
+- JSX configured for React compatibility
+
+## Storybook
+
+Stories in `src/stories/` use `@storybook/html-vite`:
+```typescript
+export default { title: 'Components/MyComponent', tags: ['autodocs'] }
+export const Default = { args: { /* props */ }, render: (args) => `<!-- HTML -->` }
+```

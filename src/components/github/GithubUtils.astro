@@ -3,6 +3,8 @@
 // GitHub 卡片辅助函数
 // 提供构建贡献热力图、格式化时间、获取语言颜色等工具函数
 
+const CONTRIBUTION_DAYS = 42
+
 interface GitHubRepo {
   id: number
   name: string
@@ -29,8 +31,6 @@ interface ContributionSnapshot {
   currentStreak: number
   longestStreak: number
 }
-
-const CONTRIBUTION_DAYS = 42
 
 /**
  * 构建贡献热力图数据

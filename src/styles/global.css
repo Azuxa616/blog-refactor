@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+@theme {
+  /* 颜色设计 token */
+  --color-card-background: rgba(255, 255, 255, 0.1);
+  --color-primary: #3b82f6;
+  --color-secondary: #8b5cf6;
+  --color-foreground: #1e293b;
+  --color-muted: #64748b;
+  --color-background: #0f172a;
+
+  /* 深色模式背景 */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+}
+
+/* 基础样式 */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply antialiased;
+}
+
+/* 玻璃态效果 */
+.glass-effect {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* 卡片样式增强 */
+.card-enhanced {
+  @apply backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-300;
+}

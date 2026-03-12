@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { ArticleStatus } from '../../types/article';
+import { z } from 'astro/zod';
+import type { ArticleStatus } from '../../types/article';
 
 // ID验证模式
 export const idSchema = z.object({
@@ -24,14 +24,14 @@ export const createArticleSchema = z.object({
   content: z.string().min(1, '内容不能为空'),
   slug: z.string().max(200, 'slug不能超过200字符').optional(),
   excerpt: z.string().max(500, '摘要不能超过500字符').optional(),
-  coverImage: z.string().url('封面图片必须是有效的URL').optional(),
+  coverImage: z.string().url({ message: '封面图片必须是有效的URL' }).optional(),
   categoryId: z.string().min(1, '分类不能为空'),
   tagNames: z.array(z.string()).optional(),
   status: z.nativeEnum(ArticleStatus).optional(),
   author: z.string().max(100, '作者名称不能超过100字符').optional(),
   isRepost: z.boolean().optional(),
   originalAuthor: z.string().max(100, '原作者姓名不能超过100字符').optional(),
-  originalLink: z.string().url('原文章链接必须是有效的URL').optional(),
+  originalLink: z.string().url({ message: '原文章链接必须是有效的URL' }).optional(),
 });
 
 // 更新文章验证模式
@@ -49,7 +49,8 @@ export function validateRequest<T>(
   if (result.success) {
     return { success: true, data: result.data };
   } else {
-    const errorMessage = result.error.errors[0]?.message || '验证失败';
+    const error = result.error;
+    const errorMessage = error.issues && error.issues.length > 0 ? error.issues[0].message : '验证失败';
     return { success: false, error: errorMessage };
   }
 }

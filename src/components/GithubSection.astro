@@ -3,6 +3,7 @@
 // 用于显示 GitHub 用户信息和仓库列表
 // 添加中文注释
 
+import GithubCard from './github/GithubCard.astro'
 import { githubData } from '../data/github'
 
 interface Props {
@@ -22,94 +23,12 @@ const {
 ---
 
 <div class="relative flex items-start justify-center w-full text-center gap-8 bg-background">
-  <div class="flex flex-col items-center justify-center p-10 gap-8 rounded-2xl my-30 w-full">
-    <!-- 用户信息卡片 -->
-    <div class="flex items-center gap-4 mb-8">
-      <img 
-        src={data?.user?.avatar_url || githubData.user.avatar_url} 
-        alt={data?.user?.name || githubData.user.name}
-        class="w-24 h-24 rounded-full border-4 border-white shadow-lg"
-      />
-      <div class="text-left">
-        <h2 class="text-2xl font-bold text-foreground">{data?.user?.name || githubData.user.name}</h2>
-        <p class="text-muted">{data?.user?.bio || githubData.user.bio}</p>
-        <div class="flex gap-4 mt-2 text-sm text-muted">
-          <span>{data?.user?.followers || githubData.user.followers} 关注者</span>
-          <span>{data?.user?.following || githubData.user.following} 关注中</span>
-          <span>{data?.user?.public_repos || githubData.user.public_repos} 仓库</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 已学技能 -->
-    <div class="mb-8">
-      <h3 class="text-xl font-bold text-foreground mb-4">已学技能</h3>
-      <div class="flex flex-wrap gap-3 justify-center">
-        {(data?.skills?.learned || githubData.skills.learned).map((skill) => (
-          <div class="flex items-center gap-2 px-4 py-2 bg-card-background rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-            <img src={skill.imgUrl} alt={skill.name} class="w-6 h-6" />
-            <div class="flex items-center gap-2">
-              <span class="font-medium">{skill.name}</span>
-              <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div 
-                  class="h-full bg-primary transition-all duration-300"
-                  style={`width: ${skill.proficiency}%`}
-                ></div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- 正在学习 -->
-    <div>
-      <h3 class="text-xl font-bold text-foreground mb-4">正在学习</h3>
-      <div class="flex flex-wrap gap-3 justify-center">
-        {(data?.skills?.practicing || githubData.skills.practicing).map((skill) => (
-          <div class="flex items-center gap-2 px-4 py-2 bg-card-background rounded-lg border border-gray-200 hover:shadow-md transition-shadow">
-            <img src={skill.imgUrl} alt={skill.name} class="w-6 h-6" />
-            <div class="flex items-center gap-2">
-              <span class="font-medium">{skill.name}</span>
-              <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div 
-                  class="h-full bg-secondary transition-all duration-300"
-                  style={`width: ${skill.proficiency}%`}
-                ></div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-
-    <!-- 仓库列表 -->
-    <div class="mt-8">
-      <h3 class="text-xl font-bold text-foreground mb-4">公开仓库</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {(data?.repos || githubData.repos).map((repo) => (
-          <a 
-            href={repo.html_url} 
-            target="_blank"
-            rel="noopener noreferrer"
-            class="block p-4 bg-card-background rounded-lg border border-gray-200 hover:border-primary hover:shadow-md transition-all"
-          >
-            <h4 class="font-bold text-foreground mb-2">{repo.name}</h4>
-            <p class="text-sm text-muted mb-2 line-clamp-2">{repo.description || '暂无描述'}</p>
-            <div class="flex items-center justify-between text-xs text-muted">
-              {repo.language && <span>{repo.language}</span>}
-              <div class="flex items-center gap-2">
-                {repo.stargazers_count > 0 && (
-                  <span class="flex items-center gap-1">
-                    ⭐ <span>{repo.stargazers_count}</span>
-                  </span>
-                )}
-                {repo.license?.name && <span>{repo.license.name}</span>}
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  </div>
+  <GithubCard
+    user={data?.user || githubData.user}
+    repos={data?.repos || githubData.repos}
+    learned={data?.skills?.learned || githubData.skills.learned}
+    practicing={data?.skills?.practicing || githubData.skills.practicing}
+    isLoading={isLoading}
+    error={error}
+  />
 </div>
