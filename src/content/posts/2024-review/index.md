@@ -1,5 +1,6 @@
 ---
 title: "2024年回顾：学习与成长"
+slug: "2024-review"
 description: "回顾2024年的学习和成长历程，展望未来。"
 publishDate: 2024-03-01
 updatedDate: 2024-03-01

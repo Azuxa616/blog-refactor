@@ -14,7 +14,8 @@ export async function getAllPosts(): Promise<PostWithSlug[]> {
   const posts = await getCollection('posts');
   return posts.map(post => ({
     ...post,
-    slug: post.id.replace('.md', ''),
+    // 优先使用 frontmatter 中的 slug
+    slug: post.data.slug || post.id.replace(/\.mdx?$/, '').replace(/\/index$/, ''),
   })).sort((a, b) =>
     b.data.publishDate.valueOf() - a.data.publishDate.valueOf()
   );
@@ -23,11 +24,12 @@ export async function getAllPosts(): Promise<PostWithSlug[]> {
 // 根据 slug 获取单篇文章
 export async function getPostBySlug(slug: string): Promise<PostWithSlug | undefined> {
   const posts = await getCollection('posts');
-  const post = posts.find(post => post.id === `${slug}.md`);
+  // 根据 frontmatter 中的 slug 匹配
+  const post = posts.find(post => post.data.slug === slug);
   if (post) {
     return {
       ...post,
-      slug: post.id.replace('.md', ''),
+      slug: post.data.slug,
     };
   }
   return undefined;

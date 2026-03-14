@@ -1,5 +1,6 @@
 ---
 title: "Hello World - 我的第一篇博客"
+slug: "hello-world"
 description: "欢迎来到我的博客！这是我的第一篇文章，介绍了博客的基本情况。"
 publishDate: 2024-01-15
 updatedDate: 2024-01-15

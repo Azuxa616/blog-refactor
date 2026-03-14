@@ -3,6 +3,17 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import node from '@astrojs/node';
 import alpinejs from '@astrojs/alpinejs';
+import mdx from '@astrojs/mdx';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypePresetMinify from 'rehype-preset-minify';
+import rehypeExternalLinks from 'rehype-external-links';
+import rehypeKatex from 'rehype-katex';
+import remarkToc from 'remark-toc';
+import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import remarkEmoji from 'remark-emoji';
+import remarkCallout from './src/lib/remark/remark-callout.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -10,7 +21,45 @@ export default defineConfig({
   adapter: node({
     mode: 'standalone'
   }),
-  integrations: [alpinejs()],
+  integrations: [
+    alpinejs(),
+    mdx({
+      // 代码高亮配置
+      syntaxHighlight: 'shiki',
+      shikiConfig: {
+        theme: 'github-dark',
+      },
+      // remark 插件配置
+      remarkPlugins: [
+        remarkGfm,  // GitHub Flavored Markdown
+        remarkMath,  // 数学公式支持
+        remarkEmoji,  // Emoji 支持
+        remarkCallout,  // 自定义 Callout 插件
+        [remarkToc, {
+          heading: '目录',  // 目录标题
+          maxDepth: 3,      // 最大深度
+          tight: true,      // 紧凑模式
+        }],
+      ],
+      // rehype 插件配置
+      rehypePlugins: [
+        rehypeSlug,  // 为标题添加 id
+        [rehypeAutolinkHeadings, {
+          behavior: 'append',  // 在标题后添加链接
+          properties: {
+            className: ['anchor-link'],
+            ariaLabel: '跳转到此章节',
+          },
+        }],
+        [rehypeExternalLinks, {
+          target: '_blank',
+          rel: ['noopener', 'noreferrer'],
+        }],
+        rehypeKatex,  // 数学公式渲染
+        rehypePresetMinify,  // 压缩 HTML
+      ],
+    }),
+  ],
   vite: {
     plugins: [tailwindcss()],
     server: {

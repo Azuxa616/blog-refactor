@@ -1,5 +1,6 @@
 ---
 title: "Astro + Alpine.js：轻量级博客的最佳实践"
+slug: "astro-alpine-best-practices"
 description: "探讨如何使用 Astro 和 Alpine.js 构建高性能的博客系统。"
 publishDate: 2024-02-01
 updatedDate: 2024-02-01
