@@ -2,10 +2,12 @@
 import '../styles/global.css';
 import '@fontsource-variable/inter/wght.css';
 import '@fontsource-variable/jetbrains-mono/wght.css';
+import ThemeScript from '../components/ThemeScript.astro';
+import FloatingActionButton from '../components/FloatingActionButton.astro';
 ---
 
 <!doctype html>
-<html lang="zh-CN" class="dark">
+<html lang="zh" class="dark">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -14,9 +16,11 @@ import '@fontsource-variable/jetbrains-mono/wght.css';
 		<meta name="generator" content={Astro.generator} />
 		<title>Azuxa's BlogWorld</title>
 		<meta name="description" content="Azuxa's BlogWorld" />
+		<ThemeScript />
 	</head>
 	<body class="font-sans antialiased bg-background text-foreground">
 		<slot />
+		<FloatingActionButton />
 		<script src="/src/alpine-components.js"></script>
 	</body>
 </html>

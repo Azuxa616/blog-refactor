@@ -2,11 +2,10 @@
 // 关于页面
 // 使用静态内容展示
 // 更新技术栈描述
-
-import Card from '@/components/Card'
+import Layout from '../../layouts/Layout.astro'
 ---
 
-<Card showDecorativeBg={true}>
+<Layout class="min-h-screen bg-background">
   <div class="max-w-4xl mx-auto px-4 py-16">
     <div class="text-center mb-16">
       <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">关于本站</h1>
@@ -19,27 +18,27 @@ import Card from '@/components/Card'
       <div class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl">
         <h2 class="text-2xl font-semibold text-slate-900 mb-4">技术栈</h2>
         <p class="text-slate-600 mb-6">
-          本站采用轻量级技术栈构建，专注于性能优化和开发体验。
+          本站采用轻量级技术栈构建，专注于性能优化和开发体验。  
         </p>
         <ul class="space-y-3 text-slate-700">
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 "></span>
             <span><strong>前端框架：</strong>Astro 5.x (纯 Astro)</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 "></span>
             <span><strong>样式方案：</strong>Tailwind CSS 4.x</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 "></span>
             <span><strong>交互库：</strong>Alpine.js 3.14</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 "></span>
             <span><strong>数据存储：</strong>本地 Markdown 文件</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 "></span>
             <span><strong>代码高亮：</strong>Prism React Renderer</span>
           </li>
         </ul>
@@ -52,23 +51,23 @@ import Card from '@/components/Card'
         </p>
         <ul class="space-y-3 text-slate-700">
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 shrink-0"></span>
             <span><strong>文章管理：</strong>Markdown 文件编辑、分类、标签</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 shrink-0"></span>
             <span><strong>内容层：</strong>Astro Content Collection</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 shrink-0"></span>
             <span><strong>代码高亮：</strong>支持多种编程语言</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 shrink-0"></span>
             <span><strong>响应式设计：</strong>完美适配各种设备</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 flex-shrink-0"></span>
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 shrink-0"></span>
             <span><strong>夜间模式：</strong>护眼的暗色主题</span>
           </li>
         </ul>
@@ -112,8 +111,8 @@ import Card from '@/components/Card'
 
     <div class="text-center">
       <p class="text-slate-500">
-        © {new Date().getFullYear()} Azuxa's BlogSpace · 用技术记录生活
+        © {new Date().getFullYear()} Azuxa's BlogSpace 
       </p>
     </div>
   </div>
-</Card>
+</L>

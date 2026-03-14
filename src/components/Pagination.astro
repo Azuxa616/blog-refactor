@@ -9,16 +9,16 @@ interface Props {
   /** 总页数 */
   totalPages?: number
   /** 页面改变回调函数 */
-  onPageChange?: (page: number) => void
+  _onPageChange?: (page: number) => void
   /** 额外的 CSS 类名 */
-  className?: string
+  _className?: string
 }
 
 const {
   currentPage = 1,
   totalPages = 1,
-  onPageChange,
-  className = ""
+  _onPageChange,
+  _className = ""
 } = Astro.props
 
 // 如果只有 1 页，不显示分页
@@ -69,7 +69,7 @@ const shouldRender = totalPages > 1
         this.visiblePages = this.getVisiblePages()
       }
     }`}
-    class="flex justify-center items-center gap-2 ${className}"
+    class="flex justify-center items-center gap-2 ${_className}"
     x-cloak
   >
     <!-- 上一页按钮 -->
@@ -91,10 +91,8 @@ const shouldRender = totalPages > 1
         <button
           @click="changePage(pageNum)"
           class="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-          :class="page === pageNum 
-            ? 'bg-primary text-white shadow-lg mt-[-10px]' 
-            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
-          :aria-label="'第 ' + pageNum + ' 页'"
+          :class="page === pageNum ? 'bg-primary text-white shadow-lg mt-[-10px]' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+          :aria-label="`第 ${pageNum} 页`"
           :aria-current="page === pageNum ? 'page' : undefined"
           x-text="pageNum"
         ></button>

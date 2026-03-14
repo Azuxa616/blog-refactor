@@ -22,7 +22,14 @@ document.addEventListener('alpine:init', () => {
   
   // 全局 store - 用于跨组件共享状态
   Alpine.store('appState', {
-    theme: 'dark',
+    theme: (() => {
+      // 初始化主题状态
+      const storedTheme = localStorage.getItem('theme')
+      if (storedTheme) {
+        return storedTheme === 'dark' ? 'dark' : 'light'
+      }
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    })(),
     currentCategory: 'all',
     searchQuery: '',
     
@@ -30,7 +37,14 @@ document.addEventListener('alpine:init', () => {
       this.theme = theme
       if (typeof window !== 'undefined') {
         document.documentElement.classList.toggle('dark', theme === 'dark')
+        localStorage.setItem('theme', theme)
       }
+    },
+    
+    toggleTheme() {
+      const newTheme = this.theme === 'dark' ? 'light' : 'dark'
+      this.setTheme(newTheme)
+      return newTheme
     },
     
     setCurrentCategory(category) {

@@ -12,6 +12,9 @@ export default defineConfig({
   }),
   integrations: [alpinejs()],
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    server: {
+      middlewareMode: false
+    }
   }
 });

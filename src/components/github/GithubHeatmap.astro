@@ -40,9 +40,9 @@ const getHeatClass = (value: number): string => {
   <div class="text-[10px] text-slate-400 text-center">Fri</div>
 
   <!-- 热力图格子 -->
-  {contribution.weeks.map((week, weekIndex) => (
+  {contribution.weeks.map((week, _weekIndex) => (
     <div class="contents">
-      {week.map((cell, dayIndex) => (
+      {week.map((cell, _dayIndex) => (
         <div
           class={`aspect-square rounded-sm transition-all duration-200 hover:scale-110 hover:shadow-md ${getHeatClass(cell.count)}`}
           title={`${cell.date}: ${cell.count} 次贡献`}

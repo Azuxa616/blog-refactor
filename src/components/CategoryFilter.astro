@@ -13,15 +13,15 @@ interface Category {
 
 interface Props {
   /** 分类列表 */
-  categories: Category[]
+  categories?: Category[]
   /** 选中的分类 */
   selectedCategory?: string
-  /** 搜索词 */
+  /** 搜索关键词 */
   searchTerm?: string
   /** 排序类型 */
   sortType?: string
   /** 额外的 CSS 类名 */
-  className?: string
+  _className?: string
 }
 
 const {
@@ -29,7 +29,7 @@ const {
   selectedCategory = 'all',
   searchTerm,
   sortType,
-  className = ''
+  _className = ''
 } = Astro.props
 
 const categoryColors = [
@@ -44,13 +44,10 @@ const categoryColors = [
   'text-cyan-600',
   'text-emerald-600',
 ]
-
-// 将分类数组转换为 JSON 字符串
-const categoriesJson = JSON.stringify(categories)
 ---
 
 <div 
-  class="relative flex bg-card-background backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 mb-6 flex-col gap-4 ${className}"
+  class="relative flex bg-card-background backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 mb-6 flex-col gap-4 ${_className}"
 >
   <!-- 标题栏 -->
   <div class="flex items-center justify-between mb-4">

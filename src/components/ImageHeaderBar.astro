@@ -4,6 +4,7 @@
 // 支持默认和文章两种模式，使用 Alpine.js 处理图片加载错误
 // 注意：使用 Alpine.js 替代 React 的 useState 和 useEffect
 
+// @ts-ignore - Props are used in template
 interface ImageHeaderBarProps {
   src: string
   title?: string
@@ -47,7 +48,7 @@ const fallbackSrc = '/imgs/404.jpg'
       :src="currentSrc"
       @error="currentSrc = fallbackSrc"
       alt={articleTitle || "article cover"}
-      class="absolute inset-0 w-full h-full object-cover object-center"
+      class="absolute inset-0 w-100 h-100 object-cover object-center"
     />
     <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
@@ -110,7 +111,7 @@ const fallbackSrc = '/imgs/404.jpg'
 {mode !== 'article' && (
   <div
     x-data={`{ currentSrc: '${src}', fallbackSrc: '${fallbackSrc}' }`}
-    class="relative w-full h-100 overflow-hidden"
+    class="relative w-full h-96 overflow-hidden"
   >
     <img
       :src="currentSrc"

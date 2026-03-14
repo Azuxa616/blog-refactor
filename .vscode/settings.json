@@ -1,0 +1,11 @@
+{
+  "css.validate": false,
+  "stylelint.validate": [],
+  "tailwindCSS.experimental.classRegex": [],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  }
+}

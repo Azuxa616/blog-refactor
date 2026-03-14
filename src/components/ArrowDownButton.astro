@@ -7,16 +7,17 @@ interface Props {
   /** 点击回调函数 */
   onClick?: string
   /** 额外的 CSS 类名 */
-  className?: string
+  _className?: string
 }
 
 const {
   onClick = "window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })",
-  className = ''
+  _className = ''
 } = Astro.props
+
 ---
 
-<div class="animate-bounce cursor-pointer ${className}" onclick={onClick}>
+<div class="animate-bounce cursor-pointer ${_className}" onclick={onClick}>
   <img 
     src="/svgs/arrow-down.svg" 
     alt="向下滚动" 

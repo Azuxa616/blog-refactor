@@ -127,7 +127,7 @@ const fileDropHandlerScript = `
 </div>
 
 <!-- 注册文件处理函数 -->
-<script define:vars={{ fileDropHandlerName, fileDropHandlerScript }}>
+  <script is:inline define:vars={{ fileDropHandlerName, fileDropHandlerScript }}>
   // 在 Alpine.js 初始化时注册文件处理函数
   document.addEventListener('alpine:init', () => {
     const script = document.createElement('script')

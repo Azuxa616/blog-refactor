@@ -48,7 +48,7 @@ const tonePresets = {
 
 // 计算所有技能的平均熟练度
 const totalSkills = learned.length + practicing.length
-const averageProficiency =
+const _averageProficiency =
   totalSkills === 0
     ? 0
     : Math.round(
@@ -77,7 +77,7 @@ const averageProficiency =
             </div>
           </div>
           <div class="grid gap-4 md:grid-cols-2">
-            {learned.map((skill, index) => {
+            {learned.map((skill, _index) => {
               const preset = tonePresets.mastery
               const gaugeStyle = buildGaugeStyle(skill.proficiency, preset.gaugeColor)
  
@@ -131,7 +131,7 @@ const averageProficiency =
             </div>
           </div>
           <div class="grid gap-4 md:grid-cols-2">
-            {practicing.map((skill, index) => {
+            {practicing.map((skill, _index) => {
               const preset = tonePresets.growth
               const gaugeStyle = buildGaugeStyle(skill.proficiency, preset.gaugeColor)
  

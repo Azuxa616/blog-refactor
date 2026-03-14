@@ -1,5 +1,4 @@
 import type { APIContext } from 'astro';
-import jwt from 'jsonwebtoken';
 
 export interface ApiResponse<T = any> {
   success: boolean;

@@ -35,7 +35,7 @@ export function pageExpand() {
     },
     
     /** 处理滚轮事件 */
-    handleWheel(event) {
+    handleWheel(event: WheelEvent) {
       const deltaY = event.deltaY
       
       if (deltaY > 0 && !this.isExpanded && !this.isTransitioning) {
@@ -94,7 +94,7 @@ export function imageFallback() {
   return {
     currentSrc: '',
     fallbackSrc: '',
-    init(src, fallback) {
+    init(src: string, fallback: string): void {
       this.currentSrc = src
       this.fallbackSrc = fallback
     },
@@ -118,16 +118,25 @@ export function typewriter() {
     phase: 'initial',
     showCursor: true,
     isDeleting: false,
-    timer: null,
-    cursorInterval: null,
-    
-    getCurrentTargetText() {
-      return (this.phase === 'typing' || this.phase === 'deleting') 
+    timer: null as ReturnType<typeof setTimeout> | null,
+    cursorInterval: null as ReturnType<typeof setInterval> | null,
+    initialText: '',
+    initialTypingSpeed: 100,
+    repeatedTextList: [] as string[],
+    repeatedTypingSpeed: 100,
+    deleteSpeed: 50,
+    gapInterval: 2000,
+    cursorBlinkInterval: 500,
+    cursor: true,
+    loop: true,
+
+    getCurrentTargetText(): string {
+      return (this.phase === 'typing' || this.phase === 'deleting')
         ? this.repeatedTextList[this.currentIndex] || ''
         : ''
     },
-    
-    next() {
+
+    next(): void {
       switch(this.phase) {
         case 'initial':
           if (this.initialText) {
@@ -141,7 +150,7 @@ export function typewriter() {
             this.phase = 'waiting'
           }
           break
-          
+
         case 'waiting':
           if (this.repeatedTextList.length > 0) {
             this.isDeleting = !this.isDeleting
@@ -150,7 +159,7 @@ export function typewriter() {
             this.timer = setTimeout(() => this.next(), this.gapInterval)
           }
           break
-          
+
         case 'typing':
           const targetText = this.getCurrentTargetText()
           if (this.dynamicText.length < targetText.length) {
@@ -161,7 +170,7 @@ export function typewriter() {
             this.timer = setTimeout(() => this.next(), this.gapInterval)
           }
           break
-          
+
         case 'deleting':
           if (this.dynamicText.length > 0) {
             this.deleteChar(this.deleteSpeed)
@@ -176,32 +185,32 @@ export function typewriter() {
             }
           }
           break
-          
+
         case 'complete':
           break
       }
     },
-    
-    type(text, length, targetVar, speed) {
+
+    type(text: string, length: number, targetVar: 'displayedInitialText' | 'dynamicText', speed: number): void {
       if (this.timer) clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this[targetVar] = text.slice(0, length)
         this.next()
       }, speed)
     },
-    
-    deleteChar(speed) {
+
+    deleteChar(speed: number): void {
       if (this.timer) clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.dynamicText = this.dynamicText.slice(0, -1)
         this.next()
       }, speed)
     },
-    
-    init() {
+
+    init(_src?: string, _fallback?: string): void {
       if (this.cursor) {
-        this.cursorInterval = setInterval(() => { 
-          this.showCursor = !this.showCursor 
+        this.cursorInterval = setInterval(() => {
+          this.showCursor = !this.showCursor
         }, this.cursorBlinkInterval)
       }
       this.next()
