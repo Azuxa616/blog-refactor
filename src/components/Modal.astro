@@ -56,15 +56,13 @@ const _sizeClasses = {
     <div class="mt-3">
       <div x-show="showHeader" class="flex items-center justify-between mb-4">
         <h3 x-show="title" class="text-lg font-medium text-gray-900" x-text="title"></h3>
-        <button 
+        <button
           x-show="showClose"
           @click="open = false"
           class="text-gray-400 hover:text-gray-600 transition-colors"
           aria-label="关闭"
         >
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <img src="/svgs/close.svg" width="24" height="24" alt="关闭" />
         </button>
       </div>
       <slot />

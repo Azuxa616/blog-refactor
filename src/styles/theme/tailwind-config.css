@@ -1,0 +1,72 @@
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-card-background: var(--card-background);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-admin-background: var(--admin-background);
+  --color-admin-foreground: var(--admin-foreground);
+  --color-admin-sidebar: var(--admin-sidebar);
+  --color-admin-sidebar-text: var(--admin-sidebar-text);
+  --color-admin-sidebar-hover: var(--admin-sidebar-hover);
+  --color-admin-sidebar-active: var(--admin-sidebar-active);
+  --color-admin-primary: var(--admin-primary);
+  --color-admin-primary-hover: var(--admin-primary-hover);
+  --color-admin-secondary: var(--admin-secondary);
+  --color-admin-card: var(--admin-card);
+  --color-admin-card-border: var(--admin-card-border);
+  --color-admin-muted: var(--admin-muted);
+  --color-admin-border: var(--admin-border);
+  --color-admin-success: var(--admin-success);
+  --color-admin-warning: var(--admin-warning);
+  --color-admin-error: var(--admin-error);
+  --color-admin-info: var(--admin-info);
+
+  --prose-h1-font-size: 2.25em;
+  --prose-h1-font-weight: 700;
+  --prose-h1-line-height: 1.2;
+  --prose-h1-margin-top: 0;
+  --prose-h1-margin-bottom: 0.8888889em;
+
+  --prose-h2-font-size: 1.5em;
+  --prose-h2-font-weight: 600;
+  --prose-h2-line-height: 1.3333333;
+  --prose-h2-margin-top: 2em;
+  --prose-h2-margin-bottom: 1em;
+
+  --prose-h3-font-size: 1.25em;
+  --prose-h3-font-weight: 600;
+  --prose-h3-line-height: 1.6;
+  --prose-h3-margin-top: 1.6em;
+  --prose-h3-margin-bottom: 0.6666667em;
+
+  --prose-h4-font-size: 1em;
+  --prose-h4-font-weight: 600;
+  --prose-h4-line-height: 1.6;
+  --prose-h4-margin-top: 1.3333333em;
+  --prose-h4-margin-bottom: 0.6666667em;
+
+  --prose-h5-font-size: 0.875em;
+  --prose-h5-font-weight: 600;
+  --prose-h5-line-height: 1.6;
+  --prose-h5-margin-top: 1.3333333em;
+  --prose-h5-margin-bottom: 0.6666667em;
+
+  --prose-h6-font-size: 0.85em;
+  --prose-h6-font-weight: 600;
+  --prose-h6-line-height: 1.6;
+  --prose-h6-margin-top: 1.3333333em;
+  --prose-h6-margin-bottom: 0.6666667em;
+
+  --prose-p-margin-top: 1.25em;
+  --prose-p-margin-bottom: 1.25em;
+
+  --prose-a-color: var(--primary);
+  --prose-a-text-decoration: underline;
+  --prose-a-font-weight: 500;
+}

@@ -9,11 +9,12 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePresetMinify from 'rehype-preset-minify';
 import rehypeExternalLinks from 'rehype-external-links';
 import rehypeKatex from 'rehype-katex';
+import remarkMath from 'remark-math';
 import remarkToc from 'remark-toc';
 import remarkGfm from 'remark-gfm';
-import remarkMath from 'remark-math';
 import remarkEmoji from 'remark-emoji';
 import remarkCallout from './src/lib/remark/remark-callout.ts';
+import rehypeCodeHeader from './src/lib/rehype/rehype-code-header.ts';
 
 // https://astro.build/config
 export default defineConfig({
@@ -31,8 +32,8 @@ export default defineConfig({
       },
       // remark 插件配置
       remarkPlugins: [
+        remarkMath,  // 数学公式支持（必须在 remarkGfm 之前）
         remarkGfm,  // GitHub Flavored Markdown
-        remarkMath,  // 数学公式支持
         remarkEmoji,  // Emoji 支持
         remarkCallout,  // 自定义 Callout 插件
         [remarkToc, {
@@ -55,6 +56,7 @@ export default defineConfig({
           target: '_blank',
           rel: ['noopener', 'noreferrer'],
         }],
+        rehypeCodeHeader,  // 代码块 header 插件
         rehypeKatex,  // 数学公式渲染
         rehypePresetMinify,  // 压缩 HTML
       ],

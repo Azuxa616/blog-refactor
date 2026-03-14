@@ -3,53 +3,34 @@
 // 使用 Alpine.js 管理交互
 // 添加中文注释
 
-import { getCollection } from 'astro:content';
+import { getEntry, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import ArticleCoverImage from '../../components/ArticleCoverImage.astro';
 
 export const prerender = false;
 
 const { slug } = Astro.params;
-const posts = await getCollection('posts');
-const post = posts.find(p => p.data.slug === slug);
+const post = await getEntry('posts', slug);
 
 if (!post) {
   return Astro.redirect('/404');
 }
 
-const { Content } = post.rendered ?? {} as any;
+const { Content } = await render(post);
 ---
 
 <Layout title={post.data.title}>
   <article class="min-h-screen bg-background">
     <!-- 文章头部 -->
-    <header class="relative h-64 overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600"></div>
-      <div class="absolute inset-0 bg-black/30"></div>
-      <div class="relative z-10 h-full flex items-center justify-center">
-        <div class="text-center px-4">
-          {post.data.coverImage && (
-            <img 
-              src={post.data.coverImage} 
-              alt={post.data.title} 
-              class="w-32 h-32 object-cover rounded-full border-4 border-white/20 mb-6 mx-auto shadow-2xl"
-            />
-          )}
-          <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-            {post.data.title}
-          </h1>
-          <div class="flex items-center justify-center gap-4 text-white/90">
-            <span class="text-sm">
-              {post.data.publishDate.toLocaleDateString('zh-CN')}
-            </span>
-            {post.data.updatedDate && (
-              <span class="text-sm">
-                · 更新于 {post.data.updatedDate.toLocaleDateString('zh-CN')}
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
-    </header>
+    <ArticleCoverImage 
+      coverImage={post.data.coverImage}
+      title={post.data.title}
+      description={post.data.description}
+      publishDate={post.data.publishDate}
+      updatedDate={post.data.updatedDate}
+      category={post.data.category}
+      tags={post.data.tags}
+    />
 
     <!-- 文章内容 -->
     <div class="max-w-4xl mx-auto px-4 py-12">
@@ -85,5 +66,34 @@ const { Content } = post.rendered ?? {} as any;
         </div>
       )}
     </div>
+
+    <!-- 代码复制功能脚本 -->
+    <script is:inline>
+      document.addEventListener('DOMContentLoaded', () => {
+        const copyButtons = document.querySelectorAll('.code-copy-btn');
+
+        copyButtons.forEach(button => {
+          button.addEventListener('click', async () => {
+            const codeBlock = button.closest('.code-block');
+            const code = codeBlock?.querySelector('code');
+            
+            if (code) {
+              try {
+                await navigator.clipboard.writeText(code.textContent || '');
+                button.classList.add('copied');
+                button.innerHTML = '<img src="/svgs/check.svg" width="16" height="16" alt="已复制" />';
+
+                setTimeout(() => {
+                  button.classList.remove('copied');
+                  button.innerHTML = '<img src="/svgs/copy.svg" width="16" height="16" alt="复制代码" />';
+                }, 2000);
+              } catch (err) {
+                console.error('复制失败:', err);
+              }
+            }
+          });
+        });
+      });
+    </script>
   </article>
 </Layout>

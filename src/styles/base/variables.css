@@ -1,0 +1,150 @@
+:root {
+  --font-geist-sans: 'Inter Variable', system-ui, sans-serif;
+  --font-geist-mono: 'JetBrains Mono Variable', 'Fira Code', monospace;
+
+  --background: #fffeee;
+  --foreground: #171717;
+  --primary: #254889;
+  --secondary: #8b7500;
+  --card-background: rgba(255, 255, 255, 0.8);
+  --muted: #6b7280;
+  --border: rgba(0, 0, 0, 0.1);
+
+  --text-primary: #0f172a;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --text-subtle: #64748b;
+
+  --card-border: rgba(226, 232, 240, 0.8);
+
+  --heatmap-empty: rgba(226, 232, 240, 0.7);
+  --heatmap-low: rgba(209, 250, 229, 0.8);
+  --heatmap-medium: rgba(167, 243, 208, 0.8);
+  --heatmap-high: rgba(16, 185, 129, 0.8);
+  --heatmap-max: rgba(5, 150, 105, 1);
+
+  --skill-mastery-from: rgba(209, 250, 229, 0.8);
+  --skill-mastery-via: rgba(255, 255, 255, 0.7);
+  --skill-mastery-to: rgba(204, 251, 241, 0.7);
+  --skill-mastery-track: rgba(209, 250, 229, 1);
+
+  --skill-growth-from: rgba(254, 243, 199, 0.8);
+  --skill-growth-via: rgba(255, 255, 255, 0.7);
+  --skill-growth-to: rgba(255, 237, 213, 0.7);
+  --skill-growth-track: rgba(253, 230, 138, 1);
+
+  --card-gradient-from: rgba(255, 255, 255, 0.9);
+  --card-gradient-via: rgba(248, 250, 252, 0.8);
+  --card-gradient-to: rgba(239, 246, 255, 0.6);
+
+  --error-bg: rgba(254, 242, 242, 1);
+  --error-border: rgba(254, 202, 202, 1);
+  --error-text: rgba(220, 38, 38, 1);
+
+  --badge-emerald-bg: rgba(209, 250, 229, 0.7);
+  --badge-emerald-text: rgba(4, 120, 87, 1);
+
+  --badge-amber-bg: rgba(254, 243, 199, 0.8);
+  --badge-amber-text: rgba(180, 83, 9, 1);
+
+  --badge-slate-bg: rgba(241, 245, 249, 0.8);
+  --badge-slate-text: rgba(51, 65, 85, 1);
+
+  --badge-blue-bg: rgba(239, 246, 255, 0.8);
+  --badge-blue-text: rgba(37, 99, 235, 1);
+  --badge-blue-dot: rgba(59, 130, 246, 1);
+
+  --blur-bg: rgba(191, 219, 254, 0.3);
+
+  --admin-background: #ffffff;
+  --admin-foreground: #0f172a;
+  --admin-sidebar: #f8fafc;
+  --admin-sidebar-text: #64748b;
+  --admin-sidebar-hover: #f1f5f9;
+  --admin-sidebar-active: #e2e8f0;
+  --admin-primary: #3b82f6;
+  --admin-primary-hover: #2563eb;
+  --admin-secondary: #64748b;
+  --admin-card: #ffffff;
+  --admin-card-border: #e2e8f0;
+  --admin-muted: #94a3b8;
+  --admin-border: #e2e8f0;
+  --admin-success: #10b981;
+  --admin-warning: #f59e0b;
+  --admin-error: #ef4444;
+  --admin-info: #3b82f6;
+}
+
+.dark {
+  --background: #0a0a1a;
+  --foreground: #ededed;
+  --primary: #3b82f6;
+  --secondary: #fbbf24;
+  --card-background: rgba(219, 219, 219, 0.5);
+  --muted: #9ca3af;
+  --border: rgba(255, 255, 255, 0.1);
+
+  --text-primary: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+
+  --card-border: rgba(30, 41, 59, 1);
+
+  --heatmap-empty: rgba(30, 41, 59, 0.5);
+  --heatmap-low: rgba(6, 78, 59, 0.5);
+  --heatmap-medium: rgba(6, 95, 70, 0.6);
+  --heatmap-high: rgba(16, 185, 129, 0.7);
+  --heatmap-max: rgba(16, 185, 129, 1);
+
+  --skill-mastery-from: rgba(6, 78, 59, 0.3);
+  --skill-mastery-via: rgba(2, 6, 23, 0.4);
+  --skill-mastery-to: rgba(19, 78, 74, 0.3);
+  --skill-mastery-track: rgba(6, 78, 59, 0.6);
+
+  --skill-growth-from: rgba(120, 53, 15, 0.3);
+  --skill-growth-via: rgba(2, 6, 23, 0.4);
+  --skill-growth-to: rgba(124, 45, 18, 0.3);
+  --skill-growth-track: rgba(120, 53, 15, 0.6);
+
+  --card-gradient-from: rgba(2, 6, 23, 0.8);
+  --card-gradient-via: rgba(15, 23, 42, 0.7);
+  --card-gradient-to: rgba(30, 27, 75, 0.4);
+
+  --error-bg: rgba(127, 29, 29, 0.2);
+  --error-border: rgba(153, 27, 27, 1);
+  --error-text: rgba(248, 113, 113, 1);
+
+  --badge-emerald-bg: rgba(16, 185, 129, 0.2);
+  --badge-emerald-text: rgba(110, 231, 183, 1);
+
+  --badge-amber-bg: rgba(245, 158, 11, 0.2);
+  --badge-amber-text: rgba(253, 230, 138, 1);
+
+  --badge-slate-bg: rgba(30, 41, 59, 0.6);
+  --badge-slate-text: rgba(203, 213, 225, 1);
+
+  --badge-blue-bg: rgba(59, 130, 246, 0.2);
+  --badge-blue-text: rgba(147, 197, 253, 1);
+  --badge-blue-dot: rgba(147, 197, 253, 1);
+
+  --blur-bg: rgba(59, 130, 246, 0.1);
+
+  --admin-background: #0f172a;
+  --admin-foreground: #f1f5f9;
+  --admin-sidebar: #1e293b;
+  --admin-sidebar-text: #94a3b8;
+  --admin-sidebar-hover: #334155;
+  --admin-sidebar-active: #475569;
+  --admin-primary: #3b82f6;
+  --admin-primary-hover: #60a5fa;
+  --admin-secondary: #94a3b8;
+  --admin-card: #1e293b;
+  --admin-card-border: #334155;
+  --admin-muted: #64748b;
+  --admin-border: #334155;
+  --admin-success: #10b981;
+  --admin-warning: #f59e0b;
+  --admin-error: #ef4444;
+  --admin-info: #3b82f6;
+}

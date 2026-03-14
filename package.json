@@ -48,6 +48,7 @@
     "@storybook/addon-links": "8.6.14",
     "@storybook/html": "8.6.14",
     "@storybook/html-vite": "8.6.14",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/fs-extra": "^11.0.4",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mdast": "^4.0.4",

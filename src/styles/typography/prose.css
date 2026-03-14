@@ -1,0 +1,196 @@
+.prose {
+  color: var(--foreground);
+  max-width: 65ch;
+  line-height: 1.75;
+}
+
+.prose h1 {
+  font-size: var(--prose-h1-font-size);
+  font-weight: var(--prose-h1-font-weight);
+  line-height: var(--prose-h1-line-height);
+  margin-top: var(--prose-h1-margin-top);
+  margin-bottom: var(--prose-h1-margin-bottom);
+  color: var(--foreground);
+}
+
+.prose h2 {
+  font-size: var(--prose-h2-font-size);
+  font-weight: var(--prose-h2-font-weight);
+  line-height: var(--prose-h2-line-height);
+  margin-top: var(--prose-h2-margin-top);
+  margin-bottom: var(--prose-h2-margin-bottom);
+  color: var(--foreground);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.3em;
+}
+
+.prose h3 {
+  font-size: var(--prose-h3-font-size);
+  font-weight: var(--prose-h3-font-weight);
+  line-height: var(--prose-h3-line-height);
+  margin-top: var(--prose-h3-margin-top);
+  margin-bottom: var(--prose-h3-margin-bottom);
+  color: var(--foreground);
+}
+
+.prose h4 {
+  font-size: var(--prose-h4-font-size);
+  font-weight: var(--prose-h4-font-weight);
+  line-height: var(--prose-h4-line-height);
+  margin-top: var(--prose-h4-margin-top);
+  margin-bottom: var(--prose-h4-margin-bottom);
+  color: var(--foreground);
+}
+
+.prose h5 {
+  font-size: var(--prose-h5-font-size);
+  font-weight: var(--prose-h5-font-weight);
+  line-height: var(--prose-h5-line-height);
+  margin-top: var(--prose-h5-margin-top);
+  margin-bottom: var(--prose-h5-margin-bottom);
+  color: var(--foreground);
+}
+
+.prose h6 {
+  font-size: var(--prose-h6-font-size);
+  font-weight: var(--prose-h6-font-weight);
+  line-height: var(--prose-h6-line-height);
+  margin-top: var(--prose-h6-margin-top);
+  margin-bottom: var(--prose-h6-margin-bottom);
+  color: var(--foreground);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.prose p {
+  margin-top: var(--prose-p-margin-top);
+  margin-bottom: var(--prose-p-margin-bottom);
+}
+
+.prose a {
+  color: var(--prose-a-color);
+  text-decoration: var(--prose-a-text-decoration);
+  font-weight: var(--prose-a-font-weight);
+}
+
+.prose a:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.prose strong {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.prose em {
+  font-style: italic;
+  color: var(--foreground);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background-color: var(--muted);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  color: var(--primary);
+}
+
+.prose pre {
+  background-color: var(--card-background);
+  border: 1px solid var(--border);
+  border-radius: 0.5em;
+  padding: 1em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
+
+.prose blockquote {
+  border-left: 4px solid var(--primary);
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: var(--muted);
+  font-style: italic;
+}
+
+.prose ul,
+.prose ol {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose li {
+  margin: 0.5em 0;
+}
+
+.prose ul > li::marker {
+  color: var(--primary);
+}
+
+.prose ol > li::marker {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.prose hr {
+  border: none;
+  border-top: 2px solid var(--border);
+  margin: 2em 0;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5em;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+  border: 1px solid var(--border);
+  border-radius: 0.5em;
+  overflow: hidden;
+}
+
+.prose th,
+.prose td {
+  padding: 0.75em 1em;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.prose th {
+  background-color: var(--muted);
+  color: var(--background);
+  font-weight: 600;
+}
+
+.prose tr:nth-child(even) {
+  background-color: var(--card-background);
+}
+
+.dark .prose code {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.dark .prose th {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--foreground);
+}
