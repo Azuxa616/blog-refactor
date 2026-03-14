@@ -6,7 +6,7 @@ publishDate: 2024-01-15
 updatedDate: 2024-01-15
 category: tech
 tags: ["博客", "开始"]
-coverImage: "/imgs/blog-cover-1.jpg"
+coverImage: "/blog-images/hello-world-bg.png"
 isRepost: false
 ---
 
@@ -20,7 +20,7 @@ isRepost: false
 
 ## 技术栈
 
-- Astro 5.x
+- Astro 6.x
 - Alpine.js
 - Tailwind CSS
 - TypeScript
