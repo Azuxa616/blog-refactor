@@ -1,5 +1,5 @@
 import { z } from 'astro/zod';
-import { ArticleStatus } from '../../types/article';
+import { ArticleStatus } from '@/types/article';
 
 // ID验证模式
 export const idSchema = z.object({

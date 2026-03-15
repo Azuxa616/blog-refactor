@@ -3,8 +3,8 @@
 // GitHub 仓库列表组件
 // 展示仓库列表，最多显示 3 个精选仓库
 
-import { SkeletonText } from '../Skeleton.astro'
-import GithubRepoCard from './GithubRepoCard.astro'
+import { SkeletonText } from '@/components/Skeleton.astro'
+import GithubRepoCard from '@/components/github/GithubRepoCard.astro'
 
 interface GitHubRepo {
   id: number
@@ -41,30 +41,30 @@ const highlightedRepos = sortedRepos.slice(0, 3)
 <section class="rounded-2xl border bg-gray-50 p-4 shadow-sm">
   <div class="mb-4 flex items-center justify-between">
     <p class="text-sm font-semibold">精选仓库</p>
-    {isLoading || !user ? (
-      <SkeletonText width="w-16" height="h-3" />
-    ) : (
-      <span class="text-xs text-slate-500">{repos.length} 个项目</span>
-    )}
+    {
+      isLoading || !user ? (
+        <SkeletonText width="w-16" height="h-3" />
+      ) : (
+        <span class="text-xs text-slate-500">{repos.length} 个项目</span>
+      )
+    }
   </div>
 
   <ul class="space-y-3">
-    {isLoading || !user || highlightedRepos.length === 0 ? (
-      // 骨架屏
-      Array.from({ length: 3 }).map((_, _index) => (
-        <li class="rounded-2xl border bg-gray-100 p-4">
-          <div class="flex flex-col gap-2">
-            <SkeletonText width="w-32" height="h-5" />
-            <SkeletonText width="w-full" height="h-4" />
-            <SkeletonText width="w-3/4" height="h-4" />
-          </div>
-        </li>
-      ))
-    ) : (
-      // 仓库卡片列表
-      highlightedRepos.map((repo) => (
-        <GithubRepoCard repo={repo} />
-      ))
-    )}
+    {
+      isLoading || !user || highlightedRepos.length === 0
+        ? // 骨架屏
+          Array.from({ length: 3 }).map((_, _index) => (
+            <li class="rounded-2xl border bg-gray-100 p-4">
+              <div class="flex flex-col gap-2">
+                <SkeletonText width="w-32" height="h-5" />
+                <SkeletonText width="w-full" height="h-4" />
+                <SkeletonText width="w-3/4" height="h-4" />
+              </div>
+            </li>
+          ))
+        : // 仓库卡片列表
+          highlightedRepos.map((repo) => <GithubRepoCard repo={repo} />)
+    }
   </ul>
 </section>

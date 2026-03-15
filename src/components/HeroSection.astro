@@ -3,7 +3,7 @@
 // 用于首页的欢迎区域
 // 添加中文注释
 
-import Typewriter from './Typewriter.astro'
+import Typewriter from '@/components/Typewriter.astro'
 
 interface Props {
   /** 额外的 CSS 类名 */
@@ -11,15 +11,21 @@ interface Props {
 }
 
 // @ts-ignore - className is used in template
-const {
-  _className = ''
-} = Astro.props
+const { _className = '' } = Astro.props
 ---
 
-<div class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center text-white ${_className}">
+<div
+  class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center text-white ${_className}"
+>
   <h1 class="text-6xl font-bold">Welcome to Azuxa&apos;s BlogWorld</h1>
   <Typewriter
-    textList={["Not just a blog, but", " a notebook", " a showcase", " a ground", " a world"]}
+    textList={[
+      'Not just a blog, but',
+      ' a notebook',
+      ' a showcase',
+      ' a ground',
+      ' a world',
+    ]}
     typingSpeed={100}
     deleteSpeed={60}
     gapInterval={2000}

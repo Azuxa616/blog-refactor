@@ -3,8 +3,8 @@
 // 用于显示 GitHub 用户信息和仓库列表
 // 添加中文注释
 
-import GithubCard from './github/GithubCard.astro'
-import { githubData } from '../data/github'
+import GithubCard from '@/components/github/GithubCard.astro'
+import { githubData } from '@/data/github.ts'
 
 interface Props {
   /** GitHub 数据 */
@@ -15,14 +15,12 @@ interface Props {
   error?: string | null
 }
 
-const {
-  data = githubData,
-  isLoading = false,
-  error = null
-} = Astro.props
+const { data = githubData, isLoading = false, error = null } = Astro.props
 ---
 
-<div class="relative flex items-start justify-center w-full text-center gap-8 bg-background">
+<div
+  class="relative flex items-start justify-center w-full text-center gap-8 bg-background"
+>
   <GithubCard
     user={data?.user || githubData.user}
     repos={data?.repos || githubData.repos}

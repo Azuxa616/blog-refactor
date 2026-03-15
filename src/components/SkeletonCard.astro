@@ -3,8 +3,8 @@
 // 骨架卡片组件
 // 用于创建卡片加载占位，包含可选的头部和底部占位
 
-import SkeletonText from './SkeletonText.astro'
-import SkeletonAvatar from './SkeletonAvatar.astro'
+import SkeletonText from '@/components/SkeletonText.astro'
+import SkeletonAvatar from '@/components/SkeletonAvatar.astro'
 
 interface Props {
   /** 额外的 CSS 类名 */
@@ -18,27 +18,33 @@ interface Props {
 }
 
 const {
-  className = "",
+  className = '',
   showHeader = true,
   showFooter = false,
   lines = 3,
 } = Astro.props
 ---
 
-<div class={`rounded-2xl border border-slate-100/70 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900/80 ${className}`}>
-  {showHeader && (
-    <div class="mb-4 flex items-center justify-between">
-      <SkeletonText width="w-32" height="h-5" />
-      <SkeletonText width="w-16" height="h-3" />
-    </div>
-  )}
+<div
+  class={`rounded-2xl border border-slate-100/70 bg-white/80 p-4 dark:border-slate-800 dark:bg-slate-900/80 ${className}`}
+>
+  {
+    showHeader && (
+      <div class="mb-4 flex items-center justify-between">
+        <SkeletonText width="w-32" height="h-5" />
+        <SkeletonText width="w-16" height="h-3" />
+      </div>
+    )
+  }
   <div class="space-y-2">
     <SkeletonText lines={lines} />
   </div>
-  {showFooter && (
-    <div class="mt-4 flex items-center justify-between">
-      <SkeletonAvatar size="sm" />
-      <SkeletonText width="w-24" height="h-3" />
-    </div>
-  )}
+  {
+    showFooter && (
+      <div class="mt-4 flex items-center justify-between">
+        <SkeletonAvatar size="sm" />
+        <SkeletonText width="w-24" height="h-3" />
+      </div>
+    )
+  }
 </div>

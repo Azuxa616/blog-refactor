@@ -1,27 +1,27 @@
-import type { APIContext } from 'astro';
-import { Logger } from './middleware';
+import type { APIContext } from 'astro'
+import { Logger } from '@/lib/utils/middleware'
 
 /**
  * 记录请求日志
  */
 export function logRequest(context: APIContext, message: string): void {
-  Logger.logRequest(context, message);
+  Logger.logRequest(context, message)
 }
 
 /**
  * 错误处理包装器
  */
 export function withErrorHandling<T extends any[], R>(
-  handler: (...args: T) => Promise<R>
+  handler: (...args: T) => Promise<R>,
 ) {
   return async (...args: T): Promise<R> => {
     try {
-      return await handler(...args);
+      return await handler(...args)
     } catch (error) {
-      Logger.logError(error as Error);
-      throw error;
+      Logger.logError(error as Error)
+      throw error
     }
-  };
+  }
 }
 
 /**
@@ -31,10 +31,10 @@ export function generateSlug(title: string): string {
   return title
     .toLowerCase()
     .replace(/[^\w\s-]/g, '') // 移除特殊字符
-    .replace(/\s+/g, '-')     // 空格转成横杠
-    .replace(/-+/g, '-')      // 多个横杠合并
+    .replace(/\s+/g, '-') // 空格转成横杠
+    .replace(/-+/g, '-') // 多个横杠合并
     .trim()
-    .substring(0, 50);        // 限制长度
+    .substring(0, 50) // 限制长度
 }
 
 /**
@@ -42,13 +42,13 @@ export function generateSlug(title: string): string {
  */
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
-  wait: number
+  wait: number,
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
+  let timeout: NodeJS.Timeout
   return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
+    clearTimeout(timeout)
+    timeout = setTimeout(() => func(...args), wait)
+  }
 }
 
 /**
@@ -56,16 +56,16 @@ export function debounce<T extends (...args: any[]) => any>(
  */
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
-  limit: number
+  limit: number,
 ): (...args: Parameters<T>) => void {
-  let inThrottle: boolean;
+  let inThrottle: boolean
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
-      func(...args);
-      inThrottle = true;
-      setTimeout(() => (inThrottle = false), limit);
+      func(...args)
+      inThrottle = true
+      setTimeout(() => (inThrottle = false), limit)
     }
-  };
+  }
 }
 
 /**
@@ -76,30 +76,33 @@ export function formatDate(dateString: string): string {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  });
+  })
 }
 
 /**
  * 计算阅读时间
  */
 export function calculateReadingTime(content: string): number {
-  const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length;
-  const wordsPerMinute = 200; // 中文阅读速度
-  return Math.ceil(words / wordsPerMinute);
+  const words = content.replace(/<[^>]*>/g, '').split(/\s+/).length
+  const wordsPerMinute = 200 // 中文阅读速度
+  return Math.ceil(words / wordsPerMinute)
 }
 
 /**
  * 提取文本摘要
  */
-export function extractExcerpt(content: string, maxLength: number = 200): string {
+export function extractExcerpt(
+  content: string,
+  maxLength: number = 200,
+): string {
   const plainText = content
     .replace(/<[^>]*>/g, '') // 移除HTML标签
-    .replace(/\s+/g, ' ')    // 合并空白字符
-    .trim();
+    .replace(/\s+/g, ' ') // 合并空白字符
+    .trim()
 
   if (plainText.length <= maxLength) {
-    return plainText;
+    return plainText
   }
 
-  return plainText.substring(0, maxLength).trim() + '...';
+  return plainText.substring(0, maxLength).trim() + '...'
 }

@@ -3,18 +3,20 @@
 // 统计卡片骨架组件
 // 用于创建统计卡片的加载占位
 
-import SkeletonText from './SkeletonText.astro'
-import SkeletonAvatar from './SkeletonAvatar.astro'
+import SkeletonText from '@/components/SkeletonText.astro'
+import SkeletonAvatar from '@/components/SkeletonAvatar.astro'
 
 interface Props {
   /** 额外的 CSS 类名 */
   className?: string
 }
 
-const { className = "" } = Astro.props
+const { className = '' } = Astro.props
 ---
 
-<div class={`rounded-2xl border border-slate-100/70 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/80 ${className}`}>
+<div
+  class={`rounded-2xl border border-slate-100/70 bg-white/80 p-6 dark:border-slate-800 dark:bg-slate-900/80 ${className}`}
+>
   <div class="flex items-center justify-between mb-4">
     <SkeletonAvatar size="sm" />
     <SkeletonText width="w-20" height="h-4" />

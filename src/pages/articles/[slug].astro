@@ -4,8 +4,9 @@
 // 添加中文注释
 
 import { getEntry, render } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import ArticleCoverImage from '../../components/ArticleCoverImage.astro';
+import Layout from '@/layouts/Layout.astro';
+import ArticleCoverImage from '@/components/ArticleCoverImage.astro';
+import Tag from '@/components/Tag.astro';
 
 export const prerender = false;
 
@@ -34,7 +35,7 @@ const { Content } = await render(post);
 
     <!-- 文章内容 -->
     <div class="max-w-4xl mx-auto px-4 py-12">
-      <div class="prose prose-lg dark:prose-invert max-w-none">
+      <div class="prose prose-lg dark:prose-invert ">
         <Content />
       </div>
       
@@ -44,9 +45,7 @@ const { Content } = await render(post);
           <h3 class="text-lg font-semibold mb-3">标签</h3>
           <div class="flex flex-wrap gap-2">
             {post.data.tags.map(tag => (
-              <span class="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-sm">
-                #{tag}
-              </span>
+              <Tag label={tag} bgColor="#f1f5f9" size="md" />
             ))}
           </div>
         </div>

@@ -3,6 +3,9 @@
 // 文章封面图片组件
 // 用于显示文章详情页的封面图片和元数据
 
+import Tag from '@/components/Tag.astro'
+import CategoryBadge from '@/components/CategoryBadge.astro'
+
 interface Props {
   /** 封面图片 URL */
   coverImage?: string
@@ -20,18 +23,22 @@ interface Props {
   tags?: string[]
 }
 
-const { coverImage, title, description, publishDate, updatedDate, category, tags } = Astro.props
+const {
+  coverImage,
+  title,
+  description,
+  publishDate,
+  updatedDate,
+  category,
+  tags,
+} = Astro.props
 ---
 
 <header class="relative h-96 overflow-hidden">
   {
     coverImage && (
       <div class="absolute inset-0">
-        <img
-          src={coverImage}
-          alt={title}
-          class="w-full h-full object-cover"
-        />
+        <img src={coverImage} alt={title} class="w-full h-full object-cover" />
         <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/80" />
       </div>
     )
@@ -39,36 +46,51 @@ const { coverImage, title, description, publishDate, updatedDate, category, tags
   <div
     class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4"
   >
-    {category && (
-      <span class="inline-block px-4 py-1.5 mb-4 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-medium">
-        {category}
-      </span>
-    )}
-    <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-      {title}
-    </h1>
-    {description && (
-      <p class="text-base md:text-lg text-white/80 mb-6 max-w-2xl">
-        {description}
-      </p>
-    )}
-    <div class="flex flex-wrap items-center justify-center gap-4 text-white/90 text-sm">
-      {updatedDate ? (
-        <span>· 更新于 {updatedDate.toLocaleDateString('zh-CN')}</span>
-      ) : (
-        <span>{publishDate.toLocaleDateString('zh-CN')}</span>
-      )}
-    </div>
     {
-      tags && tags.length > 0 && (
-        <div class="flex flex-wrap items-center justify-center gap-2 mt-4">
-          {tags.map(tag => (
-            <span class="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm text-white/90 text-xs">
-              #{tag}
-            </span>
-          ))}
+      category && (
+        <div class="mb-4">
+          <CategoryBadge title={category} color="#ffffff" />
         </div>
       )
     }
+    <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
+      {title}
+    </h1>
+    {
+      description && (
+        <p class="text-base md:text-lg text-white/80 mb-6 max-w-2xl">
+          {description}
+        </p>
+      )
+    }
+    <div
+      class="flex flex-wrap items-center justify-center gap-4 text-white/90 text-sm"
+    >
+      <span class="flex items-center gap-1.5">
+        <img
+          src="/svgs/calendar.svg"
+          width="14"
+          height="14"
+          alt="发布日期"
+          loading="eager"
+        />
+        {
+          updatedDate ? (
+            <span>· 更新于 {updatedDate.toLocaleDateString('zh-CN')}</span>
+          ) : (
+            <span>{publishDate.toLocaleDateString('zh-CN')}</span>
+          )
+        }
+      </span>
+      {
+        tags && tags.length > 0 && (
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            {tags.map((tag) => (
+              <Tag label={tag} bgColor="#ffffff" size="sm" />
+            ))}
+          </div>
+        )
+      }
+    </div>
   </div>
 </header>

@@ -3,10 +3,10 @@
 // GitHub 信息卡片主组件
 // 组合用户信息、仓库列表和技能展示区的完整 GitHub 卡片
 
-import Card from '../Card.astro'
-import GithubUserCard from './GithubUserCard.astro'
-import GithubRepoList from './GithubRepoList.astro'
-import GithubSkillsSection from './GithubSkillsSection.astro'
+import Card from '@/components/Card.astro'
+import GithubUserCard from '@/components/github/GithubUserCard.astro'
+import GithubRepoList from '@/components/github/GithubRepoList.astro'
+import GithubSkillsSection from '@/components/github/GithubSkillsSection.astro'
 
 interface GitHubUser {
   avatar_url: string
@@ -54,7 +54,14 @@ interface Props {
   error?: string | null
 }
 
-const { user, repos = [], learned = [], practicing = [], isLoading = false, error = null } = Astro.props
+const {
+  user,
+  repos = [],
+  learned = [],
+  practicing = [],
+  isLoading = false,
+  error = null,
+} = Astro.props
 ---
 
 <div class="flex flex-col gap-8">
@@ -71,17 +78,10 @@ const { user, repos = [], learned = [], practicing = [], isLoading = false, erro
     <Card class="relative w-full overflow-hidden">
       <div class="flex w-full gap-8">
         <!-- 技能展示区 -->
-        <GithubSkillsSection
-          learned={learned}
-          practicing={practicing}
-        />
+        <GithubSkillsSection learned={learned} practicing={practicing} />
 
         <!-- 仓库列表 -->
-        <GithubRepoList
-          repos={repos}
-          user={user}
-          isLoading={isLoading}
-        />
+        <GithubRepoList repos={repos} user={user} isLoading={isLoading} />
       </div>
     </Card>
   </div>

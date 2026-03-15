@@ -7,8 +7,6 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "storybook": "storybook dev -p 6010 --config-dir=.storybook",
-    "build-storybook": "storybook build --config-dir=.storybook",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
@@ -43,11 +41,6 @@
     "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.1.0",
     "@eslint/markdown": "^7.5.1",
-    "@storybook/addon-essentials": "8.6.14",
-    "@storybook/addon-interactions": "8.6.14",
-    "@storybook/addon-links": "8.6.14",
-    "@storybook/html": "8.6.14",
-    "@storybook/html-vite": "8.6.14",
     "@tailwindcss/typography": "^0.5.19",
     "@types/fs-extra": "^11.0.4",
     "@types/jsonwebtoken": "^9.0.10",
@@ -71,7 +64,6 @@
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
     "remark-toc": "^9.0.0",
-    "storybook": "8.6.14",
     "typescript-eslint": "^8.57.0",
     "unist-util-visit": "^5.1.0"
   }

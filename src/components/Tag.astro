@@ -1,0 +1,88 @@
+---
+// Tag.astro
+// 标签组件
+// 支持自定义背景颜色，自动计算对比度文本颜色，支持亮色/暗色模式
+
+import {
+  hexToRgb,
+  calculateLuminance,
+  getContrastTextColor,
+  toRgba,
+  getDarkModeTextColor,
+} from '@/lib/utils/color'
+
+interface Props {
+  /** 标签文本 */
+  label: string
+  /** 背景颜色（16进制格式，如 "#f1f5f9"），默认 "#f1f5f9" */
+  bgColor?: string
+  /** 文本颜色（16进制格式，可选，自动计算对比度） */
+  textColor?: string
+  /** 尺寸：小号（封面用）/ 中号（详情页用） */
+  size?: 'sm' | 'md'
+  /** 额外的 CSS 类名 */
+  class?: string
+}
+
+const {
+  label,
+  bgColor = '#f1f5f9',
+  textColor,
+  size = 'md',
+  class: className = '',
+} = Astro.props
+
+const [r, g, b] = hexToRgb(bgColor)
+const luminance = calculateLuminance(r, g, b)
+const computedTextColor = textColor || getContrastTextColor(bgColor)
+const borderColor = toRgba(bgColor, 0.4)
+const shadowColor = `0 2px 8px ${toRgba(bgColor, 0.3)}`
+
+const sizeClasses = {
+  sm: 'text-xs px-3 py-1',
+  md: 'text-sm px-4 py-1.5',
+}
+---
+
+<span
+  class:list={[
+    'inline-flex items-center rounded-2xl font-semibold',
+    'transition-all duration-300 ease-out',
+    'hover:scale-105 hover:-translate-y-0.5 active:scale-95',
+    'cursor-default select-none relative overflow-hidden',
+    'astro-tag-component',
+    sizeClasses[size],
+    className,
+  ]}
+  style={{
+    backgroundColor: bgColor,
+    color: computedTextColor,
+    border: '1px solid',
+    borderColor: borderColor,
+    boxShadow: shadowColor,
+    '--tag-dark-bg': toRgba(bgColor, 0.2),
+    '--tag-dark-text': getDarkModeTextColor(luminance),
+    '--tag-dark-border': toRgba(bgColor, 0.2),
+    '--tag-dark-shadow': `0 2px 8px ${toRgba(bgColor, 0.15)}`,
+    '--tag-dark-hover-shadow': `0 4px 12px ${toRgba(bgColor, 0.18)}`,
+  } as any}
+>
+  <span class="relative z-10">#{label}</span>
+</span>
+
+<style>
+  .astro-tag-component:hover {
+    box-shadow: var(--tag-dark-hover-shadow);
+  }
+
+  .dark .astro-tag-component {
+    background-color: var(--tag-dark-bg);
+    color: var(--tag-dark-text);
+    border-color: var(--tag-dark-border);
+    box-shadow: var(--tag-dark-shadow);
+  }
+
+  .dark .astro-tag-component:hover {
+    box-shadow: var(--tag-dark-hover-shadow);
+  }
+</style>

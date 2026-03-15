@@ -3,7 +3,7 @@
 // 网站统计数据卡片组件
 // 展示网站的基本统计信息，包括文章数量、总字数、访客数等
 
-import Card from './Card.astro'
+import Card from '@/components/Card.astro'
 
 interface Props {
   /** 卡片标题，默认 "网站统计" */
@@ -23,13 +23,13 @@ interface Props {
 }
 
 const {
-  title = "网站统计",
+  title = '网站统计',
   articleCount = 4,
-  totalWords = "2.6k",
+  totalWords = '2.6k',
   visitorCount = 10,
   totalViews = 34,
   lastUpdatedDays = 25,
-  className = ""
+  className = '',
 } = Astro.props
 ---
 
