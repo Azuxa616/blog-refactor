@@ -3,11 +3,11 @@
 // 使用 Alpine.js 管理筛选和分页
 // 添加中文注释
 
-import ImageHeaderBar from '@/components/ImageHeaderBar.astro'
-import BlogItem from '@/components/BlogItem.astro'
-import CategoryFilter from '@/components/CategoryFilter.astro'
-import Card from '@/components/Card.astro'
-import Pagination from '@/components/Pagination'
+import ImageHeaderBar from '@/components/layout/ImageHeaderBar.astro'
+import BlogItem from '@/components/content/BlogItem.astro'
+import CategoryFilter from '@/components/interactions/CategoryFilter.astro'
+import Card from '@/components/layout/Card.astro'
+import Pagination from '@/components/react/Pagination'
 import { getAllPosts } from '@/lib/utils/posts'
 import { getCategories } from '@/lib/utils/categories'
 import type { PostWithSlug } from '@/lib/utils/posts'

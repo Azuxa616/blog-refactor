@@ -1,5 +1,5 @@
 import { AppProvider } from '@/context/AppContext'
-import FloatingActionButton from '@/components/FloatingActionButton'
+import FloatingActionButton from '@/components/react/FloatingActionButton'
 import type { ReactNode } from 'react'
 
 interface AppLayoutProps {
