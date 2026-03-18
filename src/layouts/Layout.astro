@@ -3,7 +3,7 @@ import '../styles/global.css'
 import '@fontsource-variable/inter/wght.css'
 import '@fontsource-variable/jetbrains-mono/wght.css'
 import ThemeScript from '@/components/ThemeScript.astro'
-import FloatingActionButton from '@/components/FloatingActionButton.astro'
+import AppLayout from '@/components/AppLayout'
 ---
 
 <!doctype html>
@@ -19,8 +19,9 @@ import FloatingActionButton from '@/components/FloatingActionButton.astro'
     <ThemeScript />
   </head>
   <body class="font-sans antialiased bg-background text-foreground">
-    <slot />
-    <FloatingActionButton />
+    <AppLayout>
+      <slot />
+    </AppLayout>
     <script src="/src/alpine-components.js"></script>
   </body>
 </html>

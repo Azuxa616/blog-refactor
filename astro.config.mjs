@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config'
 import tailwindcss from '@tailwindcss/vite'
 import node from '@astrojs/node'
 import alpinejs from '@astrojs/alpinejs'
+import react from '@astrojs/react'
 import mdx from '@astrojs/mdx'
 import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
@@ -23,6 +24,7 @@ export default defineConfig({
     mode: 'standalone',
   }),
   integrations: [
+    react(),
     alpinejs(),
     mdx({
       // 代码高亮配置

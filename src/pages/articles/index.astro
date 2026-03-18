@@ -7,7 +7,7 @@ import ImageHeaderBar from '@/components/ImageHeaderBar.astro'
 import BlogItem from '@/components/BlogItem.astro'
 import CategoryFilter from '@/components/CategoryFilter.astro'
 import Card from '@/components/Card.astro'
-import Pagination from '@/components/Pagination.astro'
+import Pagination from '@/components/Pagination'
 import { getAllPosts } from '@/lib/utils/posts'
 import { getCategories } from '@/lib/utils/categories'
 import type { PostWithSlug } from '@/lib/utils/posts'
@@ -177,7 +177,16 @@ const formattedCategories = categories.map((cat) => ({
         <!-- 分页 -->
         {
           totalPages > 1 && (
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
+            <Pagination 
+              currentPage={currentPage} 
+              totalPages={totalPages}
+              basePath="/articles"
+              searchParams={{
+                ...(selectedCategory !== 'all' ? { category: selectedCategory } : {}),
+                ...(searchTerm ? { search: searchTerm } : {}),
+                ...(sortType && sortType !== 'latest' ? { sort: sortType } : {})
+              }}
+            />
           )
         }
       </div>
