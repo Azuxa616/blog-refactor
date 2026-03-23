@@ -4,29 +4,29 @@ Astro 5.x SSR blog with Alpine.js, Tailwind CSS 4.x, TypeScript strict mode, Zod
 
 ## Tech Stack
 
-- **Framework**: Astro 5.17+ with Node adapter (SSR)
+- **Framework**: Astro 5.x with Node adapter (SSR)
 - **Package Manager**: pnpm
 - **Language**: TypeScript (strict mode, `astro/tsconfigs/strict`)
-- **UI**: Astro + Alpine.js + Tailwind CSS 4.x
+- **UI**: Astro + Alpine.js + React + Tailwind CSS 4.x
 - **Content**: Astro Content Collections + Zod
 
 ## Commands
 
 ```bash
+# Development
 pnpm dev               # Start dev server (http://localhost:4321)
-pnpm build             # Build for production
-pnpm preview           # Preview production build
-pnpm astro check       # Type-check with Astro
-```
+pnpm build            # Build for production
+pnpm preview          # Preview production build
+pnpm astro check      # Type-check with Astro
 
-### Testing
+# Linting & Formatting
+pnpm lint             # Run ESLint
+pnpm format           # Format code with Prettier
 
-To add Vitest:
-
-```bash
+# Testing (Vitest not installed by default)
 pnpm add -D vitest @vitest/ui
-pnpm vitest run <file>   # Run single test
-pnpm vitest <file>       # Watch mode
+pnpm vitest run       # Run all tests
+pnpm vitest run <file> # Run single test file
 ```
 
 ## Code Style Guidelines
@@ -35,16 +35,15 @@ pnpm vitest <file>       # Watch mode
 
 - Use TypeScript strictly; avoid JavaScript unless necessary
 - Prefer minimal, safe changes over large refactors
-- Follow existing project structure and coding style
-- Chinese comments for documentation
-- No ESLint/Prettier - use standard formatting
+- Chinese comments for documentation (中文注释)
+- Run `pnpm format` before committing; run `pnpm lint` to check
 
 ### Import Organization
 
 ```typescript
 // External libraries
 import { defineCollection, z } from 'astro:content'
-import { glob } from 'astro/loaders'
+import { useState } from 'react'
 
 // Internal imports (use @ alias for src/)
 import { cn } from '@/lib/utils'
@@ -53,60 +52,63 @@ import type { Post } from '@/types'
 
 ### Naming Conventions
 
-- **Components**: PascalCase (`BlogItem.astro`, `Layout.astro`)
-- **Pages**: kebab-case (`blog/index.astro`)
-- **Types/Interfaces**: PascalCase (`PostListItem`, `CategoryData`)
-- **Variables/Functions**: camelCase (`getPostList`, `userName`)
-- **Constants**: UPPER_SNAKE_CASE (`API_ENDPOINT`, `MAX_ITEMS`)
+| Type                | Convention       | Example            |
+| ------------------- | ---------------- | ------------------ |
+| Components (Astro)  | PascalCase       | `BlogItem.astro`   |
+| Components (React)  | PascalCase       | `HeaderBar.tsx`    |
+| Pages               | kebab-case       | `blog/index.astro` |
+| Types/Interfaces    | PascalCase       | `PostListItem`     |
+| Variables/Functions | camelCase        | `getPostList`      |
+| Constants           | UPPER_SNAKE_CASE | `API_ENDPOINT`     |
 
 ### TypeScript Guidelines
 
 - Always define return types for functions
 - Use `import type` for type-only imports
-- Avoid `any`; use `unknown` for truly unknown types
-- Use `z.coerce.date()` for date parsing
+- Avoid `any`; use `unknown` for unknown types
+- Use `z.coerce.date()` for date parsing in Zod schemas
 
 ```typescript
-async function getPosts(): Promise<PostListItem[]> {}
+async function getPosts(): Promise<PostListItem[]> {
+  /* ... */
+}
 ```
 
 ### Astro Component Patterns
 
 - Define props interfaces in frontmatter
-- Use Alpine.js (`x-data`, `@click`, etc.) for interactivity
-- Client scripts in `/src/alpine-components.js`
+- Use Alpine.js (`x-data`, `@click`) for client interactivity
+- Complex components use React with `client:load` or `client:visible`
 
 ```astro
 ---
-// 组件注释（中文）
 interface Props {
   title?: string
-  isExpanded?: boolean
 }
-const { title = '默认标题', isExpanded = false } = Astro.props
+const { title = '默认标题' } = Astro.props
 ---
 
-<div class={cn('card', isExpanded && 'expanded')} x-data="{ show: false }">
+<div x-data="{ show: false }">
   <h2>{title}</h2>
-  <button @click="show = !show">Toggle</button>
 </div>
 ```
+
+### React Component Guidelines
+
+- Use functional components with hooks
+- Co-locate types with components when possible
+- Use `client:load` for interactive, `client:visible` for lazy-loaded
 
 ### Tailwind CSS
 
 - Use `cn()` from `@/lib/utils` for conditional classes
-- Mobile-first responsive design
-- Dark mode: use `dark:` prefix (enabled by default)
-
-```typescript
-<div class={cn("base-class p-4", isActive && "active-class", "hover:shadow-lg dark:bg-gray-800")} />
-```
+- Mobile-first responsive design (sm:, md:, lg:)
+- Dark mode: use `dark:` prefix
 
 ### Content Collections
 
 - Define schemas in `src/content.config.ts` with Zod
 - Store posts in `src/content/posts/`, categories in `src/content/categories/`
-- Use `glob()` loader for markdown files
 
 ```typescript
 const posts = defineCollection({
@@ -114,7 +116,6 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     publishDate: z.coerce.date(),
-    category: z.string(),
   }),
 })
 ```
@@ -122,8 +123,7 @@ const posts = defineCollection({
 ### Error Handling
 
 - Use try/catch for async operations
-- Return typed error results (pattern: `{ data, error }`)
-- Log errors without sensitive data
+- Return typed error results: `{ data, error }`
 
 ```typescript
 async function fetchData(): Promise<{ data: Post[]; error: string | null }> {
@@ -139,54 +139,50 @@ async function fetchData(): Promise<{ data: Post[]; error: string | null }> {
 
 ### Alpine.js Integration
 
-- Register components in `src/alpine-components.js`
-- Use Alpine for state management and simple interactivity
-- Keep logic small and testable
+- Register reusable components in `src/alpine-components.js`
+- Use Alpine for simple state and interactivity
 
-```javascript
-document.addEventListener('alpine:init', () => {
-  Alpine.data('modal', () => ({
-    isOpen: false,
-    open() {
-      this.isOpen = true
-    },
-    close() {
-      this.isOpen = false
-    },
-  }))
-})
-```
+### CSS & Styling
+
+- Use Tailwind CSS for all styling (no custom CSS unless necessary)
+- Use CSS variables in `src/styles/` for theme colors
 
 ## Project Structure
 
 ```
 src/
-├── components/         # Astro UI components
-├── layouts/           # Page layouts
-├── pages/             # File-based routing
-├── lib/               # Config and utils
-├── types/             # TypeScript definitions
-├── styles/            # Global CSS
-├── content/           # Markdown content (posts, categories)
-└── alpine-components.js  # Alpine.js data
+├── components/           # Astro UI components
+│   ├── content/          # Content-related components
+│   ├── interactions/    # Interactive (Alpine)
+│   ├── layout/          # Layout components
+│   └── react/           # React components
+├── layouts/              # Page layouts
+├── pages/                # File-based routing
+├── lib/                  # Config and utilities
+│   ├── rehype/          # rehype plugins
+│   └── utils/           # Utility functions
+├── types/                # TypeScript type definitions
+├── styles/               # Global CSS and variables
+├── content/              # Markdown content
+│   ├── posts/           # Blog posts
+│   └── categories/      # Category definitions
+└── alpine-components.js  # Alpine.js component registration
 ```
 
 ## Environment Variables
 
-`.env` file:
+Create `.env` file:
 
-- `PUBLIC_APP_VERSION` - App version
-- `PUBLIC_AUTHOR` - Author name
-- `PUBLIC_SITE_URL` - Site URL
-- `ADMIN_USERNAME` - Admin username
-- `GITHUB_NAME` - GitHub username
+```bash
+PUBLIC_APP_VERSION=1.0.0
+PUBLIC_AUTHOR=Your Name
+PUBLIC_SITE_URL=http://localhost:4321
+```
 
 Access via `import.meta.env.VARIABLE_NAME`
 
 ## Additional Notes
 
 - Dark mode enabled by default (add `class="dark"` to `<html>`)
-- Alpine.js handles all client-side interactivity
-- No framework testing configured
-- Uses Lucide React for icons
-- JSX configured for React compatibility
+- Alpine.js handles client-side interactivity; React for complex UI
+- Use ESLint + Prettier for code quality
