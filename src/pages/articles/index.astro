@@ -3,10 +3,10 @@
 // 使用 Alpine.js 管理筛选和分页
 // 添加中文注释
 
-import ImageHeaderBar from '@/components/layout/ImageHeaderBar.astro'
 import BlogItem from '@/components/content/BlogItem.astro'
 import CategoryFilter from '@/components/interactions/CategoryFilter.astro'
 import Card from '@/components/layout/Card.astro'
+import ImageHeaderBar from '@/components/layout/ImageHeaderBar.astro'
 import Pagination from '@/components/react/Pagination'
 import { getAllPosts } from '@/lib/utils/posts'
 import { getCategories } from '@/lib/utils/categories'
@@ -68,12 +68,11 @@ const formattedCategories = categories.map((cat) => ({
 ---
 
 <Layout class="min-h-screen bg-background">
-  <ImageHeaderBar
+  <ImageHeaderBar 
     src="/imgs/index-bg-img-04.png"
-    title="文章"
-    subtitle="在这里你可以找到我所有的文章"
+    title="Articles"
+    subtitle="文章"
   />
-
   <div class="w-full max-w-7xl mx-auto px-4 py-8">
     <div class="flex flex-col lg:flex-row gap-8">
       <!-- 侧边栏 -->
@@ -177,14 +176,19 @@ const formattedCategories = categories.map((cat) => ({
         <!-- 分页 -->
         {
           totalPages > 1 && (
-            <Pagination 
-              currentPage={currentPage} 
+            <Pagination
+              client:visible
+              currentPage={currentPage}
               totalPages={totalPages}
               basePath="/articles"
               searchParams={{
-                ...(selectedCategory !== 'all' ? { category: selectedCategory } : {}),
+                ...(selectedCategory !== 'all'
+                  ? { category: selectedCategory }
+                  : {}),
                 ...(searchTerm ? { search: searchTerm } : {}),
-                ...(sortType && sortType !== 'latest' ? { sort: sortType } : {})
+                ...(sortType && sortType !== 'latest'
+                  ? { sort: sortType }
+                  : {}),
               }}
             />
           )
