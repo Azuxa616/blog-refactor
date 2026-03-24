@@ -4,7 +4,6 @@
 // 添加中文注释
 
 import Layout from '@/layouts/Layout.astro';
-import HeaderBar from '@/components/layout/HeaderBar.astro';
 import HeroSection from '@/components/layout/HeroSection.astro';
 import FooterBar from '@/components/layout/FooterBar.astro';
 ---
@@ -15,9 +14,6 @@ import FooterBar from '@/components/layout/FooterBar.astro';
     @wheel="handleWheel($event)"
     class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full"
   >
-    <!-- 头部导航栏 -->
-    <HeaderBar />
-
     <!-- 背景图片 -->
     <div class="relative w-full h-full">
       <div class="fixed inset-0 z-0">

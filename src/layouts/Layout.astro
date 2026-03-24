@@ -4,6 +4,10 @@ import '@fontsource-variable/inter/wght.css'
 import '@fontsource-variable/jetbrains-mono/wght.css'
 import ThemeScript from '@/components/layout/ThemeScript.astro'
 import AppLayout from '@/components/react/AppLayout'
+import '../alpine-components.js'
+
+const pathname = Astro.url.pathname
+const isUseSwitch = pathname === '/'
 ---
 
 <!doctype html>
@@ -19,9 +23,8 @@ import AppLayout from '@/components/react/AppLayout'
     <ThemeScript />
   </head>
   <body class="font-sans antialiased bg-background text-foreground">
-    <AppLayout>
+    <AppLayout client:load isUseSwitch={isUseSwitch}>
       <slot />
     </AppLayout>
-    <script src="/src/alpine-components.js"></script>
   </body>
 </html>

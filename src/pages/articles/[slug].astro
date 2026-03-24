@@ -11,6 +11,9 @@ import Tag from '@/components/content/Tag.astro';
 export const prerender = false;
 
 const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect('/404');
+}
 const post = await getEntry('posts', slug);
 
 if (!post) {
