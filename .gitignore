@@ -28,3 +28,6 @@ debug-storybook.log
 # Storybook
 .storybook-cache/
 
+# opencode
+.opencode/
+
