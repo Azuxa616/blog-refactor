@@ -64,8 +64,59 @@ h6:hover .anchor-link {
 }
 
 input[type='checkbox'] {
-  margin-right: 0.5rem;
-  accent-color: var(--primary);
+  appearance: none;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  margin-right: 0.5em;
+  margin-top: 0.1em;
+  vertical-align: middle;
+  cursor: default;
+  flex-shrink: 0;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+input[type='checkbox']:checked {
+  background-color: var(--primary);
+}
+
+input[type='checkbox']:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  width: 5px;
+  height: 9px;
+  border: solid var(--background);
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.prose ul.contains-task-list,
+.markdown ul.contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose li.task-list-item,
+.markdown li.task-list-item {
+  display: flex;
+  align-items: flex-start;
+  margin: 0.75em 0;
+}
+
+.prose li.task-list-item input[type='checkbox'],
+.markdown li.task-list-item input[type='checkbox'] {
+  margin-top: 0.35em;
+}
+
+.prose li.task-list-item input[type='checkbox']:checked + label,
+.markdown li.task-list-item input[type='checkbox']:checked + label {
+  text-decoration: line-through;
+  text-decoration-color: var(--muted);
+  color: var(--muted);
 }
 
 del {
