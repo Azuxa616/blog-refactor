@@ -5,7 +5,7 @@ description: "演示如何在文章中使用相对路径引用同目录下的图
 publishDate: 2026-03-14
 category: tech
 tags: ["教程", "示例"]
-coverImage: "./cover.png"
+coverImage: "/blog-images/小黑.png"
 ---
 
 # 示例文章：使用相对路径引用图片

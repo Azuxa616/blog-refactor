@@ -6,7 +6,7 @@ publishDate: 2024-02-01
 updatedDate: 2024-02-01
 category: tech
 tags: ["Astro", "Alpine.js", "前端"]
-coverImage: "/imgs/blog-cover-2.jpg"
+coverImage: "/blog-images/星つかみ_57877623.png"
 isRepost: false
 ---
 

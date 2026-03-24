@@ -6,7 +6,7 @@ publishDate: 2024-03-01
 updatedDate: 2024-03-01
 category: life
 tags: ["生活", "成长"]
-coverImage: "/imgs/blog-cover-3.jpg"
+coverImage: "/blog-images/all%20time%20favorite_96769924_p1.jpg"
 isRepost: false
 ---
 
