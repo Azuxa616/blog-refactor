@@ -31,47 +31,39 @@ const {
   sortType,
   _className = ''
 } = Astro.props
-
-const categoryColors = [
-  'text-blue-600',
-  'text-green-600',
-  'text-purple-600',
-  'text-red-600',
-  'text-orange-600',
-  'text-teal-600',
-  'text-pink-600',
-  'text-indigo-600',
-  'text-cyan-600',
-  'text-emerald-600',
-]
 ---
 
-<div 
+<div
   class="relative flex bg-card-background backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 mb-6 flex-col gap-4 ${_className}"
 >
   <!-- 标题栏 -->
   <div class="flex items-center justify-between mb-4">
     <h3 class="text-lg font-bold text-foreground">分类</h3>
-    {selectedCategory !== 'all' && (
-      <a
-        href={`/articles${searchTerm ? `?search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
-        class="px-3 py-1 text-sm bg-primary text-white hover:bg-gray-200 hover:text-gray-800 rounded-full"
-      >
-        重置筛选
-      </a>
-    )}
+    {selectedCategory !== 'all' && (() => {
+      const selectedCat = categories.find(c => c.slug === selectedCategory)
+      const btnColor = selectedCat?.color || '#6366f1'
+      return (
+        <a
+          href={`/articles${searchTerm ? `?search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
+          class="px-3 py-1 text-sm rounded-full font-medium"
+          style={`background-color: ${btnColor}; color: white;`}
+        >
+          重置筛选
+        </a>
+      )
+    })()}
   </div>
 
   <!-- 分类标签列表 -->
   <div class="flex flex-wrap gap-3">
-    {categories.map((category, index) => (
+    {categories.map((category) => (
       <a
         href={`/articles?category=${category.slug}${searchTerm ? `&search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
-        class={`font-bold transition-all duration-200 hover:opacity-80 px-2 py-1 rounded-full ${
-          selectedCategory === category.slug
-            ? 'text-white bg-primary'
-            : `${categoryColors[index % categoryColors.length]} hover:text-opacity-80`
-        }`}
+        class="font-bold transition-all duration-200 hover:opacity-80 px-3 py-1 rounded-full"
+        style={selectedCategory === category.slug
+          ? `background-color: ${category.color}; color: white;`
+          : `color: ${category.color};`
+        }
       >
         {category.name} ({category.articleCount || 0})
       </a>
