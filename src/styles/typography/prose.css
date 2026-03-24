@@ -69,12 +69,17 @@
 .prose a {
   color: var(--prose-a-color);
   text-decoration: var(--prose-a-text-decoration);
+  text-decoration-color: transparent;
   font-weight: var(--prose-a-font-weight);
+  transition:
+    color 0.2s ease,
+    text-decoration-color 0.2s ease;
 }
 
 .prose a:hover {
   color: var(--primary);
   text-decoration: underline;
+  text-decoration-color: var(--primary);
 }
 
 .prose strong {
@@ -90,10 +95,10 @@
 .prose code {
   font-family: var(--font-mono);
   font-size: 0.875em;
-  background-color: var(--muted);
+  background-color: #f0f9ff;
   padding: 0.2em 0.4em;
   border-radius: 0.25em;
-  color: var(--primary);
+  color: #0284c7;
 }
 
 .prose pre {
@@ -163,16 +168,25 @@
   width: 100%;
   border-collapse: collapse;
   margin: 1.5em 0;
-  border: 1px solid var(--border);
+  border: 2px solid #d1d5db;
   border-radius: 0.5em;
   overflow: hidden;
+}
+
+.dark .prose table {
+  border-color: #4b5563;
 }
 
 .prose th,
 .prose td {
   padding: 0.75em 1em;
-  border: 1px solid var(--border);
+  border: 1.5px solid #d1d5db;
   text-align: left;
+}
+
+.dark .prose th,
+.dark .prose td {
+  border-color: #4b5563;
 }
 
 .prose th {

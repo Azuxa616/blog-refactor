@@ -21,6 +21,8 @@
 /* 导航链接下划线动画 */
 .nav-link-underline {
   position: relative;
+  text-decoration: none !important;
+  color: inherit !important;
 }
 
 .nav-link-underline::after {
