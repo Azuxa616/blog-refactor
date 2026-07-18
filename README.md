@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-- **框架**: Astro 5.x
+- **框架**: Astro 6.x
 - **包管理器**: pnpm
 - **样式**: Tailwind CSS 4.x
 - **UI 组件**: shadcn/ui (适配 Astro)

@@ -1,188 +1,115 @@
-# AGENTS.md - Developer Guide
+# PROJECT KNOWLEDGE BASE
 
-Astro 5.x SSR blog with Alpine.js, Tailwind CSS 4.x, TypeScript strict mode, Zod content validation.
+**Generated:** 2026-07-18
+**Branch:** restructure-posts-directories
 
-## Tech Stack
+## OVERVIEW
 
-- **Framework**: Astro 5.x with Node adapter (SSR)
-- **Package Manager**: pnpm
-- **Language**: TypeScript (strict mode, `astro/tsconfigs/strict`)
-- **UI**: Astro + Alpine.js + React + Tailwind CSS 4.x
-- **Content**: Astro Content Collections + Zod
+Astro 6.x SSR personal blog — migrated from Next.js. Multi-framework UI (Astro + Alpine.js + React), Tailwind CSS 4.x, Zod content validation, no database (file-based content collections).
 
-## Commands
+## STRUCTURE
+
+```
+blog-refactor/
+├── src/
+│   ├── components/       # Multi-framework UI (see src/components/AGENTS.md)
+│   ├── layouts/           # Single Layout.astro (SSR root)
+│   ├── pages/             # File-based routing (/, /about, /articles/[slug])
+│   ├── lib/               # Config, utils, custom remark/rehype plugins
+│   ├── styles/            # Categorized CSS (base/theme/typography/components)
+│   ├── types/             # 9 type files, barrel-exported via index.ts
+│   ├── context/           # React Context (AppContext.tsx)
+│   ├── data/              # Non-content data (github.ts)
+│   ├── content.config.ts  # Zod schemas for posts & categories
+│   ├── alpine-components.js  # Global Alpine registration + appState store
+│   └── alpine-entrypoint.js  # Minimal Alpine init (plugin-loaded)
+├── content/               # Markdown content (NOT in src/)
+│   ├── posts/             # Nested dirs with index.md/index.mdx
+│   └── categories/        # Flat category .md files
+├── docs/                  # Migration & planning docs
+└── public/                # Static assets (svgs/, imgs/, blog-images/)
+```
+
+## WHERE TO LOOK
+
+| Task | Location | Notes |
+|------|----------|-------|
+| Page routes | `src/pages/` | 4 pages: index, about, articles/index, articles/[slug] |
+| Content schemas | `src/content.config.ts` | Posts & categories with Zod |
+| Component patterns | `src/components/AGENTS.md` | Multi-framework conventions |
+| Markdown pipeline | `astro.config.mjs` | 10+ remark/rehype plugins |
+| App configuration | `src/lib/config/app.ts` | Auth, JWT, upload, OAuth |
+| Type definitions | `src/types/` | Barrel export via index.ts |
+| Global CSS | `src/styles/global.css` | Imports all sub-CSS in order |
+| Utility functions | `src/lib/utils.ts` | `cn()` for Tailwind class merging |
+
+## CODE MAP
+
+| Symbol | Type | Location | Role |
+|--------|------|----------|------|
+| `collections` | Constant | `src/content.config.ts:32` | Posts & categories Zod schemas |
+| `appConfig` | Object | `src/lib/config/app.ts` | All app config from env vars |
+| `cn` | Function | `src/lib/utils.ts` | Tailwind class merge (clsx + twMerge) |
+| `AppLayout` | Component | `src/components/react/AppLayout.tsx` | React root wrapper (HeaderBar + FAB) |
+
+## CONVENTIONS
+
+### Code Style
+- **No semicolons, single quotes** (Prettier: `semi: false, singleQuote: true`)
+- **`@/` path alias** maps to `./src/` (tsconfig + Vite)
+- **Chinese comments** for documentation (中文注释)
+- **`import type`** for type-only imports
+
+### Component Framework Choice
+- **Astro**: Static/SSR content, SEO-critical markup
+- **Alpine.js**: Simple client-side state (theme toggle, nav expand, modals) via `x-data`/`@click`
+- **React**: Complex interactive UI — `client:load` for above-fold, `client:visible` for lazy
+- **Never mix frameworks in one component** — choose one per component
+
+### Content Pipeline Order (astro.config.mjs)
+remarkMath → remarkGfm → remarkEmoji → remarkCallout → remarkToc → rehypeSlug → rehypeAutolinkHeadings → rehypeExternalLinks → rehypeCodeHeader → rehypeKatex → rehypePresetMinify
+
+### State Management Architecture
+- **Alpine store** (`appState`): Theme, category, search, expand — defined in `alpine-components.js`
+- **React components** read theme state via DOM (`document.documentElement.classList`) and sync with Alpine store
+- **No Zustand/Context bridge**: React island components use `React.memo` + DOM observation for stability
+
+### Custom Plugins
+- `src/lib/remark/remark-callout.ts` — GitHub-style callout blocks (`> [!NOTE]`, `> [!WARNING]`)
+- `src/lib/rehype/rehype-code-header.ts` — Language label + copy button for code blocks
+
+## ANTI-PATTERNS (THIS PROJECT)
+
+- **No `@ts-ignore` / `@ts-expect-error`** — known violation in `src/components/layout/HeaderBar.astro:15` (should be fixed)
+- **No `as any`** — strict typing enforced
+- **No empty catch blocks** — always log or return error
+- **No `TODO`/`FIXME` in code** — use issues instead
+
+## UNIQUE STYLES
+
+- Content lives in **`content/` (root)**, not `src/content/` — requires `base: './content/posts'` in loader
+- Posts use **nested directories** (`content/posts/hello-world/index.md`) for multi-file articles
+- **Alpine-only state**: Alpine `appState` store for theme, category, search — defined in `alpine-components.js`
+- **ESLint flat config** (`eslint.config.js`) with multi-language support (JS/TS, JSON, Markdown, CSS)
+- **No CI/CD** configured — no GitHub Actions, Dockerfile, or platform configs
+- **No tests** — Vitest not installed
+
+## COMMANDS
 
 ```bash
-# Development
-pnpm dev               # Start dev server (http://localhost:4321)
-pnpm build            # Build for production
+pnpm dev              # Dev server (localhost:4321)
+pnpm build            # Production build
 pnpm preview          # Preview production build
-pnpm astro check      # Type-check with Astro
-
-# Linting & Formatting
-pnpm lint             # Run ESLint
-pnpm format           # Format code with Prettier
-
-# Testing (Vitest not installed by default)
-pnpm add -D vitest @vitest/ui
-pnpm vitest run       # Run all tests
-pnpm vitest run <file> # Run single test file
+pnpm astro check      # Type-check
+pnpm lint             # ESLint (flat config, multi-language)
+pnpm format           # Prettier (no semicolons, single quotes)
 ```
 
-## Code Style Guidelines
+## NOTES
 
-### General Principles
-
-- Use TypeScript strictly; avoid JavaScript unless necessary
-- Prefer minimal, safe changes over large refactors
-- Chinese comments for documentation (中文注释)
-- Run `pnpm format` before committing; run `pnpm lint` to check
-
-### Import Organization
-
-```typescript
-// External libraries
-import { defineCollection, z } from 'astro:content'
-import { useState } from 'react'
-
-// Internal imports (use @ alias for src/)
-import { cn } from '@/lib/utils'
-import type { Post } from '@/types'
-```
-
-### Naming Conventions
-
-| Type                | Convention       | Example            |
-| ------------------- | ---------------- | ------------------ |
-| Components (Astro)  | PascalCase       | `BlogItem.astro`   |
-| Components (React)  | PascalCase       | `HeaderBar.tsx`    |
-| Pages               | kebab-case       | `blog/index.astro` |
-| Types/Interfaces    | PascalCase       | `PostListItem`     |
-| Variables/Functions | camelCase        | `getPostList`      |
-| Constants           | UPPER_SNAKE_CASE | `API_ENDPOINT`     |
-
-### TypeScript Guidelines
-
-- Always define return types for functions
-- Use `import type` for type-only imports
-- Avoid `any`; use `unknown` for unknown types
-- Use `z.coerce.date()` for date parsing in Zod schemas
-
-```typescript
-async function getPosts(): Promise<PostListItem[]> {
-  /* ... */
-}
-```
-
-### Astro Component Patterns
-
-- Define props interfaces in frontmatter
-- Use Alpine.js (`x-data`, `@click`) for client interactivity
-- Complex components use React with `client:load` or `client:visible`
-
-```astro
----
-interface Props {
-  title?: string
-}
-const { title = '默认标题' } = Astro.props
----
-
-<div x-data="{ show: false }">
-  <h2>{title}</h2>
-</div>
-```
-
-### React Component Guidelines
-
-- Use functional components with hooks
-- Co-locate types with components when possible
-- Use `client:load` for interactive, `client:visible` for lazy-loaded
-
-### Tailwind CSS
-
-- Use `cn()` from `@/lib/utils` for conditional classes
-- Mobile-first responsive design (sm:, md:, lg:)
-- Dark mode: use `dark:` prefix
-
-### Content Collections
-
-- Define schemas in `src/content.config.ts` with Zod
-- Store posts in `src/content/posts/`, categories in `src/content/categories/`
-
-```typescript
-const posts = defineCollection({
-  loader: glob({ pattern: '**/*.md', base: './src/content/posts' }),
-  schema: z.object({
-    title: z.string(),
-    publishDate: z.coerce.date(),
-  }),
-})
-```
-
-### Error Handling
-
-- Use try/catch for async operations
-- Return typed error results: `{ data, error }`
-
-```typescript
-async function fetchData(): Promise<{ data: Post[]; error: string | null }> {
-  try {
-    const posts = await getCollection('posts')
-    return { data: posts, error: null }
-  } catch (e) {
-    console.error('Fetch failed:', e)
-    return { data: [], error: 'Failed to fetch posts' }
-  }
-}
-```
-
-### Alpine.js Integration
-
-- Register reusable components in `src/alpine-components.js`
-- Use Alpine for simple state and interactivity
-
-### CSS & Styling
-
-- Use Tailwind CSS for all styling (no custom CSS unless necessary)
-- Use CSS variables in `src/styles/` for theme colors
-
-## Project Structure
-
-```
-src/
-├── components/           # Astro UI components
-│   ├── content/          # Content-related components
-│   ├── interactions/    # Interactive (Alpine)
-│   ├── layout/          # Layout components
-│   └── react/           # React components
-├── layouts/              # Page layouts
-├── pages/                # File-based routing
-├── lib/                  # Config and utilities
-│   ├── rehype/          # rehype plugins
-│   └── utils/           # Utility functions
-├── types/                # TypeScript type definitions
-├── styles/               # Global CSS and variables
-├── content/              # Markdown content
-│   ├── posts/           # Blog posts
-│   └── categories/      # Category definitions
-└── alpine-components.js  # Alpine.js component registration
-```
-
-## Environment Variables
-
-Create `.env` file:
-
-```bash
-PUBLIC_APP_VERSION=1.0.0
-PUBLIC_AUTHOR=Your Name
-PUBLIC_SITE_URL=http://localhost:4321
-```
-
-Access via `import.meta.env.VARIABLE_NAME`
-
-## Additional Notes
-
-- Dark mode enabled by default (add `class="dark"` to `<html>`)
-- Alpine.js handles client-side interactivity; React for complex UI
-- Use ESLint + Prettier for code quality
+- **SSR mode**: `output: 'server'` with `@astrojs/node` standalone adapter
+- **Dark mode default**: `<html class="dark">` in Layout.astro
+- **Syntax highlight**: Shiki with `github-dark` theme (configured in MDX integration)
+- **Fonts**: `@fontsource-variable/inter` + `@fontsource-variable/jetbrains-mono`
+- **Known tech debt**: `HeaderBar.astro:15` has `@ts-ignore` for className prop
+- **Storybook**: `storybook-static/` present but no Storybook config detected (stale artifact?)
