@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback } from 'react'
 
 interface TypewriterProps {
   textList: string | string[]
@@ -23,8 +23,18 @@ function Typewriter({
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
 
+  // 用 ref 追踪打字状态，避免 useEffect 依赖 state
+  const stateRef = useRef({
+    displayedText: '',
+    currentIndex: 0,
+    isDeleting: false,
+  })
+
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const cursorIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+
+  // 同步 ref 和 state
+  stateRef.current = { displayedText, currentIndex, isDeleting }
 
   useEffect(() => {
     cursorIntervalRef.current = setInterval(() => {
@@ -40,22 +50,21 @@ function Typewriter({
 
   useEffect(() => {
     const processNext = () => {
+      const { displayedText, currentIndex, isDeleting } = stateRef.current
       const currentText = texts[currentIndex]
 
       if (!isDeleting) {
         if (displayedText.length < currentText.length) {
-          const nextText = currentText.slice(0, displayedText.length + 1)
-          setDisplayedText(nextText)
+          setDisplayedText(currentText.slice(0, displayedText.length + 1))
           timerRef.current = setTimeout(processNext, typingSpeed)
         } else {
-          setIsDeleting(false)
+          setIsDeleting(true)
           setCurrentIndex((prev) => (prev + 1) % texts.length)
           timerRef.current = setTimeout(processNext, gapInterval)
         }
       } else {
         if (displayedText.length > 0) {
-          const nextText = displayedText.slice(0, -1)
-          setDisplayedText(nextText)
+          setDisplayedText(displayedText.slice(0, -1))
           timerRef.current = setTimeout(processNext, deleteSpeed)
         } else {
           setIsDeleting(false)
@@ -65,6 +74,7 @@ function Typewriter({
       }
     }
 
+    // 首次启动
     processNext()
 
     return () => {
@@ -72,15 +82,8 @@ function Typewriter({
         clearTimeout(timerRef.current)
       }
     }
-  }, [
-    displayedText,
-    currentIndex,
-    isDeleting,
-    texts,
-    typingSpeed,
-    deleteSpeed,
-    gapInterval,
-  ])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <span className={className}>
