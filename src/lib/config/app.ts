@@ -2,7 +2,7 @@
 export const appConfig = {
   // 应用基本信息
   app: {
-    name: 'Azuxa\'s BlogSpace',
+    name: 'Azuxa\'s Blog',
     description: '一个现代化的全栈个人博客系统',
     version: import.meta.env.PUBLIC_APP_VERSION || "未知版本",
     author: import.meta.env.PUBLIC_AUTHOR || "站长",
@@ -47,7 +47,7 @@ export const appConfig = {
     user: import.meta.env.SMTP_USER || '',
     pass: import.meta.env.SMTP_PASS || '',
     from: import.meta.env.FROM_EMAIL || 'noreply@azuxa.com',
-    fromName: import.meta.env.FROM_NAME || 'Azuxa\'s BlogSpace',
+    fromName: import.meta.env.FROM_NAME || 'Azuxa\'s Blog',
   },
 
   // 安全配置
