@@ -159,6 +159,9 @@ importers:
       rehype-katex:
         specifier: ^7.0.1
         version: 7.0.1
+      rehype-mermaid-lite:
+        specifier: ^1.1.0
+        version: 1.1.0
       rehype-preset-minify:
         specifier: ^7.0.1
         version: 7.0.1
@@ -2773,6 +2776,9 @@ packages:
 
   rehype-katex@7.0.1:
     resolution: {integrity: sha512-OiM2wrZ/wuhKkigASodFoo8wimG3H12LWQaH8qSPVJn9apWKFSH3YOCtbKpBorTVw/eI7cuT21XBbvwEswbIOA==}
+
+  rehype-mermaid-lite@1.1.0:
+    resolution: {integrity: sha512-w/e9qUzyQgN7PzvUpLzIiS6NbRtcC3BgfqT9NZy6o8FV6BhVx6kFs0n/4/Fh67Mw2wwNf5hpBGkRikHY7GfUFQ==}
 
   rehype-minify-attribute-whitespace@4.0.1:
     resolution: {integrity: sha512-QAfUrcZ6KCfpYonDbiWKTRpnVu9DYxFlvXMWWZe4BQbojwjjUbGIg1zoqyInJiJHAdYYyTHN5yJV2THa3opIng==}
@@ -6604,6 +6610,10 @@ snapshots:
       katex: 0.16.38
       unist-util-visit-parents: 6.0.2
       vfile: 6.0.3
+
+  rehype-mermaid-lite@1.1.0:
+    dependencies:
+      unist-util-visit: 5.1.0
 
   rehype-minify-attribute-whitespace@4.0.1:
     dependencies:

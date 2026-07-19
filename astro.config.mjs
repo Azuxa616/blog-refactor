@@ -16,9 +16,15 @@ import remarkGfm from 'remark-gfm'
 import remarkEmoji from 'remark-emoji'
 import remarkCallout from './src/lib/remark/remark-callout.ts'
 import rehypeCodeHeader from './src/lib/rehype/rehype-code-header.ts'
+import rehypeMermaidLite from 'rehype-mermaid-lite'
 
 // https://astro.build/config
 export default defineConfig({
+  markdown: {
+    syntaxHighlight: {
+      excludeLangs: ['mermaid'],
+    },
+  },
   output: 'server',
   adapter: node({
     mode: 'standalone',
@@ -49,6 +55,7 @@ export default defineConfig({
       ],
       // rehype 插件配置
       rehypePlugins: [
+        rehypeMermaidLite,
         rehypeSlug, // 为标题添加 id
         [
           rehypeAutolinkHeadings,
