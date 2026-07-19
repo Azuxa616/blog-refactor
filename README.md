@@ -129,6 +129,32 @@ pnpm preview
 4. 测试所有功能
 5. 优化性能和 SEO
 
+## Content Sync
+
+博客内容通过 [sync-to-blog](https://github.com/Azuxa616/Markdown_Repository) 工具从 Obsidian 笔记仓库同步。
+
+### 同步方式
+
+1. 在笔记仓库中标记笔记 `publish: true`
+2. 推送到 GitHub 触发 Actions 工作流
+3. 工作流运行 sync-to-blog 工具
+4. 工具在博客仓库创建 Pull Request
+5. 审核 PR 后合并即可发布
+
+### 注意事项
+
+- 合并 PR 不会自动部署博客，需要手动触发部署
+- PR 中包含文章 Markdown 和博客图片
+
+### 同步 PR 特征
+
+- 分支前缀：`sync/*`
+- 标签：`blog-sync`（默认）
+- 标题：`Blog Sync <timestamp>`
+- 正文包含 Added / Updated / Removed / Failed / Warnings 表格与 LLM 成本统计
+
+详细工作原理与故障排查见 [sync-to-blog README](https://github.com/Azuxa616/Markdown_Repository/blob/main/scripts/sync-to-blog/README.md)。
+
 ## 许可证
 
 MIT
