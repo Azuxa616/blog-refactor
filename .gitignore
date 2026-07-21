@@ -1,6 +1,7 @@
 # build output
 dist/
 storybook-static/
+.vercel/
 # generated types
 .astro/
 
