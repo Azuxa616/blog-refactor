@@ -29,7 +29,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [
     react(),
-    alpinejs(),
+    alpinejs({ entrypoint: '/src/alpine-entrypoint.js' }),
     mdx({
       // 代码高亮配置
       syntaxHighlight: 'shiki',
