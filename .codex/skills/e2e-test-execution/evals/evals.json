@@ -1,0 +1,17 @@
+{
+  "skill_name": "e2e-test-execution",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "使用 test/e2e-test-cases-v3.md 完整执行本地浏览器巡检，并保存失败截图。",
+      "expected_output": "在当前项目内创建新日期运行目录，执行构建、生产预览和所有用例，写入固定五列表格与失败证据。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "只复测 TC-GLOBAL-02 和 TC-UX-02，原始结果位于 test/e2e-test-run-2026-08-01/results.md。",
+      "expected_output": "新建独立复测目录，只记录两个指定 ID，并链接回原始结果而不覆盖历史。",
+      "files": []
+    }
+  ]
+}

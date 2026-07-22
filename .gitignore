@@ -32,3 +32,6 @@ debug-storybook.log
 # opencode
 .opencode/
 
+# Local browser automation state
+.playwright-mcp/
+
