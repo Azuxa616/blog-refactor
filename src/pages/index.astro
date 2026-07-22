@@ -3,45 +3,54 @@
 // 使用 Alpine.js 管理页面交互
 // 添加中文注释
 
-import Layout from '@/layouts/Layout.astro';
-import HeroSection from '@/components/layout/HeroSection.astro';
-import FooterBar from '@/components/layout/FooterBar.astro';
+import Layout from '@/layouts/Layout.astro'
+import HeroSection from '@/components/layout/HeroSection.astro'
+import FooterBar from '@/components/layout/FooterBar.astro'
 ---
 
 <Layout>
-  <div 
-    x-data="pageExpand()"
+  <div
+    x-data="pageExpand"
     @wheel="handleWheel($event)"
     class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full"
   >
     <!-- 背景图片 -->
     <div class="relative w-full h-full">
       <div class="fixed inset-0 z-0">
-        <img src="/imgs/index-bg-img-03.png" alt="background" class="object-cover w-full h-full" />
+        <img
+          src="/imgs/index-bg-img-03.png"
+          alt="background"
+          class="object-cover w-full h-full"
+        />
       </div>
     </div>
 
     <!-- 主视觉区 -->
-    <main class="relative z-10 flex flex-col items-center sm:items-start w-full">
-      <div class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center">
+    <main
+      class="relative z-10 flex flex-col items-center sm:items-start w-full"
+    >
+      <div
+        class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center"
+      >
         <HeroSection />
-        
+
         <!-- 向下滚动按钮 -->
         <!-- <div class="absolute bottom-1/12 left-1/2">
           <ArrowDownButton />
         </div>
       </div> -->
-      <!-- Todo··这里暂时不展示 -->
-      <!-- 占位，用于滚动 -->
-      <!-- <div style="height: 100vh; visibility: hidden; pointer-events: none" /> -->
+        <!-- Todo··这里暂时不展示 -->
+        <!-- 占位，用于滚动 -->
+        <!-- <div style="height: 100vh; visibility: hidden; pointer-events: none" /> -->
 
-      <!-- GitHub 展示区 -->
-      <!-- <div>
+        <!-- GitHub 展示区 -->
+        <!-- <div>
         <GithubSection />
       </div> -->
-    </main>
+      </div>
 
-    <!-- 页脚 -->
-    <FooterBar />
+      <!-- 页脚 -->
+      <FooterBar />
+    </main>
   </div>
 </Layout>
