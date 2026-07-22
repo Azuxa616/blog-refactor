@@ -1,0 +1,17 @@
+{
+  "skill_name": "e2e-issue-remediation",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "修复结果文档中的 TC-ROUTE-04：已确认添加 /links 路由。不要处理其他失败项。",
+      "expected_output": "仅修改当前项目的友链路由相关代码，执行 TC-ROUTE-04 scoped retest，并回写原结果的修复状态。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "修复 TC-UX-02，方案是移动端折叠菜单；TC-HOME-01 暂不修。",
+      "expected_output": "仅修复批准的移动端导航问题，验证后将未批准项标记为用户未指定修复。",
+      "files": []
+    }
+  ]
+}

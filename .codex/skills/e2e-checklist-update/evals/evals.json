@@ -1,0 +1,17 @@
+{
+  "skill_name": "e2e-checklist-update",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "当前分支刚新增了 /pricing 页面和一个 FAQ 展开组件。请按 HEAD 更新 E2E 测试清单，不要启动浏览器。",
+      "expected_output": "更新当前项目内的版本化清单，记录当前分支和 SHA，保留旧 ID，并新增路由、FAQ 交互和两个视口用例。",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "文章从 5 篇增加到 8 篇，同时新增 Mermaid 示例文章。请刷新本地巡检清单。",
+      "expected_output": "清单激活分页点击覆盖并新增 Mermaid 渲染用例，说明版本变化原因。",
+      "files": []
+    }
+  ]
+}
