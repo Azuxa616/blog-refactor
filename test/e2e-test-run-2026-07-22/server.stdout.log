@@ -1,0 +1,75 @@
+
+> blog-refactor@0.0.1 dev F:\MyProjects\blog-Azx616\blog-refactor
+> astro dev "--host" "127.0.0.1" "--port" "4321"
+
+[vite] connected.
+[2m01:25:17[22m [34m[types][39m Generated [2m2ms[22m
+[vite] connected.
+[2m01:25:18[22m [34m[content][39m Syncing content
+[2m01:25:18[22m [34m[content][39m Astro config changed
+[2m01:25:18[22m [34m[content][39m Clearing content store
+[2m01:25:18[22m [34m[content][39m Synced content
+[2m01:25:18[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[42m[1m astro [22m[49m [32mv6.0.3[39m [2mready in[22m 4493 [2mms[22m
+[2m┃[22m Local    [36mhttp://127.0.0.1:4321/[39m
+[2m01:25:18[22m [32mwatching for file changes...[39m
+[2m01:28:32[22m [34m[200][39m / [2m79ms[22m
+[2m01:28:33[22m [34m[vite][39m [32m✨ new dependencies optimized: [33mastro/runtime/client/dev-toolbar/entrypoint.js, alpinejs[32m[39m
+[2m01:28:33[22m [34m[vite][39m [32m✨ optimized dependencies changed. reloading[39m
+[2m01:28:33[22m [34m[200][39m / [2m5ms[22m
+[2m01:29:41[22m [34m[200][39m / [2m26ms[22m
+[2m01:29:51[22m [34m[200][39m /articles [2m76ms[22m
+[2m01:30:06[22m [34m[200][39m /about [2m56ms[22m
+[2m01:30:15[22m [33m[404][39m /links [2m5ms[22m
+[2m01:30:23[22m [33m[404][39m /missing-route [2m1ms[22m
+[2m01:30:28[22m [34m[200][39m / [2m4ms[22m
+[2m01:30:31[22m [33m[302][39m /articles/not-found [2m56ms[22m
+[2m01:30:31[22m [33m[404][39m /404 [2m1ms[22m
+[2m01:31:23[22m [33m[404][39m /links [2m1ms[22m
+[2m01:31:52[22m [34m[200][39m /articles [2m6ms[22m
+[2m01:32:43[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:33:20[22m [34m[200][39m /articles [2m3ms[22m
+[2m01:33:28[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:33:33[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:33:41[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:33:46[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:33:55[22m [34m[200][39m /articles [2m3ms[22m
+[2m01:34:04[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:34:40[22m [34m[200][39m /articles/2024-review [2m17ms[22m
+[2m01:34:47[22m [34m[200][39m /articles/astro-alpine-best-practices [2m4ms[22m
+[2m01:34:55[22m [34m[200][39m /articles/example-post-with-images [2m3ms[22m
+[2m01:35:03[22m [34m[200][39m /articles/hello-world [2m5ms[22m
+[2m01:35:12[22m [34m[200][39m /articles/mdx-full-demo [2m783ms[22m
+[2m01:36:08[22m [34m[200][39m /articles/hello-world [2m3ms[22m
+[2m01:37:18[22m [34m[200][39m /articles/mdx-full-demo [2m19ms[22m
+[2m01:40:45[22m [34m[200][39m / [2m6ms[22m
+[2m01:40:56[22m [34m[200][39m /about [2m3ms[22m
+[2m01:41:00[22m [34m[200][39m / [2m4ms[22m
+[2m01:42:03[22m [34m[200][39m / [2m3ms[22m
+[2m01:42:07[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:42:11[22m [34m[200][39m /about [2m2ms[22m
+[2m01:42:15[22m [34m[200][39m /articles/2024-review [2m3ms[22m
+[2m01:42:18[22m [34m[200][39m /articles/astro-alpine-best-practices [2m3ms[22m
+[2m01:42:22[22m [34m[200][39m /articles/example-post-with-images [2m3ms[22m
+[2m01:42:26[22m [34m[200][39m /articles/hello-world [2m3ms[22m
+[2m01:42:30[22m [34m[200][39m /articles/mdx-full-demo [2m14ms[22m
+[2m01:43:26[22m [34m[200][39m / [2m3ms[22m
+[2m01:43:37[22m [34m[200][39m /articles [2m4ms[22m
+[2m01:43:47[22m [34m[200][39m /about [2m3ms[22m
+[2m01:44:32[22m [34m[200][39m / [2m2ms[22m
+[2m01:44:40[22m [33m[404][39m /links [2m1ms[22m
+[2m01:45:08[22m [34m[200][39m / [2m2ms[22m
+[2m01:45:10[22m [34m[200][39m /articles [2m3ms[22m
+[2m01:45:12[22m [34m[200][39m /articles/mdx-full-demo [2m12ms[22m
+[2m01:45:44[22m [34m[200][39m /articles [2m2ms[22m
+[2m01:46:33[22m [34m[200][39m / [2m2ms[22m
+[2m01:48:58[22m [34m[watch][39m /src/styles/global.css
+[2m01:48:58[22m [34m[watch][39m /src/styles/global.css
+[vite] program reload
+[vite] An error happened during full reload
+Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?
+Error: Failed to load url astro:server-app.js (resolved id: astro:server-app.js). Does the file exist?
+    at loadAndTransform (file:///F:/MyProjects/blog-Azx616/blog-refactor/node_modules/.pnpm/vite@7.3.1_@types+node@25.3_285544e97e5ab1e0bd004c737bd6ba1c/node_modules/vite/dist/node/chunks/config.js:22663:33)
+[2m01:49:52[22m [34m[200][39m / [2m45ms[22m
+[2m01:49:52[22m [34m[200][39m / [2m46ms[22m
+ ELIFECYCLE  Command failed with exit code 4294967295.
