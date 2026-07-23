@@ -1,0 +1,24 @@
+---
+// CoverPlaceholder.astro
+// 鏃犲皝闈㈡枃绔犵殑娓愬彉鍗犱綅鍥惧尯
+// 鏍规嵁绉嶅瓧鏂囨湰纭畾鎬ч€夋嫨娓愬彉锛屼富棰樻劅鐭ワ紙.dark 瑕嗙洊锛?
+import { getPlaceholderGradient } from '@/lib/utils/placeholder'
+
+interface Props {
+  /** 鐢ㄤ簬鐢熸垚娓愬彉鐨勭瀛愭枃鏈紙鏍囬鎴栧垎绫伙級 */
+  seed: string
+  /** 鍥炬爣璺緞锛岄粯璁ゆ枃妗ｅ浘鏍?*/
+  icon?: string
+  /** 澶栧眬 class 閫忎紶 */
+  className?: string
+}
+
+const { seed, icon = '/svgs/file-text.svg', className = '' } = Astro.props
+const gradKey = getPlaceholderGradient(seed)
+---
+
+<div
+  class={`placeholder-grad placeholder-grad-${gradKey} w-full h-full flex items-center justify-center ${className}`}
+>
+  <img src={icon} width="48" height="48" alt="" class="opacity-80" />
+</div>
