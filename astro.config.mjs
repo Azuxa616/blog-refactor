@@ -62,7 +62,8 @@ export default defineConfig({
       ],
       rehypeCodeHeader, // 代码块 header 插件
       rehypeKatex, // 数学公式渲染
-      rehypePresetMinify, // 压缩 HTML
+      // rehype-preset-minify: 展开为独立插件（Astro markdown 校验不接受裸 preset 对象）
+      ...rehypePresetMinify.plugins, // 压缩 HTML
     ],
   },
   output: 'server',
