@@ -35,3 +35,6 @@ debug-storybook.log
 # Local browser automation state
 .playwright-mcp/
 
+
+# superpowers SDD scratch (do not commit)
+.superpowers/

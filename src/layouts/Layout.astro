@@ -22,10 +22,61 @@ const isUseSwitch = pathname === '/'
     <ThemeScript />
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
-      mermaid.initialize({
-        startOnLoad: true,
-        theme: 'dark',
-      })
+
+      // 根据当前 <html> 主题返回 mermaid 主题名
+      const getTheme = () =>
+        document.documentElement.classList.contains('dark') ? 'dark' : 'default'
+
+      // 首次渲染前缓存每段 mermaid 原文到 data-src（run() 会替换 innerHTML）
+      function cacheSources() {
+        document.querySelectorAll('pre.mermaid:not([data-processed])').forEach((el) => {
+          if (!el.dataset.src) el.dataset.src = el.textContent || ''
+        })
+      }
+
+      // 渲染中标记：防止主题快速切换时重入 mermaid.run 造成节点互相覆盖
+      let rendering = false
+
+      async function renderMermaid() {
+        if (rendering) return
+        rendering = true
+        try {
+          mermaid.initialize({ startOnLoad: false, theme: getTheme() })
+          await mermaid.run()
+        } catch (err) {
+          console.error('Mermaid 渲染失败:', err)
+        } finally {
+          rendering = false
+        }
+      }
+
+      async function rerenderMermaid() {
+        if (rendering) return
+        document.querySelectorAll('pre.mermaid').forEach((el) => {
+          el.removeAttribute('data-processed')
+          el.innerHTML = el.dataset.src || ''
+        })
+        await renderMermaid()
+      }
+
+      cacheSources()
+      renderMermaid()
+
+      // 监听 <html> class 变化（React 切换主题时同步），主题变更即重渲
+      if ('MutationObserver' in window) {
+        const observer = new MutationObserver((mutations) => {
+          for (const m of mutations) {
+            if (m.attributeName === 'class') {
+              rerenderMermaid()
+              break
+            }
+          }
+        })
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class'],
+        })
+      }
     </script>
   </head>
   <body class="font-sans antialiased bg-background text-foreground">

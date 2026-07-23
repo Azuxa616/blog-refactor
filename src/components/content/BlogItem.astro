@@ -3,6 +3,8 @@
 // 使用 Alpine.js 处理图片加载错误
 // 添加中文注释
 
+import CoverPlaceholder from '@/components/content/CoverPlaceholder.astro'
+
 interface Props {
   /** 封面图片 URL */
   coverImage?: string
@@ -33,23 +35,24 @@ const {
   className = ""
 } = Astro.props
 
-const fallbackSrc = '/imgs/404.jpg'
 ---
 
 <div 
   class={`min-h-60 bg-card-background backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-300 flex flex-col sm:flex-row justify-between items-center gap-4 ${className}`}
 >
   <!-- 封面图片 -->
-  <div 
-    class="w-full sm:w-1/3 sm:h-60 overflow-hidden relative rounded-lg bg-cover bg-center"
-    style={`background-image: url(${coverImage || fallbackSrc})`}
-  >
-    <img
-      src={coverImage || fallbackSrc}
-      alt={title}
-      class="w-full h-full opacity-0"
-    />
-  </div>
+  {coverImage ? (
+    <div
+      class="w-full sm:w-1/3 sm:h-60 overflow-hidden relative rounded-lg bg-cover bg-center"
+      style={`background-image: url(${coverImage})`}
+    >
+      <img src={coverImage} alt={title} class="w-full h-full opacity-0" />
+    </div>
+  ) : (
+    <div class="w-full sm:w-1/3 sm:h-60 overflow-hidden rounded-lg">
+      <CoverPlaceholder seed={title || 'untitled'} />
+    </div>
+  )}
 
   <!-- 文章信息 -->
   <div class="flex flex-col flex-1 gap-3 justify-center items-start h-full w-full sm:w-auto px-4 sm:px-0 sm:mx-5 py-4 sm:py-0">

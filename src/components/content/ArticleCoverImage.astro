@@ -32,8 +32,10 @@ const {
   category,
   tags,
 } = Astro.props
+const hasCover = Boolean(coverImage)
 ---
 
+{hasCover && (
 <header class="relative h-96 overflow-hidden">
   {
     coverImage && (
@@ -98,3 +100,47 @@ const {
     </div>
   </div>
 </header>
+)}
+
+{!hasCover && (
+  <header class="h-48 md:h-64 bg-card-background border-b border-border">
+    <div
+      class="h-full max-w-4xl mx-auto px-4 flex flex-col items-center justify-center text-center"
+    >
+      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-3 leading-tight">
+        {title}
+      </h1>
+      {description && (
+        <p class="text-base md:text-lg text-muted mb-4 max-w-2xl">
+          {description}
+        </p>
+      )}
+      <div class="flex flex-wrap items-center justify-center gap-4 text-muted text-sm">
+        {category && (
+          <>
+            <CategoryBadge title={category} color="#ffffff" />
+            <span class="text-border">|</span>
+          </>
+        )}
+        <span class="flex items-center gap-1.5">
+          <img src="/svgs/calendar.svg" width="14" height="14" alt="发布日期" loading="eager" />
+          {updatedDate ? (
+            <span>· 更新于 {updatedDate.toLocaleDateString('zh-CN')}</span>
+          ) : (
+            <span>{publishDate.toLocaleDateString('zh-CN')}</span>
+          )}
+        </span>
+        {tags && tags.length > 0 && (
+          <>
+            <span class="text-border">|</span>
+            <div class="flex flex-wrap items-center justify-center gap-2">
+              {tags.map((tag) => (
+                <Tag label={tag} bgColor="#f1f5f9" size="sm" />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    </div>
+  </header>
+)}

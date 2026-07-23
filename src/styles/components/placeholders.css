@@ -1,0 +1,38 @@
+/* 占位封面渐变 - 8 组主题感知渐变色 */
+/* 每个 .placeholder-grad-X 定义 --grad-from / --grad-to，.dark 覆盖提供深色对 */
+
+.placeholder-grad {
+  background-image: linear-gradient(135deg, var(--grad-from), var(--grad-to));
+}
+
+/* 0: 薄荷绿 → 青色 */
+.placeholder-grad-0 { --grad-from: #6ee7b7; --grad-to: #5eead4; }
+.dark .placeholder-grad-0 { --grad-from: #047857; --grad-to: #0f766e; }
+
+/* 1: 天蓝 → 靛蓝 */
+.placeholder-grad-1 { --grad-from: #7dd3fc; --grad-to: #818cf8; }
+.dark .placeholder-grad-1 { --grad-from: #0369a1; --grad-to: #4338ca; }
+
+/* 2: 珊粉 → 粉色 */
+.placeholder-grad-2 { --grad-from: #fda4af; --grad-to: #f472b6; }
+.dark .placeholder-grad-2 { --grad-from: #be123c; --grad-to: #9d174d; }
+
+/* 3: 琥珀 → 橙色 */
+.placeholder-grad-3 { --grad-from: #fcd34d; --grad-to: #fb923c; }
+.dark .placeholder-grad-3 { --grad-from: #b45309; --grad-to: #9a3412; }
+
+/* 4: 紫罗兰 → 品红 */
+.placeholder-grad-4 { --grad-from: #c4b5fd; --grad-to: #e879f9; }
+.dark .placeholder-grad-4 { --grad-from: #6d28d9; --grad-to: #a21caf; }
+
+/* 5: 青色 → 蓝色 */
+.placeholder-grad-5 { --grad-from: #67e8f9; --grad-to: #60a5fa; }
+.dark .placeholder-grad-5 { --grad-from: #0e7490; --grad-to: #1d4ed8; }
+
+/* 6: 黄柠 → 绿色 */
+.placeholder-grad-6 { --grad-from: #bef264; --grad-to: #4ade80; }
+.dark .placeholder-grad-6 { --grad-from: #4d7c0f; --grad-to: #15803d; }
+
+/* 7: 品红 → 紫色 */
+.placeholder-grad-7 { --grad-from: #f0abfc; --grad-to: #a78bfa; }
+.dark .placeholder-grad-7 { --grad-from: #a21caf; --grad-to: #6d28d9; }

@@ -1,0 +1,24 @@
+---
+// CoverPlaceholder.astro
+// 无封面文章的渐变占位图区
+// 根据种子文本确定性选择渐变，主题感知（.dark 覆盖）
+import { getPlaceholderGradient } from '@/lib/utils/placeholder'
+
+interface Props {
+  /** 用于生成渐变的种子文本（标题或分类） */
+  seed: string
+  /** 图标路径，默认文档图标 */
+  icon?: string
+  /** 外层 class 透传 */
+  className?: string
+}
+
+const { seed, icon = '/svgs/file-text.svg', className = '' } = Astro.props
+const gradKey = getPlaceholderGradient(seed)
+---
+
+<div
+  class={`placeholder-grad placeholder-grad-${gradKey} w-full h-full flex items-center justify-center ${className}`}
+>
+  <img src={icon} width="48" height="48" alt="" class="opacity-80" />
+</div>
