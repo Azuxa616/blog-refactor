@@ -34,16 +34,24 @@ const isUseSwitch = pathname === '/'
         })
       }
 
+      // 渲染中标记：防止主题快速切换时重入 mermaid.run 造成节点互相覆盖
+      let rendering = false
+
       async function renderMermaid() {
-        mermaid.initialize({ startOnLoad: false, theme: getTheme() })
+        if (rendering) return
+        rendering = true
         try {
+          mermaid.initialize({ startOnLoad: false, theme: getTheme() })
           await mermaid.run()
         } catch (err) {
           console.error('Mermaid 渲染失败:', err)
+        } finally {
+          rendering = false
         }
       }
 
       async function rerenderMermaid() {
+        if (rendering) return
         document.querySelectorAll('pre.mermaid').forEach((el) => {
           el.removeAttribute('data-processed')
           el.innerHTML = el.dataset.src || ''
