@@ -18,6 +18,8 @@
 
 @import './components/callouts.css';
 
+@import './components/placeholders.css';
+
 /* 导航链接下划线动画 */
 .nav-link-underline {
   position: relative;
