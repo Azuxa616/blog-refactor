@@ -1,15 +1,15 @@
 ---
 // CoverPlaceholder.astro
-// 鏃犲皝闈㈡枃绔犵殑娓愬彉鍗犱綅鍥惧尯
-// 鏍规嵁绉嶅瓧鏂囨湰纭畾鎬ч€夋嫨娓愬彉锛屼富棰樻劅鐭ワ紙.dark 瑕嗙洊锛?
+// 无封面文章的渐变占位图区
+// 根据种子文本确定性选择渐变，主题感知（.dark 覆盖）
 import { getPlaceholderGradient } from '@/lib/utils/placeholder'
 
 interface Props {
-  /** 鐢ㄤ簬鐢熸垚娓愬彉鐨勭瀛愭枃鏈紙鏍囬鎴栧垎绫伙級 */
+  /** 用于生成渐变的种子文本（标题或分类） */
   seed: string
-  /** 鍥炬爣璺緞锛岄粯璁ゆ枃妗ｅ浘鏍?*/
+  /** 图标路径，默认文档图标 */
   icon?: string
-  /** 澶栧眬 class 閫忎紶 */
+  /** 外层 class 透传 */
   className?: string
 }
 
