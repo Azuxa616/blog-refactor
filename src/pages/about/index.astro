@@ -8,49 +8,49 @@ import Layout from '@/layouts/Layout.astro'
 <Layout class="min-h-screen bg-background">
   <div class="max-w-4xl mx-auto px-4 py-16">
     <div class="text-center mb-16">
-      <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-foreground mb-6">
         关于本站
       </h1>
-      <p class="text-lg text-slate-600 max-w-2xl mx-auto">
+      <p class="text-lg text-muted max-w-2xl mx-auto">
         欢迎来到我的个人博客，这里记录了我的技术探索、生活感悟和创作历程。
       </p>
     </div>
 
     <div class="grid gap-8 md:grid-cols-2 mb-16">
       <div
-        class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl"
+        class="rounded-2xl border border-border bg-card-background p-8 shadow-xl"
       >
-        <h2 class="text-2xl font-semibold text-slate-900 mb-4">技术栈</h2>
-        <p class="text-slate-600 mb-6">
+        <h2 class="text-2xl font-semibold text-foreground mb-4">技术栈</h2>
+        <p class="text-muted mb-6">
           本站采用轻量级技术栈构建，专注于性能优化和开发体验。
         </p>
-        <ul class="space-y-3 text-slate-700">
+        <ul class="space-y-3 text-muted">
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 dark:bg-blue-400"
             ></span>
             <span><strong>前端框架：</strong>Astro 6.x (Astro + Alpine.js + React)</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 dark:bg-green-400"
             ></span>
             <span><strong>样式方案：</strong>Tailwind CSS 4.x</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 dark:bg-purple-400"
             ></span>
             <span><strong>交互库：</strong>Alpine.js 3.14</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 dark:bg-orange-400"
             ></span>
             <span><strong>数据存储：</strong>本地 Markdown 文件</span>
           </li>
           <li class="flex items-start">
-            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500"
+            <span class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 dark:bg-red-400"
             ></span>
             <span><strong>代码高亮：</strong>Prism React Renderer</span>
           </li>
@@ -58,41 +58,41 @@ import Layout from '@/layouts/Layout.astro'
       </div>
 
       <div
-        class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl"
+        class="rounded-2xl border border-border bg-card-background p-8 shadow-xl"
       >
-        <h2 class="text-2xl font-semibold text-slate-900 mb-4">特色功能</h2>
-        <p class="text-slate-600 mb-6">
+        <h2 class="text-2xl font-semibold text-foreground mb-4">特色功能</h2>
+        <p class="text-muted mb-6">
           博客采用静态站点生成，提供快速的加载体验和简洁的内容管理。
         </p>
-        <ul class="space-y-3 text-slate-700">
+        <ul class="space-y-3 text-muted">
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 shrink-0"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-blue-500 dark:bg-blue-400 shrink-0"
             ></span>
             <span><strong>文章管理：</strong>Markdown 文件编辑、分类、标签</span
             >
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 shrink-0"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-green-500 dark:bg-green-400 shrink-0"
             ></span>
             <span><strong>内容层：</strong>Astro Content Collection</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 shrink-0"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-purple-500 dark:bg-purple-400 shrink-0"
             ></span>
             <span><strong>代码高亮：</strong>支持多种编程语言</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 shrink-0"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-orange-500 dark:bg-orange-400 shrink-0"
             ></span>
             <span><strong>响应式设计：</strong>完美适配各种设备</span>
           </li>
           <li class="flex items-start">
             <span
-              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 shrink-0"
+              class="inline-block w-2 h-2 mt-2 mr-3 rounded-full bg-red-500 dark:bg-red-400 shrink-0"
             ></span>
             <span><strong>夜间模式：</strong>护眼的暗色主题</span>
           </li>
@@ -101,23 +101,23 @@ import Layout from '@/layouts/Layout.astro'
     </div>
 
     <div
-      class="rounded-2xl border border-slate-200 bg-white/80 p-8 shadow-xl mb-16"
+      class="rounded-2xl border border-border bg-card-background p-8 shadow-xl mb-16"
     >
-      <h2 class="text-2xl font-semibold text-slate-900 mb-6">联系方式</h2>
+      <h2 class="text-2xl font-semibold text-foreground mb-6">联系方式</h2>
       <div class="grid gap-6 md:grid-cols-3">
         <div class="text-center">
           <div
-            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-blue-100"
+            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-blue-100 dark:bg-blue-900/40"
           >
             <img src="/svgs/mail-icon.svg" width="32" height="32" alt="邮箱" />
           </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">Email</h3>
-          <p class="text-slate-600">2226123739@qq.com</p>
+          <h3 class="text-lg font-semibold text-foreground mb-2">Email</h3>
+          <p class="text-muted">2226123739@qq.com</p>
         </div>
 
         <div class="text-center">
           <div
-            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-gray-100"
+            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-gray-100 dark:bg-gray-900/40"
           >
             <img
               src="/svgs/github-icon.svg"
@@ -126,12 +126,12 @@ import Layout from '@/layouts/Layout.astro'
               alt="GitHub"
             />
           </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">GitHub</h3>
+          <h3 class="text-lg font-semibold text-foreground mb-2">GitHub</h3>
           <a
             href="https://github.com/Azuxa616"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-slate-600 hover:text-blue-600 transition"
+            class="text-muted hover:text-blue-600 dark:hover:text-blue-400 transition"
           >
             github.com/Azuxa616
           </a>
@@ -139,12 +139,12 @@ import Layout from '@/layouts/Layout.astro'
 
         <div class="text-center">
           <div
-            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-green-100"
+            class="inline-flex items-center justify-center w-16 h-16 mb-4 rounded-2xl bg-green-100 dark:bg-green-900/40"
           >
             <img src="/svgs/link-icon.svg" width="32" height="32" alt="网站" />
           </div>
-          <h3 class="text-lg font-semibold text-slate-900 mb-2">Website</h3>
-          <a href="/" class="text-slate-600 hover:text-blue-600 transition"
+          <h3 class="text-lg font-semibold text-foreground mb-2">Website</h3>
+          <a href="/" class="text-muted hover:text-blue-600 dark:hover:text-blue-400 transition"
             >返回首页</a
           >
         </div>
@@ -152,7 +152,7 @@ import Layout from '@/layouts/Layout.astro'
     </div>
 
     <div class="text-center">
-      <p class="text-slate-500">
+      <p class="text-muted">
         © {new Date().getFullYear()} Azuxa's Blog
       </p>
     </div>
