@@ -16,6 +16,7 @@ import remarkGfm from 'remark-gfm'
 import remarkEmoji from 'remark-emoji'
 import remarkCallout from './src/lib/remark/remark-callout.ts'
 import rehypeCodeHeader from './src/lib/rehype/rehype-code-header.ts'
+import rehypeImageZoom from './src/lib/rehype/rehype-image-zoom.ts'
 import rehypeMermaidLite from 'rehype-mermaid-lite'
 
 // https://astro.build/config
@@ -73,6 +74,7 @@ export default defineConfig({
           },
         ],
         rehypeCodeHeader, // 代码块 header 插件
+        rehypeImageZoom, // 标记文章内图片为可放大
         rehypeKatex, // 数学公式渲染
         rehypePresetMinify, // 压缩 HTML
       ],
