@@ -25,6 +25,7 @@ export default defineConfig({
     syntaxHighlight: {
       excludeLangs: ['mermaid'],
     },
+    rehypePlugins: [rehypeImageZoom],
   },
   output: 'server',
   adapter: vercel(),
