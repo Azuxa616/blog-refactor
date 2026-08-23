@@ -1,6 +1,6 @@
 ---
 // ArticleCoverImage.astro
-// 文章封面图片组件
+// 文章封面图片组件（编辑部化：展示字体标题 + Neo 元数据芯片）
 // 用于显示文章详情页的封面图片和元数据
 
 import Tag from '@/components/content/Tag.astro'
@@ -17,8 +17,10 @@ interface Props {
   publishDate: Date
   /** 更新日期（可选） */
   updatedDate?: Date
-  /** 文章分类 */
+  /** 分类显示名称 */
   category?: string
+  /** 分类颜色（16进制） */
+  categoryColor?: string
   /** 文章标签 */
   tags?: string[]
 }
@@ -30,40 +32,50 @@ const {
   publishDate,
   updatedDate,
   category,
+  categoryColor,
   tags,
 } = Astro.props
+
+// 有封面图时，文字叠加在深色渐变上，使用白色；
+// 无封面图时，背景为页面底色，需使用主题前景色，避免浅色模式下白字不可读。
+const titleClass = coverImage ? 'text-white' : 'text-foreground'
+const descriptionClass = coverImage ? 'text-white/80' : 'text-muted'
+const metaClass = coverImage ? 'text-white/90' : 'text-foreground/90'
+const separatorClass = coverImage ? 'text-white/40' : 'text-muted'
+// 分类色点：有封面图时用白色与标题一致；无封面图时用分类主题色（与列表页统一）
+const categoryBadgeColor = coverImage ? '#ffffff' : categoryColor || '#D64550'
 ---
 
-<header class="relative h-96 overflow-hidden">
+<header class="relative h-96 overflow-hidden border-b-2 border-ink">
   {
     coverImage && (
       <div class="absolute inset-0">
         <img src={coverImage} alt={title} class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black/80" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/50 to-ink-solid/80" />
       </div>
     )
   }
   <div
     class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4"
   >
-    <h1 class="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
+    <h1 class={`font-display text-3xl md:text-5xl font-bold mb-4 leading-tight tracking-tight ${titleClass}`}>
       {title}
     </h1>
     {
       description && (
-        <p class="text-base md:text-lg text-white/80 mb-6 max-w-2xl">
+        <p class={`text-base md:text-lg mb-6 max-w-2xl ${descriptionClass}`}>
           {description}
         </p>
       )
     }
     <div
-      class="flex flex-wrap items-center justify-center gap-4 text-white/90 text-sm"
+      class={`flex flex-wrap items-center justify-center gap-4 text-sm ${metaClass}`}
     >
       {
         category && (
           <>
-            <CategoryBadge title={category} color="#ffffff" />
-            <span class="text-white/40">|</span>
+            <CategoryBadge title={category} color={categoryBadgeColor} />
+            <span class={separatorClass}>|</span>
           </>
         )
       }
@@ -86,7 +98,7 @@ const {
       {
         tags && tags.length > 0 && (
           <>
-            <span class="text-white/40">|</span>
+            <span class={separatorClass}>|</span>
             <div class="flex flex-wrap items-center justify-center gap-2">
               {tags.map((tag) => (
                 <Tag label={tag} bgColor="#ffffff" size="sm" />

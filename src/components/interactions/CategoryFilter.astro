@@ -1,7 +1,6 @@
 ---
 // 分类筛选器组件
-// 使用 Alpine.js 管理筛选状态
-// 添加中文注释
+// Neo-Brutalism：筛选卡片 + 分类芯片
 
 interface Category {
   name: string
@@ -34,39 +33,47 @@ const {
 ---
 
 <div
-  class="relative flex bg-card-background backdrop-blur-sm border border-white/20 shadow-xl rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 mb-6 flex-col gap-4 ${_className}"
+  class={`panel p-8 mb-6 flex flex-col gap-4 ${_className}`}
 >
   <!-- 标题栏 -->
   <div class="flex items-center justify-between mb-4">
     <h3 class="text-lg font-bold text-foreground">分类</h3>
-    {selectedCategory !== 'all' && (() => {
-      const selectedCat = categories.find(c => c.slug === selectedCategory)
-      const btnColor = selectedCat?.color || '#6366f1'
-      return (
+    {
+      selectedCategory !== 'all' && (
         <a
           href={`/articles${searchTerm ? `?search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
-          class="px-3 py-1 text-sm rounded-full font-medium"
-          style={`background-color: ${btnColor}; color: white;`}
+          class="neo px-3 py-1 text-sm font-medium bg-accent text-ink-solid"
         >
           重置筛选
         </a>
       )
-    })()}
+    }
   </div>
 
   <!-- 分类标签列表 -->
   <div class="flex flex-wrap gap-3">
-    {categories.map((category) => (
-      <a
-        href={`/articles?category=${category.slug}${searchTerm ? `&search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
-        class="font-bold transition-all duration-200 hover:opacity-80 px-3 py-1 rounded-full"
-        style={selectedCategory === category.slug
-          ? `background-color: ${category.color}; color: white;`
-          : `color: ${category.color};`
-        }
-      >
-        {category.name} ({category.articleCount || 0})
-      </a>
-    ))}
+    {
+      categories.map((category) => {
+        const isSelected = selectedCategory === category.slug
+        return (
+          <a
+            href={`/articles?category=${category.slug}${searchTerm ? `&search=${searchTerm}` : ''}${sortType && sortType !== 'latest' ? `&sort=${sortType}` : ''}`}
+            class:list={[
+              'inline-flex items-center gap-2 px-3 py-1 text-sm font-semibold transition-colors duration-150',
+              isSelected
+                ? 'rounded-sm border border-ink bg-accent text-ink-solid'
+                : 'chip hover:bg-muted-bg',
+            ]}
+          >
+            <span
+              class="h-2.5 w-2.5"
+              style={`background-color: ${category.color || '#D64550'}`}
+            >
+            </span>
+            {category.name} ({category.articleCount || 0})
+          </a>
+        )
+      })
+    }
   </div>
 </div>

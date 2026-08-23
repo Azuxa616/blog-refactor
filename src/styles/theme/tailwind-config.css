@@ -9,6 +9,22 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
+  /* Editorial × Neo 新增 tokens */
+  --font-display: var(--font-fraunces);
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-ink-solid: var(--ink-solid);
+  --color-accent: var(--accent);
+  --color-accent-red: var(--accent-red);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-green: var(--accent-green);
+  --color-muted-bg: var(--muted-bg);
+
+  /* Neo 硬阴影（shadow-hard / -hover / -active） */
+  --shadow-hard: 5px 5px 0 var(--ink);
+  --shadow-hard-hover: 3px 3px 0 var(--ink);
+  --shadow-hard-active: 0 0 0 var(--ink);
+
   --color-admin-background: var(--admin-background);
   --color-admin-foreground: var(--admin-foreground);
   --color-admin-sidebar: var(--admin-sidebar);

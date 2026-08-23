@@ -1,0 +1,261 @@
+---
+
+---
+
+<div
+  x-data="imageLightbox"
+  x-show="open"
+  x-cloak
+  x-transition.opacity
+  class="image-lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-label="图片预览"
+  @click.self="close()"
+  @keydown.escape.window="close()"
+>
+  <button
+    class="image-lightbox__close"
+    type="button"
+    aria-label="关闭图片预览"
+    @click="close()"
+  >
+    <img src="/svgs/close.svg" width="24" height="24" alt="" />
+  </button>
+  <div class="image-lightbox__viewport">
+    <img
+      class="image-lightbox__image"
+      :class="{ 'is-dragging': dragging, 'is-zoomed': scale > 1 }"
+      :src="src || null"
+      :alt="alt"
+      :style="'--lightbox-x: ' + x + 'px; --lightbox-y: ' + y + 'px; --lightbox-scale: ' + scale"
+      @wheel.prevent="zoomByWheel($event)"
+      @pointerdown="startDrag($event)"
+      @pointermove="moveDrag($event)"
+      @pointerup="endDrag($event)"
+      @pointercancel="endDrag($event)"
+      @dblclick="toggleZoom()"
+      @touchstart="startPinch($event)"
+      @touchmove.prevent="movePinch($event)"
+      @touchend="endPinch($event)"
+      @error="handleImageError()"
+    />
+  </div>
+</div>
+
+<script>
+  let isRegistered = false
+
+  const registerImageLightbox = () => {
+    if (isRegistered || !window.Alpine) {
+      return
+    }
+
+    window.Alpine.data('imageLightbox', () => ({
+      open: false,
+      src: '',
+      alt: '',
+      scale: 1,
+      x: 0,
+      y: 0,
+      dragging: false,
+      pointerId: null,
+      startX: 0,
+      startY: 0,
+      baseX: 0,
+      baseY: 0,
+      pinchDistance: 0,
+      previousBodyOverflow: '',
+      handleOpen: null,
+
+      init() {
+        this.handleOpen = (event) => this.openImage(event.detail)
+        window.addEventListener('image-lightbox:open', this.handleOpen)
+      },
+
+      destroy() {
+        if (this.handleOpen) {
+          window.removeEventListener('image-lightbox:open', this.handleOpen)
+        }
+        this.restoreScroll()
+      },
+
+      openImage(detail) {
+        this.resetTransform()
+        this.src = detail.src
+        this.alt = detail.alt
+
+        if (!this.open) {
+          this.previousBodyOverflow = document.body.style.overflow
+        }
+
+        this.open = true
+        document.body.style.overflow = 'hidden'
+      },
+
+      close() {
+        this.open = false
+        this.src = ''
+        this.alt = ''
+        this.resetTransform()
+        this.restoreScroll()
+      },
+
+      resetTransform() {
+        this.scale = 1
+        this.x = 0
+        this.y = 0
+        this.dragging = false
+        this.pointerId = null
+        this.pinchDistance = 0
+      },
+
+      restoreScroll() {
+        document.body.style.overflow = this.previousBodyOverflow
+      },
+
+      clampScale(value) {
+        const nextScale = Math.min(5, Math.max(1, value))
+
+        if (nextScale === 1) {
+          this.x = 0
+          this.y = 0
+        }
+
+        return nextScale
+      },
+
+      clampPan(x, y, image) {
+        const maxX = (image.offsetWidth * (this.scale - 1)) / 2
+        const maxY = (image.offsetHeight * (this.scale - 1)) / 2
+
+        return {
+          x: Math.min(maxX, Math.max(-maxX, x)),
+          y: Math.min(maxY, Math.max(-maxY, y)),
+        }
+      },
+
+      zoomByWheel(event) {
+        const image = event.currentTarget
+        const previousScale = this.scale
+        const nextScale = this.clampScale(
+          previousScale + (event.deltaY < 0 ? 0.15 : -0.15),
+        )
+
+        if (nextScale === previousScale) {
+          return
+        }
+
+        const bounds = image.getBoundingClientRect()
+        const originX = event.clientX - (bounds.left + bounds.width / 2)
+        const originY = event.clientY - (bounds.top + bounds.height / 2)
+        const ratio = nextScale / previousScale
+
+        this.scale = nextScale
+        const pan = this.clampPan(
+          this.x + (1 - ratio) * originX,
+          this.y + (1 - ratio) * originY,
+          image,
+        )
+        this.x = pan.x
+        this.y = pan.y
+      },
+
+      startDrag(event) {
+        if (this.scale <= 1) {
+          return
+        }
+
+        event.currentTarget.setPointerCapture(event.pointerId)
+        this.dragging = true
+        this.pointerId = event.pointerId
+        this.startX = event.clientX
+        this.startY = event.clientY
+        this.baseX = this.x
+        this.baseY = this.y
+      },
+
+      moveDrag(event) {
+        if (
+          !this.dragging ||
+          this.pointerId !== event.pointerId ||
+          this.scale <= 1
+        ) {
+          return
+        }
+
+        const pan = this.clampPan(
+          this.baseX + event.clientX - this.startX,
+          this.baseY + event.clientY - this.startY,
+          event.currentTarget,
+        )
+        this.x = pan.x
+        this.y = pan.y
+      },
+
+      endDrag(event) {
+        if (this.pointerId === event.pointerId) {
+          this.dragging = false
+          this.pointerId = null
+        }
+      },
+
+      startPinch(event) {
+        if (event.touches.length !== 2) {
+          return
+        }
+
+        const [firstTouch, secondTouch] = event.touches
+        this.pinchDistance = Math.hypot(
+          secondTouch.clientX - firstTouch.clientX,
+          secondTouch.clientY - firstTouch.clientY,
+        )
+      },
+
+      movePinch(event) {
+        if (event.touches.length !== 2 || !this.pinchDistance) {
+          return
+        }
+
+        const [firstTouch, secondTouch] = event.touches
+        const currentDistance = Math.hypot(
+          secondTouch.clientX - firstTouch.clientX,
+          secondTouch.clientY - firstTouch.clientY,
+        )
+        const nextScale = this.clampScale(
+          this.scale * (currentDistance / this.pinchDistance),
+        )
+
+        this.scale = nextScale
+        this.pinchDistance = currentDistance
+        const pan = this.clampPan(this.x, this.y, event.currentTarget)
+        this.x = pan.x
+        this.y = pan.y
+      },
+
+      endPinch(event) {
+        if (event.touches.length < 2) {
+          this.pinchDistance = 0
+        }
+      },
+
+      toggleZoom() {
+        this.scale = this.scale === 1 ? 2.5 : 1
+        this.x = 0
+        this.y = 0
+      },
+
+      handleImageError() {
+        console.error('图片预览加载失败:', this.src)
+        this.close()
+      },
+    }))
+
+    isRegistered = true
+  }
+
+  document.addEventListener('alpine:init', registerImageLightbox, {
+    once: true,
+  })
+  registerImageLightbox()
+</script>

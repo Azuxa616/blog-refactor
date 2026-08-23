@@ -1,3 +1,13 @@
+/* 选区与键盘焦点（无障碍 + 打磨） */
+::selection {
+  background: var(--accent);
+  color: var(--ink-solid);
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
 @import './base/imports.css';
 
 @import './base/variables.css';
@@ -17,6 +27,64 @@
 @import './typography/katex.css';
 
 @import './components/callouts.css';
+
+@import './components/image-lightbox.css';
+
+/* ============================================================
+ * Editorial × Neo-Brutalism 组件语言
+ * 物理卡片/按钮：粗描边 + 硬阴影 + 位移交互
+ * ============================================================ */
+@layer components {
+.neo {
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: 4px 4px 0 var(--ink);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+/* 只有可交互的 Neo 元素才有按压感；在 hover 能力设备上才启用 hover 态 */
+@media (hover: hover) {
+  .neo:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+}
+
+.neo:active {
+  transform: translate(4px, 4px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.neo--thick {
+  border-width: 3px;
+}
+
+/* 面板/容器（分组、不可交互）：细边框、无阴影、无 hover */
+.panel {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-background);
+  color: var(--foreground);
+}
+
+/* 芯片/子卡/元数据（静默）：细边框、无阴影、无位移 */
+.chip {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-background);
+  color: var(--foreground);
+}
+
+/* 编辑部眉标：等宽大写小标签 */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+}
 
 /* 导航链接下划线动画 */
 .nav-link-underline {
@@ -45,4 +113,14 @@
 
 .nav-link-underline-dark::after {
   background-color: black;
+}
+
+  .fade-in {
+    animation: fadeIn 0.3s ease;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
 }

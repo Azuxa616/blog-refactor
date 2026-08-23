@@ -3,7 +3,7 @@ title: "高阶函数和柯里化"
 slug: gao-jie-han-shu-he-ke-li-hua-2
 description: "高阶函数和柯里化 > 快速记忆 > - 核心定义：高阶函数（Higher-Order Function，HOF）至少满足“接收函数作为参数”或“返回一个函数”之一；柯里化把多参数函数改造成按参数逐步调"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

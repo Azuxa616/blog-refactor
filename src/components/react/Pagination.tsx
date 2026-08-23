@@ -64,12 +64,14 @@ function Pagination({
 
   if (totalPages <= 1) return null
 
+  const btnBase = 'neo px-3 py-2 text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed'
+
   return (
     <div className={cn('flex justify-center items-center gap-2', className)}>
       <button
         onClick={() => handleChangePage(Math.max(1, page - 1))}
         disabled={page === 1}
-        className="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-600 hover:bg-gray-200"
+        className={cn(btnBase, 'bg-card-background text-foreground')}
         aria-label="上一页"
       >
         上一页
@@ -77,7 +79,7 @@ function Pagination({
 
       {visiblePages.map((pageNum, index) =>
         typeof pageNum === 'string' ? (
-          <span key={`dots-${index}`} className="px-3 py-2 text-gray-500">
+          <span key={`dots-${index}`} className="px-3 py-2 text-muted">
             ...
           </span>
         ) : (
@@ -85,10 +87,10 @@ function Pagination({
             key={pageNum}
             onClick={() => handleChangePage(pageNum)}
             className={cn(
-              'px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
+              btnBase,
               page === pageNum
-                ? 'bg-primary text-white shadow-lg mt-[-10px]'
-                : 'bg-gray-100 text-gray-600 hover:bg-gray-200',
+                ? 'bg-accent text-ink-solid'
+                : 'bg-card-background text-foreground',
             )}
             aria-label={`第 ${pageNum} 页`}
             aria-current={page === pageNum ? 'page' : undefined}
@@ -101,7 +103,7 @@ function Pagination({
       <button
         onClick={() => handleChangePage(Math.min(totalPages, page + 1))}
         disabled={page === totalPages}
-        className="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gray-100 text-gray-600 hover:bg-gray-200"
+        className={cn(btnBase, 'bg-card-background text-foreground')}
         aria-label="下一页"
       >
         下一页

@@ -1,0 +1,64 @@
+---
+// 最新文章章节组件
+// 组合 SectionHeader + ViewAllButton + BlogItem
+// 展示除置顶（最新一篇）外的 3 篇最新文章
+import { getAllPosts } from '@/lib/utils/posts'
+import { getCategories } from '@/lib/utils/categories'
+import BlogItem from '@/components/content/BlogItem.astro'
+import SectionHeader from '@/components/layout/SectionHeader.astro'
+import ViewAllButton from '@/components/layout/ViewAllButton.astro'
+
+const allPosts = await getAllPosts()
+// 排除第一篇（最新）——它作为 FeaturedPostCard 展示
+const latestPosts = allPosts.length > 1 ? allPosts.slice(1, 4) : []
+const categories = await getCategories()
+
+// 总文章数 ≤ 1 时隐藏整个章节
+if (latestPosts.length === 0) return null
+
+// 将分类 slug 映射为 {name, color} 对象
+const getCategoryInfo = (slug: string) => {
+  const cat = categories.find((c) => c.data.slug === slug)
+  return {
+    name: cat?.data.name || '未分类',
+    color: cat?.data.color,
+  }
+}
+---
+
+<section
+  data-section="latest-posts"
+  aria-labelledby="latest-posts-title"
+  class="py-16 w-full"
+>
+  <div class="max-w-4xl mx-auto px-4">
+    <div class="flex items-end justify-between mb-8">
+      <SectionHeader
+        id="latest-posts-title"
+        title="最新文章"
+        subtitle="最近的思考与记录"
+        align="left"
+        index="01"
+        eyebrow="Writing"
+      />
+      <ViewAllButton href="/articles" />
+    </div>
+
+    <div class="flex flex-col gap-6">
+      {
+        latestPosts.map((post) => (
+          <a href={`/articles/${post.slug}`}>
+            <BlogItem
+              coverImage={post.data.coverImage || ''}
+              title={post.data.title}
+              description={post.data.description}
+              category={getCategoryInfo(post.data.category)}
+              publishDate={post.data.publishDate.toISOString().split('T')[0]}
+            />
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,53 @@
+---
+// 分类章节组件
+// 在首页渲染一个响应式的分类卡片网格，链接到 /articles?category={slug}
+// 使用轻量级内联卡片（非 admin 的 CategoryCard.astro，后者含拖拽上传）
+import SectionHeader from '@/components/layout/SectionHeader.astro'
+import ViewAllButton from '@/components/layout/ViewAllButton.astro'
+import { getCategories } from '@/lib/utils/categories'
+
+// 获取所有分类（含文章数量）
+const categories = await getCategories()
+
+// 无分类时隐藏整个章节
+if (categories.length === 0) return null
+---
+
+<section data-section="categories" aria-labelledby="categories-title" class="py-16 w-full">
+  <div class="max-w-5xl mx-auto px-4">
+    <div class="flex items-end justify-between mb-8">
+      <SectionHeader id="categories-title" title="探索分类" subtitle="按主题浏览" align="left"
+        index="04"
+        eyebrow="Browse" />
+      <ViewAllButton href="/articles" label="查看全部文章" />
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+      {
+        categories.map((cat) => (
+          <a
+            href={`/articles?category=${cat.data.slug}`}
+            class="group block rounded-md border border-border bg-card-background p-5 transition-colors hover:border-ink hover:shadow-hard-hover"
+          >
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-lg font-semibold text-foreground">{cat.data.name}</h3>
+              <span
+                class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-accent text-ink-solid text-sm font-bold"
+              >
+                {cat.data.name.slice(0, 1).toUpperCase()}
+              </span>
+            </div>
+
+            {cat.data.description && (
+              <p class="text-sm text-muted line-clamp-2">{cat.data.description}</p>
+            )}
+
+            <p class="text-xs text-muted mt-2">{cat.articleCount} 篇文章</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+

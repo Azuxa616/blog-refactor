@@ -1,0 +1,40 @@
+---
+// ProfileSection.astro
+// “关于我”章节（编辑部）：个人名片 + 一句话简介
+// 不展示与简介无关的统计；技能与作品在下方“维度选择”区
+
+import BusinessCard from '@/components/content/BusinessCard.astro'
+import SectionHeader from '@/components/layout/SectionHeader.astro'
+---
+
+<section data-section="profile" aria-labelledby="profile-title" class="py-16 w-full">
+  <div class="mx-auto max-w-6xl px-4">
+    <SectionHeader
+      id="profile-title"
+      title="关于我"
+      subtitle="技术与我"
+      index="02"
+      eyebrow="About"
+      class="mb-12"
+    />
+
+    <div class="grid gap-8 md:grid-cols-[260px_1fr] items-start">
+      <!-- 左：个人名片 -->
+      <BusinessCard />
+
+      <!-- 右：一句话简介 -->
+      <div class="flex flex-col gap-6 items-start">
+        <p class="max-w-2xl text-lg leading-relaxed text-muted">
+          一名独立开发者，专注于前端工程与全栈实践，也喜欢把学习过程写成文字。这里是我的数字花园：文章、项目与一些值得记录的思考。
+        </p>
+
+        <a
+          href="/about"
+          class="neo inline-flex items-center gap-2 bg-card-background px-5 py-2 font-semibold text-foreground"
+        >
+          深入了解 →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,9 +1,9 @@
 ---
 title: "闭包"
 slug: bi-bao-2
-description: "闭包 > 快速记忆 > - 核心定义：闭包 = 函数 + 创建函数时可访问的词法环境。 > - 形成条件：内部函数被保存到外部后，仍能访问外部变量；外部函数执行结束不代表这些变量立即消失。 > - 常"
+description: "本文整理闭包的核心定义、形成条件、常见用途与捕获特点，帮助快速理解闭包机制。"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

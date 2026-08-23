@@ -48,11 +48,13 @@ const FloatingActionButton = memo(function FloatingActionButton() {
     setIsDark(!isCurrentlyDark)
   }, [])
 
+  const btnClass = 'neo flex h-12 w-12 items-center justify-center bg-card-background text-foreground'
+
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 transition-all duration-300 ease-in-out">
       <button
         onClick={scrollToTop}
-        className={`w-12 h-12 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group ${
+        className={`${btnClass} ${
           !isVisible && 'opacity-0 pointer-events-none'
         }`}
         aria-label="回到顶部"
@@ -61,14 +63,13 @@ const FloatingActionButton = memo(function FloatingActionButton() {
           src="/svgs/arrow-up.svg"
           width="20"
           height="20"
-          className="text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
           alt="回到顶部"
         />
       </button>
 
       <button
         onClick={toggleTheme}
-        className="w-12 h-12 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+        className={btnClass}
         aria-label="切换主题"
       >
         {isDark ? (
@@ -76,7 +77,6 @@ const FloatingActionButton = memo(function FloatingActionButton() {
             src="/svgs/sun.svg"
             width="20"
             height="20"
-            className="text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
             alt="浅色模式"
           />
         ) : (
@@ -84,7 +84,6 @@ const FloatingActionButton = memo(function FloatingActionButton() {
             src="/svgs/moon.svg"
             width="20"
             height="20"
-            className="text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors"
             alt="深色模式"
           />
         )}

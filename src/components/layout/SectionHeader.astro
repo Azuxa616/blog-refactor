@@ -1,0 +1,54 @@
+---
+// 章节标题组件
+// 编辑部风格：编号眉标 + 展示字体大标题 + 强调色块分隔线
+// 用于首页/列表页各章节标题
+
+interface Props {
+  title: string          // 主标题 (required)
+  subtitle?: string      // 副标题 (optional)
+  id?: string            // 用于 aria-labelledby 绑定的标题元素 id (optional)
+  align?: 'left' | 'center'  // 对齐方式，默认 center
+  index?: string         // 章节编号（如 "01"），用于编辑部式序号
+  eyebrow?: string       // 眉标文本（如 "Writing"）
+  class?: string         // 额外 CSS 类名
+}
+
+const {
+  title,
+  subtitle,
+  id,
+  align = 'center',
+  index,
+  eyebrow,
+  class: className = ''
+} = Astro.props
+
+const alignClasses = align === 'center'
+  ? 'text-center items-center'
+  : 'text-left items-start'
+---
+
+<div class={`flex flex-col gap-3 ${alignClasses} ${className}`}>
+  {
+    (index || eyebrow) && (
+      <div class="flex items-center gap-3">
+        {index && <span class="eyebrow text-primary">{index}</span>}
+        {eyebrow && <span class="eyebrow text-muted">{eyebrow}</span>}
+      </div>
+    )
+  }
+
+  <h2 id={id} class="font-display text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+    {title}
+  </h2>
+
+  {
+    subtitle && (
+      <p class="text-muted text-lg">
+        {subtitle}
+      </p>
+    )
+  }
+
+  <div class="h-1.5 w-16 bg-accent" />
+</div>

@@ -1,10 +1,16 @@
+/* ============================================================
+ * Callout — Neo-Brutalism（2px 描边 + 硬阴影 + 左侧强调条）
+ * ============================================================ */
 .callout {
-  border-radius: 0.5rem;
+  border-radius: 6px;
   padding: 1rem 1.25rem;
   margin: 1.5rem 0;
-  border-left-width: 4px;
-  border-left-style: solid;
+  border: 2px solid var(--ink);
+  border-left-width: 6px;
+  box-shadow: 4px 4px 0 var(--ink);
   position: relative;
+  background: var(--card-background);
+  font-family: var(--font-sans);
 }
 
 .callout::before {
@@ -15,26 +21,26 @@
 }
 
 .callout-blue {
-  background: rgba(59, 130, 246, 0.1);
-  border-left-color: #3b82f6;
+  border-left-color: var(--accent-blue);
+  background: rgba(91, 141, 239, 0.1);
 }
 
 .callout-green {
-  background: rgba(16, 185, 129, 0.1);
-  border-left-color: #10b981;
+  border-left-color: var(--accent-green);
+  background: rgba(139, 226, 139, 0.12);
 }
 
 .callout-purple {
-  background: rgba(139, 92, 246, 0.1);
-  border-left-color: #8b5cf6;
+  border-left-color: var(--accent);
+  background: rgba(255, 222, 89, 0.12);
 }
 
 .callout-yellow {
-  background: rgba(245, 158, 11, 0.1);
-  border-left-color: #f59e0b;
+  border-left-color: var(--accent);
+  background: rgba(255, 222, 89, 0.12);
 }
 
 .callout-red {
-  background: rgba(239, 68, 68, 0.1);
-  border-left-color: #ef4444;
+  border-left-color: var(--accent-red);
+  background: rgba(255, 107, 107, 0.12);
 }

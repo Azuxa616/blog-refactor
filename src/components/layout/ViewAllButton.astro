@@ -1,0 +1,23 @@
+---
+// 查看全部按钮组件
+// Neo-Brutalism 按钮：粗描边 + 硬阴影 + 按压缩进
+
+interface Props {
+  href: string       // 链接目标 (required)
+  label?: string     // 按钮文本，默认 "查看全部 →"
+  class?: string     // 额外 CSS 类名
+}
+
+const {
+  href,
+  label = "查看全部 →",
+  class: className = ""
+} = Astro.props
+---
+
+<a
+  href={href}
+  class={`neo inline-flex items-center gap-2 px-5 py-2 bg-card-background font-semibold text-foreground ${className}`}
+>
+  {label}
+</a>
