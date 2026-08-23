@@ -1,63 +1,26 @@
 ---
 // BusinessCard.astro
-// 名片卡片组件
-// 展示个人简介卡片，包含头像、邮箱、GitHub 和 Gitee 链接按钮
-// 注意：已将原本的 window.open() 调用改为标准的 <a> 标签
+// 个人名片（编辑部）：头像 + 名字 + 一句话 + 邮箱
+// 注：GitHub/Gitee 按钮已移至下方 GitHub 展示区，避免重复信息
 
 import Card from '@/components/layout/Card.astro'
 import Avatar from '@/components/content/Avatar.astro'
 ---
 
 <Card padding="p-8">
-  <div class="flex flex-col items-center gap-6 w-60">
-    <div class="relative -mt-24">
-      <div
-        class="w-32 h-32 rounded-full bg-gradient-to-br from-blue-100 to-purple-100 flex items-center justify-center shadow-lg"
-      >
-        <Avatar src="/imgs/avatar.jpg" width={120} height={120} />
-      </div>
+  <div class="flex flex-col items-center gap-4 text-center">
+    <div class="size-28 overflow-hidden rounded-full border border-border">
+      <Avatar src="/imgs/avatar.jpg" width={112} height={112} />
     </div>
 
-    <div class="text-center">
-      <h3 class="text-2xl font-bold mb-1">Azuxa616</h3>
-      <p class="flex gap-1 text-sm text-muted">
-        <img src="/svgs/email.svg" alt="email" width={20} height={20} />
-        <span>2226123739@qq.com</span>
-      </p>
+    <div class="space-y-1">
+      <h3 class="font-display text-2xl font-bold">Azuxa616</h3>
+      <p class="text-sm text-muted">全栈开发者 · 技术写作</p>
     </div>
 
-    <!-- GitHub 关注按钮 -->
-    <a
-      href="https://github.com/Azuxa616"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="w-full group flex items-center gap-3 bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-    >
-      <img
-        src="/svgs/github.svg"
-        alt="github"
-        width={20}
-        height={20}
-        class="opacity-90 group-hover:opacity-100 transition-opacity"
-      />
-      <span>Follow on GitHub</span>
-    </a>
-
-    <!-- Gitee 关注按钮 -->
-    <a
-      href="https://gitee.com/Azuxa616"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="w-full group flex items-center gap-3 bg-gradient-to-r from-[#d81e06] to-[#c0392b] hover:from-[#c0392b] hover:to-[#a93226] text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5"
-    >
-      <img
-        src="/svgs/gitee.svg"
-        alt="gitee"
-        width={20}
-        height={20}
-        class="opacity-90 group-hover:opacity-100 transition-opacity"
-      />
-      <span>Follow on Gitee</span>
+    <a class="chip inline-flex items-center gap-2 px-3 py-1 text-sm" href="mailto:2226123739@qq.com">
+      <img src="/svgs/email.svg" alt="邮箱" width={16} height={16} />
+      2226123739@qq.com
     </a>
   </div>
 </Card>

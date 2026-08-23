@@ -1,9 +1,9 @@
 ---
 title: "防抖和节流"
 slug: fang-dou-he-jie-liu-2
-description: "防抖和节流 > 快速记忆 > - 核心区别：防抖关注“连续触发结束后执行”，节流关注“连续触发期间按频率执行”。 > - 防抖（debounce）：每次触发都重新计时，只有停止触发达到等待时间后才执行"
+description: "对比防抖与节流的区别、触发时机与适用场景，并给出性能优化的实践建议。"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

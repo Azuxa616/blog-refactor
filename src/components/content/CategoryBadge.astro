@@ -1,55 +1,29 @@
 ---
 // CategoryBadge.astro
-// 分类徽章组件
-// 用于在封面图片上显示分类标识，支持图标、自定义颜色和暗色模式
-
-import {
-  hexToRgb,
-  calculateLuminance,
-  getContrastTextColor,
-  toRgba,
-} from '@/lib/utils/color'
+// 分类徽章组件（Neo-Brutalism）
+// 描边芯片 + 色块，统一可读
 
 interface Props {
   /** 分类标题 */
   title: string
   /** 图标（SVG 路径字符串，如 "/svgs/calendar.svg"） */
   icon?: string
-  /** 背景颜色（16进制格式，如 "#ffffff"），默认 "#ffffff" */
+  /** 背景颜色（16进制，如 "#ffffff"），默认 "#D64550" */
   color?: string
   /** 额外的 CSS 类名 */
   class?: string
 }
 
-const { title, icon, color = '#ffffff', class: className = '' } = Astro.props
-
-// 计算颜色相关值
-const bgColor = toRgba(color, 0.2)
-const textColor = getContrastTextColor(color)
-const [r, g, b] = hexToRgb(color)
-const luminance = calculateLuminance(r, g, b)
-
-// 暗色模式颜色
-const darkBgColor = toRgba(color, 0.15)
-const darkTextColor = luminance > 0.5 ? '#e2e8f0' : '#cbd5e1'
+const { title, icon, color = '#D64550', class: className = '' } = Astro.props
 ---
 
 <span
   class:list={[
-    'category-badge',
-    'inline-flex items-center gap-2 rounded-full px-4 py-1.5',
-    'text-sm font-medium backdrop-blur-sm',
-    'transition-all duration-300 ease-out',
-    'hover:backdrop-blur-md hover:scale-105',
+    'inline-flex items-center gap-2 chip px-3 py-1',
+    'text-sm font-semibold text-foreground',
     'select-none',
     className,
   ]}
-  style={{
-    '--badge-bg': bgColor,
-    '--badge-text': textColor,
-    '--badge-dark-bg': darkBgColor,
-    '--badge-dark-text': darkTextColor,
-  } as any}
 >
   {
     icon && (
@@ -63,17 +37,6 @@ const darkTextColor = luminance > 0.5 ? '#e2e8f0' : '#cbd5e1'
       />
     )
   }
+  <span class="h-2.5 w-2.5" style={`background-color: ${color}`}></span>
   <span>{title}</span>
 </span>
-
-<style>
-  .category-badge {
-    background-color: var(--badge-bg);
-    color: var(--badge-text);
-  }
-
-  .dark .category-badge {
-    background-color: var(--badge-dark-bg);
-    color: var(--badge-dark-text);
-  }
-</style>

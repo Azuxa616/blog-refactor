@@ -3,7 +3,7 @@ title: Hooks
 slug: hooks-2
 description: "1. useState () 基本用法 相关问题 - 为什么不直接用变量而用 useState ()? - 修改变量本身不会让 React 框架感知 - setState(C+1) 为什么不会立即修改"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

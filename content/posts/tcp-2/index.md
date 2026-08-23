@@ -3,7 +3,7 @@ title: "一、为什么 TCP 需要三次握手？"
 slug: tcp-2
 description: "一、为什么 TCP 需要三次握手？ 因为 TCP 是一个 可靠传输协议，它必须保证： 1. 双方都能发送数据 2. 双方都能接收数据 3. 双方都知道对方的初始序列号 三次握手就是为了让双方同步这些状"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

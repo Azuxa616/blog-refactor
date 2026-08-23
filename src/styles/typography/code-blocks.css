@@ -1,22 +1,24 @@
+/* ============================================================
+ * 代码块 — Neo-Brutalism（2px 描边 + 硬阴影 + 代码头）
+ * ============================================================ */
 .code-block {
-  border-radius: 0.5rem;
+  border-radius: 6px;
   overflow: hidden;
   margin: 1.5rem 0;
   background: var(--card-background);
-  border: 1px solid var(--border);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 .code-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
   padding: 0.5rem 1rem;
-  background: rgba(0, 0, 0, 0.05);
-  border-bottom: 1px solid var(--border);
-}
-
-.dark .code-header {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--muted-bg);
+  border-bottom: 2px solid var(--ink);
+  font-family: var(--font-mono);
 }
 
 .code-lang {
@@ -33,24 +35,26 @@
   gap: 0.25rem;
   padding: 0.25rem 0.5rem;
   font-size: 0.75rem;
-  color: var(--muted);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 0.25rem;
+  color: var(--foreground);
+  background: var(--card-background);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 
 .code-copy-btn:hover {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--ink);
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--ink);
 }
 
 .code-copy-btn.copied {
-  background: var(--primary);
-  color: white;
-  border-color: var(--primary);
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--ink);
 }
 
 .code-copy-btn svg {
@@ -59,9 +63,9 @@
 }
 
 pre {
-  border-radius: 0.5rem;
+  border-radius: 0 0 6px 6px;
   overflow-x: auto;
-  margin: 1.5rem 0;
+  margin: 0;
 }
 
 pre code {
@@ -70,13 +74,14 @@ pre code {
 }
 
 :not(pre) > code {
-  background: var(--muted);
+  background: var(--muted-bg);
+  border: 1px solid var(--ink);
   padding: 0.2rem 0.4rem;
-  border-radius: 0.25rem;
+  border-radius: 4px;
   font-size: 0.875em;
   color: var(--primary);
 }
 
 .dark :not(pre) > code {
-  background: rgba(59, 130, 246, 0.1);
+  background: var(--muted-bg);
 }

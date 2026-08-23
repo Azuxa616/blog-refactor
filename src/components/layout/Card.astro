@@ -1,5 +1,5 @@
 ---
-// 卡片组件
+// 卡片组件（Neo-Brutalism 基座）
 interface Props {
   class?: string;
   padding?: string;
@@ -11,8 +11,6 @@ const {
 } = Astro.props;
 ---
 
-<div class={`relative flex 
-bg-card-background backdrop-blur-sm border 
-border-white/20 shadow-xl rounded-2xl ${padding} hover:shadow-2xl transition-all duration-300 ${className}`}>
+<div class={`relative flex panel ${padding} ${className}`}>
   <slot />
 </div>

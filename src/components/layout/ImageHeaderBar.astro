@@ -1,8 +1,8 @@
 ---
 // ImageHeaderBar.astro
 // 带图片的头部栏组件
-// 支持默认和文章两种模式，使用 Alpine.js 处理图片加载错误
-// 注意：使用 Alpine.js 替代 React 的 useState 和 useEffect
+// 默认模式：编辑部眉板（弃用背景图）；文章模式：保留封面图
+// 使用 Alpine.js 处理图片加载错误
 
 // @ts-ignore - Props are used in template
 interface ImageHeaderBarProps {
@@ -57,19 +57,15 @@ const fallbackSrc = '/imgs/404.jpg'
         {category && (
           <div class="mb-4">
             <span
-              class="inline-block px-3 py-1 rounded-full text-sm font-medium"
-              style={{
-                backgroundColor: category.color + '40',
-                color: category.color,
-                border: `1px solid ${category.color}60`
-              }}
+              class="inline-block px-3 py-1 rounded-sm border border-white/40 text-sm font-medium bg-black/30 text-white"
+              style={{ borderColor: category.color }}
             >
               {category.name}
             </span>
           </div>
         )}
 
-        <h1 class="text-2xl md:text-4xl font-bold mb-4 leading-tight">
+        <h1 class="font-display text-2xl md:text-4xl font-bold mb-4 leading-tight">
           {articleTitle}
         </h1>
 
@@ -81,7 +77,7 @@ const fallbackSrc = '/imgs/404.jpg'
                 alt={author.username}
                 width={24}
                 height={24}
-                class="rounded-full border border-white/20"
+                class="border border-white/40 rounded-full"
                 @error="$el.src = '/imgs/avatar.jpg'"
               />
               <span>{author.username}</span>
@@ -107,21 +103,20 @@ const fallbackSrc = '/imgs/404.jpg'
   </div>
 )}
 
-<!-- 默认模式 -->
+<!-- 默认模式：编辑部眉板 -->
 {mode !== 'article' && (
-  <div
-    x-data={`{ currentSrc: '${src}', fallbackSrc: '${fallbackSrc}' }`}
-    class="relative w-full h-96 overflow-hidden"
-  >
-    <img
-      :src="currentSrc"
-      @error="currentSrc = fallbackSrc"
-      alt="articles"
-      class="absolute inset-0 w-full h-full object-cover object-center blur-sm"
-    />
-    <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/20 z-10">
-      <h1 class="text-5xl font-bold text-white tracking-wider mb-2">{title}</h1>
-      <p class="text-4xl font-medium text-white/90">{subtitle}</p>
+  <header class="border-b-2 border-ink bg-background">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:py-24">
+      <p class="eyebrow text-primary mb-4">/ archive</p>
+      <h1 class="font-display text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
+        {title}
+      </h1>
+      {
+        subtitle && (
+          <p class="mt-4 text-lg text-muted">{subtitle}</p>
+        )
+      }
+      <div class="mt-6 h-1.5 w-20 bg-accent"></div>
     </div>
-  </div>
+  </header>
 )}

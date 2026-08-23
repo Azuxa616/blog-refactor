@@ -1,14 +1,34 @@
-:root {
-  --font-geist-sans: 'Inter Variable', system-ui, sans-serif;
-  --font-geist-mono: 'JetBrains Mono Variable', 'Fira Code', monospace;
+/* ============================================================
+ * Design Tokens — Editorial × Neo-Brutalism
+ * 编辑部排版 为骨架，Neo-Brutalism 为组件语言
+ * 核心色板（亮/暗） + 辅助变量（热力图/技能/徽章/错误/后台 保持不变，避免破坏组件）
+ * ============================================================ */
 
-  --background: #fffeee;
-  --foreground: #171717;
-  --primary: #254889;
-  --secondary: #8b7500;
-  --card-background: rgba(255, 255, 255, 0.8);
-  --muted: #6b7280;
-  --border: rgba(0, 0, 0, 0.1);
+:root {
+  --font-geist-sans: 'Inter Variable', system-ui, ui-sans-serif, sans-serif;
+  --font-geist-mono: 'JetBrains Mono Variable', 'Fira Code', ui-monospace, monospace;
+  --font-fraunces: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+
+  /* 编辑部暖色调色板 */
+  --background: #F5F0E8;          /* 纸感暖白 */
+  --paper: #F5F0E8;              /* 深色面上的纸白文字色 */
+  --foreground: #111111;          /* 墨色 */
+  --primary: #D64550;            /* 可读的交互强调色（玫瑰红），用于链接/CTA/焦点 */
+  --secondary: #FFDE59;          /* 主导块面强调色（黄），用于强调块/标签/选中态 */
+  --card-background: #FFFDF9;    /* 卡片实底 */
+  --muted: #6B6158;              /* 可读的弱化文本 */
+  --border: #DDD3C4;             /* 细线分隔 */
+
+  /* Neo-Brutalism 结构色 */
+  --ink: #111111;                /* 描边 & 硬阴影色 */
+  --ink-solid: #14110C;          /* 纯色深色面（Hero 封面带/页脚） */
+
+  /* 强调色（谨慎使用：一页通常 1 主导 + 1 次要） */
+  --accent: #FFDE59;             /* 主导强调（黄） */
+  --accent-red: #FF6B6B;         /* 次要强调（红） */
+  --accent-blue: #5B8DEF;        /* 备用强调（蓝） */
+  --accent-green: #8BE28B;       /* 备用强调（绿） */
+  --muted-bg: #E5E0D8;           /* 弱化表面 */
 
   --text-primary: #0f172a;
   --text-secondary: #cbd5e1;
@@ -75,14 +95,25 @@
   --admin-info: #3b82f6;
 }
 
+/* 暗色：暖黑编辑部版本 */
 .dark {
-  --background: #0a0a1a;
-  --foreground: #ededed;
-  --primary: #3b82f6;
-  --secondary: #fbbf24;
-  --card-background: rgba(219, 219, 219, 0.5);
-  --muted: #9ca3af;
-  --border: rgba(255, 255, 255, 0.1);
+  --background: #17120C;
+  --paper: #F5F0E8;
+  --foreground: #F5F0E8;
+  --primary: #FF7A6E;            /* 暗色下的可读强调（亮红） */
+  --secondary: #FFDE59;          /* 主导强调（黄） */
+  --card-background: #221C14;
+  --muted: #A79D8F;
+  --border: #3A332A;
+
+  --ink: #F5F0E8;                /* neo 线/阴影在暗色用亮纸色 */
+  --ink-solid: #0E0B07;          /* 纯色深面保持近黑 */
+
+  --accent: #FFDE59;
+  --accent-red: #FF7A6E;
+  --accent-blue: #8AB4FF;
+  --accent-green: #8BE28B;
+  --muted-bg: #2A241C;
 
   --text-primary: #ffffff;
   --text-secondary: #cbd5e1;

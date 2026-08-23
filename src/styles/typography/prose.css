@@ -168,19 +168,17 @@
   width: 100%;
   border-collapse: collapse;
   margin: 1.5em 0;
-  border: 2px solid #d1d5db;
+  border: 2px solid var(--ink);
   border-radius: 0.5em;
   overflow: hidden;
 }
 
-.dark .prose table {
-  border-color: #4b5563;
-}
+
 
 .prose th,
 .prose td {
   padding: 0.75em 1em;
-  border: 1.5px solid #d1d5db;
+  border: 2px solid var(--ink);
   text-align: left;
 }
 
@@ -207,3 +205,4 @@
   background-color: rgba(255, 255, 255, 0.1);
   color: var(--foreground);
 }
+

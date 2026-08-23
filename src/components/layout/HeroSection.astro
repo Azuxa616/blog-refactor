@@ -1,36 +1,37 @@
 ---
-// 主视觉区组件
-// 用于首页的欢迎区域
-// 添加中文注释
-
-import Typewriter from '@/components/react/Typewriter'
+// HeroSection.astro
+// 技术杂志封面：超大展示字体标题 + 眉标 + 强调色块 + 几何元素
+// 使用静态编辑排版，避免模板化打字机动画
 
 interface Props {
   /** 额外的 CSS 类名 */
   _className?: string
 }
 
-// @ts-ignore - className is used in template
 const { _className = '' } = Astro.props
+const year = new Date().getFullYear()
 ---
 
-<div
-  class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center text-white ${_className}"
->
-  <h1 class="text-6xl font-bold">Welcome to Azuxa&apos;s Blog</h1>
-  <Typewriter
-    client:visible
-    textList={[
-      'Not just a blog, but',
-      ' a notebook',
-      ' a showcase',
-      ' a ground',
-      ' a world',
-    ]}
-    typingSpeed={100}
-    deleteSpeed={60}
-    gapInterval={2000}
-    cursorBlinkInterval={500}
-    className="text-3xl font-mono"
-  />
-</div>
+<section class={`relative w-full px-6 sm:px-12 md:px-16 lg:px-24 text-paper ${_className}`}>
+  <div class="relative z-10 max-w-3xl">
+    <p class="eyebrow text-accent mb-6">Azuxa&apos;s Blog — Developer Magazine</p>
+
+    <h1 class="font-display text-6xl leading-[0.95] font-bold tracking-tight sm:text-7xl md:text-8xl">
+      Every step<br />counts.
+    </h1>
+
+    <p class="mt-8 max-w-xl font-mono text-sm text-paper/70">
+      记录技术、思考与创作。一册独立开发者杂志式的个人博客。
+    </p>
+
+    <div class="mt-10 flex items-center gap-4">
+      <span class="inline-block h-3 w-16 bg-accent"></span>
+      <span class="eyebrow text-paper/60">Vol. {year} / Personal Journal</span>
+    </div>
+  </div>
+
+  <!-- 几何强调块 -->
+  <div class="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 md:block">
+    <div class="h-24 w-24 border-2 border-accent" aria-hidden="true"></div>
+  </div>
+</section>

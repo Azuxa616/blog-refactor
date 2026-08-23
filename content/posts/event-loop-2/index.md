@@ -1,9 +1,9 @@
 ---
 title: "Event Loop（事件循环）"
 slug: event-loop-2
-description: "Event Loop（事件循环） > 快速记忆 > - 核心定义：事件循环是宿主环境协调调用栈、异步能力和任务队列的调度机制。 > - 执行顺序：执行一个任务 → 清空微任务队列 → 浏览器可能渲染 "
+description: "本文梳理事件循环的核心定义与执行顺序：调用栈、异步能力、任务队列与微任务的调度机制。"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 

@@ -1,52 +1,111 @@
 ---
 // 首页
 // 使用 Alpine.js 管理页面交互
-// 添加中文注释
+// 组合所有区块：特色文章 → 最新文章 → 个人简介 → 维度选择 → 分类
+// Editorial × Neo-Brutalism：杂志封面带 + 编辑部章节分隔
 
 import Layout from '@/layouts/Layout.astro'
 import HeroSection from '@/components/layout/HeroSection.astro'
+import ArrowDownButton from '@/components/layout/ArrowDownButton.astro'
 import FooterBar from '@/components/layout/FooterBar.astro'
+import FeaturedPostCard from '@/components/content/FeaturedPostCard.astro'
+import LatestPostsSection from '@/components/LatestPostsSection.astro'
+import ProfileSection from '@/components/ProfileSection.astro'
+import DimensionSelector from '@/components/react/DimensionSelector'
+import CategoriesSection from '@/components/CategoriesSection.astro'
+import { getLatestPosts } from '@/lib/utils/posts'
+import { getDimensionsData } from '@/lib/integrations/state'
+
+const latestPost = (await getLatestPosts())[0]
+const dimensions = await getDimensionsData()
 ---
 
 <Layout>
   <div
     x-data="pageExpand"
     @wheel="handleWheel($event)"
-    class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full"
+    class="font-sans flex flex-col items-center justify-items-center min-h-screen w-full bg-background"
   >
-    <!-- 背景图片 -->
-    <div class="relative w-full h-full">
-      <div class="fixed inset-0 z-0">
-        <img
-          src="/imgs/index-bg-img-03.png"
-          alt="background"
-          class="object-cover w-full h-full"
-        />
-      </div>
-    </div>
-
-    <!-- 主视觉区 -->
-    <main
-      class="relative z-10 flex flex-col items-center sm:items-start w-full"
-    >
-      <div
-        class="relative flex flex-col items-center justify-center gap-4 min-h-screen w-full text-center"
+    <!-- 主视觉封面带：弃用背景图，改为墨色编辑部封面 -->
+    <main class="relative w-full">
+      <section
+        class="relative flex items-center justify-center min-h-screen w-full bg-ink-solid text-paper overflow-hidden"
+        aria-label="欢迎"
       >
         <HeroSection />
 
-        <!-- 向下滚动按钮 -->
-        <!-- <div class="absolute bottom-1/12 left-1/2">
-          <ArrowDownButton />
+        <!-- 向下滚动按钮：点击平滑滚动至特色文章区 -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20">
+          <ArrowDownButton
+            _className="text-paper/70 hover:text-paper transition-colors"
+            onClick={`document.getElementById('featured')?.scrollIntoView({behavior:'smooth'})`}
+          />
         </div>
-      </div> -->
-        <!-- Todo··这里暂时不展示 -->
-        <!-- 占位，用于滚动 -->
-        <!-- <div style="height: 100vh; visibility: hidden; pointer-events: none" /> -->
+      </section>
 
-        <!-- GitHub 展示区 -->
-        <!-- <div>
-        <GithubSection />
-      </div> -->
+      <!-- 内容区 -->
+      <div class="relative w-full">
+        <!-- 特色文章 -->
+        <section
+          id="featured"
+          data-section="featured"
+          class="scroll-mt-20 max-w-6xl mx-auto px-4 py-20"
+        >
+          {
+            latestPost ? (
+              <FeaturedPostCard
+                slug={latestPost.slug}
+                title={latestPost.data.title}
+                description={latestPost.data.description}
+                coverImage={latestPost.data.coverImage}
+                publishDate={latestPost.data.publishDate.toISOString().split('T')[0]}
+                category={
+                  latestPost.data.category
+                    ? { name: latestPost.data.category }
+                    : undefined
+                }
+              />
+            ) : null
+          }
+        </section>
+
+        <!-- 区块间编辑部式分隔线 -->
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="border-t-2 border-ink"></div>
+        </div>
+
+        <!-- 最新文章 -->
+        <LatestPostsSection />
+
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="border-t-2 border-ink"></div>
+        </div>
+
+        <!-- 个人简介 -->
+        <ProfileSection />
+
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="border-t-2 border-ink"></div>
+        </div>
+
+        <!-- 维度选择：你想了解哪个维度的我 -->
+        <section data-section="dimensions" aria-labelledby="dimensions-title" class="py-20 w-full">
+          <div class="mx-auto max-w-[1600px] px-4">
+            <DimensionSelector
+              client:load
+              tech={dimensions.tech}
+              gaming={dimensions.gaming}
+              other={dimensions.else}
+            />
+          </div>
+        </section>
+
+        <div class="max-w-6xl mx-auto px-4">
+          <div class="border-t-2 border-ink"></div>
+        </div>
+
+        <!-- 分类导航 -->
+        <CategoriesSection />
       </div>
 
       <!-- 页脚 -->

@@ -1,9 +1,9 @@
 ---
 title: "大数据技术 系统性复习文档"
 slug: da-shu-ju-ji-shu-fu-xi-wen-dang-2
-description: "大数据技术 系统性复习文档 --- 目录 - 第1章 大数据概述 - 第2章 数据存储与管理 - 第3章 分布式文件系统HDFS（上） - 第4章 分布式文件系统HDFS（下） - 第5章 MapRe"
+description: "系统性复习文档：涵盖大数据概述、数据存储与管理、分布式文件系统 HDFS、MapReduce 等核心章节。"
 publishDate: 2026-07-22
-category: uncategorized
+category: tech
 tags: []
 ---
 
