@@ -27,13 +27,12 @@ if (categories.length === 0) return null
         categories.map((cat) => (
           <a
             href={`/articles?category=${cat.data.slug}`}
-            class="group block rounded-2xl border border-white/20 backdrop-blur-sm bg-white/5 p-5 hover:-translate-y-1 hover:border-white/40 transition-all duration-300"
+            class="group block rounded-md border border-border bg-card-background p-5 transition-colors hover:border-ink hover:shadow-hard-hover"
           >
             <div class="flex items-center justify-between mb-3">
               <h3 class="text-lg font-semibold text-foreground">{cat.data.name}</h3>
               <span
-                class="inline-flex items-center justify-center w-8 h-8 rounded-lg text-white text-sm font-bold shadow-sm"
-                style={`background: linear-gradient(135deg, ${cat.data.color || '#2563eb'}, #0f172a)`}
+                class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-accent text-ink-solid text-sm font-bold"
               >
                 {cat.data.name.slice(0, 1).toUpperCase()}
               </span>
