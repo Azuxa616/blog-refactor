@@ -1,13 +1,11 @@
 ---
 title: "2024年回顾：学习与成长"
-slug: "2024-review"
-description: "回顾2024年的学习和成长历程，展望未来。"
-publishDate: 2024-03-01
-updatedDate: 2024-03-01
-category: life
-tags: ["生活", "成长"]
+slug: 2024-review
+path: life/2024-review
+sourcePath: "Blog/生活/2024-review.md"
+description: "回顾 2024 年的学习和成长历程，展望未来。"
+publishDate: 2024-03-01T00:00:00.000Z
 coverImage: "/blog-images/all%20time%20favorite_96769924_p1.jpg"
-isRepost: false
 ---
 
 # 2024年回顾：学习与成长

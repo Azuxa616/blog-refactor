@@ -1,13 +1,11 @@
 ---
-title: "【旧】欢迎来到 Azuxa's BlogWorld"
-slug: "hello-world"
-description: "欢迎来到我的博客！这是我的第一篇文章，介绍了博客的基本情况。"
-publishDate: 2024-01-15
-updatedDate: 2024-01-15
-category: site
-tags: ["博客", "介绍"]
-coverImage: "/blog-images/hello-world-bg.png"
-isRepost: false
+title: "欢迎来到 Azuxa's BlogWorld"
+slug: hello-world
+path: site/hello-world
+sourcePath: "Blog/站务/hello-world.md"
+description: "欢迎来到我的博客！这是我的第一篇文章，介绍了博客的技术栈与功能。"
+publishDate: 2024-01-15T00:00:00.000Z
+coverImage: /blog-images/hello-world-bg.png
 ---
 ## 关于这个网站
 

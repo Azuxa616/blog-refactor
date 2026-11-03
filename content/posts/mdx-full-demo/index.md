@@ -1,11 +1,11 @@
 ---
 title: "MDX 完整功能演示"
-slug: "mdx-full-demo"
-description: "展示方案三的所有 MDX 功能，包括自定义插件、数学公式、emoji 等"
-publishDate: 2026-03-14
-category: tech
-tags: ["MDX", "Astro", "教程"]
-coverImage: "/blog-images/mdx-demo-bg.png"
+slug: mdx-full-demo
+path: site/mdx-full-demo
+sourcePath: "Blog/站务/mdx-full-demo.md"
+description: "展示博客的所有 MDX 功能，包括自定义插件、数学公式、emoji 等"
+publishDate: 2026-03-14T00:00:00.000Z
+coverImage: /blog-images/mdx-demo-bg.png
 ---
 
 # MDX 完整功能演示

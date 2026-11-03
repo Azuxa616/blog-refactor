@@ -1,13 +1,11 @@
 ---
 title: "Astro + Alpine.js：轻量级博客的最佳实践"
-slug: "astro-alpine-best-practices"
+slug: astro-alpine-best-practices
+path: tech/astro-alpine-best-practices
+sourcePath: "Blog/技术/astro-alpine-best-practices.md"
 description: "探讨如何使用 Astro 和 Alpine.js 构建高性能的博客系统。"
-publishDate: 2024-02-01
-updatedDate: 2024-02-01
-category: tech
-tags: ["Astro", "Alpine.js", "前端"]
+publishDate: 2024-02-01T00:00:00.000Z
 coverImage: "/blog-images/星つかみ_57877623.png"
-isRepost: false
 ---
 
 # Astro + Alpine.js：轻量级博客的最佳实践
