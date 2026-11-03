@@ -13,7 +13,8 @@ import LatestPostsSection from '@/components/LatestPostsSection.astro'
 import ProfileSection from '@/components/ProfileSection.astro'
 import DimensionSelector from '@/components/react/DimensionSelector'
 import CategoriesSection from '@/components/CategoriesSection.astro'
-import { getLatestPosts } from '@/lib/utils/posts'
+import { getLatestPosts, getPostPath } from '@/lib/utils/posts'
+import { getSectionName } from '@/lib/utils/section-names'
 import { getDimensionsData } from '@/lib/integrations/state'
 
 const latestPost = (await getLatestPosts())[0]
@@ -54,16 +55,12 @@ const dimensions = await getDimensionsData()
           {
             latestPost ? (
               <FeaturedPostCard
-                slug={latestPost.slug}
+                path={getPostPath(latestPost)}
                 title={latestPost.data.title}
                 description={latestPost.data.description}
                 coverImage={latestPost.data.coverImage}
                 publishDate={latestPost.data.publishDate.toISOString().split('T')[0]}
-                category={
-                  latestPost.data.category
-                    ? { name: latestPost.data.category }
-                    : undefined
-                }
+                section={getSectionName(getPostPath(latestPost).split('/')[0])}
               />
             ) : null
           }
@@ -104,7 +101,7 @@ const dimensions = await getDimensionsData()
           <div class="border-t-2 border-ink"></div>
         </div>
 
-        <!-- 分类导航 -->
+        <!-- 分区导航 -->
         <CategoriesSection />
       </div>
 

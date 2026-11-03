@@ -1,0 +1,34 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import ImageHeaderBar from '@/components/layout/ImageHeaderBar.astro'
+import TreeNode from '@/components/content/TreeNode.astro'
+import { getAllPosts } from '@/lib/utils/posts'
+import { buildTree } from '@/lib/utils/tree'
+
+export const prerender = false
+
+const posts = await getAllPosts()
+const tree = buildTree(posts)
+---
+
+<Layout title="目录树" class="min-h-screen bg-background">
+  <ImageHeaderBar
+    src="/imgs/index-bg-img-04.png"
+    title="Archive"
+    subtitle="笔记目录树"
+  />
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <p class="mb-8 text-muted">共 {posts.length} 篇文章，按笔记目录整理。</p>
+    {
+      tree.length > 0 ? (
+        <ul aria-label="完整笔记目录树" class="panel p-6 md:p-8">
+          {tree.map((node) => (
+            <TreeNode node={node} open={true} />
+          ))}
+        </ul>
+      ) : (
+        <p class="text-center text-muted">暂无文章。</p>
+      )
+    }
+  </main>
+</Layout>

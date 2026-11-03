@@ -40,7 +40,7 @@ export interface Permissions {
   canCreatePost: boolean;
   canEditPost: boolean;
   canDeletePost: boolean;
-  canManageCategories: boolean;
+  canManageSections: boolean;
   canManageUsers: boolean;
 }
 

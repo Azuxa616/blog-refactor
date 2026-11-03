@@ -17,10 +17,7 @@ interface ImageHeaderBarProps {
     avatar: string
   }
   readTime?: number
-  category?: {
-    name: string
-    color: string
-  }
+  section?: string
 }
 
 const {
@@ -32,7 +29,7 @@ const {
   publishedAt,
   author,
   readTime,
-  category
+  section
 } = Astro.props
 
 const fallbackSrc = '/imgs/404.jpg'
@@ -54,13 +51,10 @@ const fallbackSrc = '/imgs/404.jpg'
 
     <div class="absolute inset-0 flex flex-col justify-end md:p-10 z-10">
       <div class="text-white max-w-4xl">
-        {category && (
+        {section && (
           <div class="mb-4">
-            <span
-              class="inline-block px-3 py-1 rounded-sm border border-white/40 text-sm font-medium bg-black/30 text-white"
-              style={{ borderColor: category.color }}
-            >
-              {category.name}
+            <span class="inline-block px-3 py-1 rounded-sm border border-white/40 text-sm font-medium bg-black/30 text-white">
+              {section}
             </span>
           </div>
         )}

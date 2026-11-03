@@ -13,8 +13,6 @@ interface AppState {
   theme: 'light' | 'dark'
   setTheme: (theme: 'light' | 'dark') => void
   toggleTheme: () => void
-  currentCategory: string
-  setCurrentCategory: (category: string) => void
   searchQuery: string
   setSearchQuery: (query: string) => void
   isExpanded: boolean
@@ -30,7 +28,6 @@ interface AppProviderProps {
 function AppProvider({ children }: AppProviderProps) {
   // 硬编码初始值为 'dark' 匹配 SSR <html class="dark">，避免任何水合差异
   const [theme, setThemeState] = useState<'light' | 'dark'>('dark')
-  const [currentCategory, setCurrentCategory] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [isExpanded, setIsExpanded] = useState(false)
   const initialized = useRef(false)
@@ -66,14 +63,12 @@ function AppProvider({ children }: AppProviderProps) {
       theme,
       setTheme,
       toggleTheme,
-      currentCategory,
-      setCurrentCategory,
       searchQuery,
       setSearchQuery,
       isExpanded,
       setIsExpanded,
     }),
-    [theme, setTheme, toggleTheme, currentCategory, searchQuery, isExpanded]
+    [theme, setTheme, toggleTheme, searchQuery, isExpanded]
   )
 
   return (

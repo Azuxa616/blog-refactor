@@ -1,0 +1,172 @@
+---
+// 树形文章路由：优先匹配文章完整 path，其次匹配目录前缀。
+import { render } from 'astro:content'
+import Layout from '@/layouts/Layout.astro'
+import ArticleCoverImage from '@/components/content/ArticleCoverImage.astro'
+import BlogItem from '@/components/content/BlogItem.astro'
+import Breadcrumb from '@/components/content/Breadcrumb.astro'
+import Card from '@/components/layout/Card.astro'
+import { getAllPosts, getPostByPath, getPostPath, getLegacyRedirectTarget } from '@/lib/utils/posts'
+import { getSectionName } from '@/lib/utils/section-names'
+import { getBreadcrumbs, getSubtree } from '@/lib/utils/tree'
+
+export const prerender = false
+
+const path = Astro.params.path?.replace(/^\/+|\/+$/g, '')
+if (!path) {
+  return new Response('Not Found', { status: 404 })
+}
+
+const post = await getPostByPath(path)
+const allPosts = post ? [] : await getAllPosts()
+const directory = post ? undefined : getSubtree(allPosts, path)
+
+if (!post && !directory) {
+  // 旧单段 URL（如 /articles/tcp）→ 永久重定向到当前树形路径。
+  // 仅在无斜杠（旧地址形态）时尝试，避免掩盖真实 404。
+  if (!path.includes('/')) {
+    const target = await getLegacyRedirectTarget(path)
+    if (target) {
+      // Response.redirect 生成的 immutable headers 会在中间件链中报错；
+      // 手工构造 301 + Location，行为一致且可变。
+      return new Response(null, {
+        status: 301,
+        headers: {
+          Location: new URL(`/articles/${target}`, Astro.url).toString(),
+          'Cache-Control': 'public, max-age=31536000, immutable',
+        },
+      })
+    }
+  }
+  return new Response('Not Found', { status: 404 })
+}
+
+const { Content } = post ? await render(post) : { Content: undefined }
+const breadcrumbs = getBreadcrumbs(path)
+const directoryName = directory ? getSectionName(directory.name) : ''
+---
+
+<Layout title={post ? post.data.title : directoryName}>
+  {
+    post && Content ? (
+      <article class="min-h-screen bg-background">
+        <!-- 文章头部 -->
+        <ArticleCoverImage
+          coverImage={post.data.coverImage}
+          title={post.data.title}
+          description={post.data.description}
+          publishDate={post.data.publishDate}
+          updatedDate={post.data.updatedDate}
+        />
+
+        <!-- 文章内容 -->
+        <div class="max-w-4xl mx-auto px-4 py-12">
+          <Breadcrumb items={breadcrumbs} className="mb-8" />
+          <div class="prose prose-lg dark:prose-invert">
+            <Content />
+          </div>
+
+          {/* 转载信息 */}
+          {post.data.isRepost && (
+            <div class="mt-8 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+              <p class="text-sm text-yellow-800 dark:text-yellow-200">
+                <strong>转载声明：</strong> 本文转载自 {post.data.originalAuthor || '原作者'}
+                {post.data.originalLink && (
+                  <a href={post.data.originalLink} target="_blank" rel="noopener noreferrer" class="ml-2 hover:underline">
+                    查看原文
+                  </a>
+                )}
+              </p>
+            </div>
+          )}
+        </div>
+
+        <!-- 代码复制功能脚本 -->
+        <script is:inline>
+          document.addEventListener('DOMContentLoaded', () => {
+            const copyButtons = document.querySelectorAll('.code-copy-btn')
+
+            copyButtons.forEach(button => {
+              button.addEventListener('click', async () => {
+                const codeBlock = button.closest('.code-block')
+                const code = codeBlock?.querySelector('code')
+
+                if (code) {
+                  try {
+                    await navigator.clipboard.writeText(code.textContent || '')
+                    button.classList.add('copied')
+                    button.innerHTML = '<img src="/svgs/check.svg" width="16" height="16" alt="已复制" />'
+
+                    setTimeout(() => {
+                      button.classList.remove('copied')
+                      button.innerHTML = '<img src="/svgs/copy.svg" width="16" height="16" alt="复制代码" />'
+                    }, 2000)
+                  } catch (err) {
+                    console.error('复制失败:', err)
+                  }
+                }
+              })
+            })
+          })
+        </script>
+      </article>
+    ) : directory ? (
+      <div class="min-h-screen bg-background">
+        <header class="border-b-2 border-ink">
+          <div class="max-w-6xl mx-auto px-4 py-16">
+            <Breadcrumb items={breadcrumbs} className="mb-8" />
+            <p class="eyebrow text-primary mb-4">/ notes</p>
+            <h1 class="font-display text-5xl font-bold tracking-tight text-foreground">
+              {directoryName}
+            </h1>
+            <p class="mt-4 text-muted">{directory.postCount} 篇文章</p>
+          </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto px-4 py-12">
+          {directory.children.length > 0 && (
+            <section aria-labelledby="child-directories" class="mb-12">
+              <h2 id="child-directories" class="text-2xl font-bold text-foreground mb-6">子目录</h2>
+              <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {directory.children.map((child) => (
+                  <a
+                    href={`/articles/${child.slugPath.split('/').map(encodeURIComponent).join('/')}`}
+                    class="block rounded-md border border-border bg-card-background p-5 transition-colors hover:border-ink hover:shadow-hard-hover"
+                  >
+                    <h3 class="text-lg font-semibold text-foreground">{getSectionName(child.name)}</h3>
+                    <p class="mt-2 text-sm text-muted">{child.postCount} 篇文章</p>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+
+          <section aria-labelledby="directory-posts">
+            <h2 id="directory-posts" class="text-2xl font-bold text-foreground mb-6">当前目录文章</h2>
+            <div class="flex flex-col gap-6">
+              {directory.posts.length > 0 ? (
+                directory.posts.map((directoryPost) => {
+                  const postPath = getPostPath(directoryPost)
+                  return (
+                    <a href={`/articles/${postPath.split('/').map(encodeURIComponent).join('/')}`}>
+                      <BlogItem
+                        coverImage={directoryPost.data.coverImage || ''}
+                        title={directoryPost.data.title}
+                        description={directoryPost.data.description}
+                        section={getSectionName(postPath.split('/')[0])}
+                        publishDate={directoryPost.data.publishDate.toISOString().split('T')[0]}
+                      />
+                    </a>
+                  )
+                })
+              ) : (
+                <Card>
+                  <p class="w-full py-8 text-center text-muted">此目录暂无直属文章，请从子目录继续浏览。</p>
+                </Card>
+              )}
+            </div>
+          </section>
+        </main>
+      </div>
+    ) : null}
+</Layout>

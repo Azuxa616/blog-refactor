@@ -23,7 +23,6 @@ export default function setupAlpine(Alpine) {
         ? 'dark'
         : 'light'
     })(),
-    currentCategory: 'all',
     searchQuery: '',
     isExpanded: false,
 
@@ -37,10 +36,6 @@ export default function setupAlpine(Alpine) {
       const newTheme = this.theme === 'dark' ? 'light' : 'dark'
       this.setTheme(newTheme)
       return newTheme
-    },
-
-    setCurrentCategory(category) {
-      this.currentCategory = category
     },
 
     setSearchQuery(query) {

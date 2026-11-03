@@ -9,8 +9,7 @@ export const idSchema = z.object({
 // 文章查询参数验证模式
 export const articleQuerySchema = z.object({
   status: z.nativeEnum(ArticleStatus).optional(),
-  categoryId: z.string().optional(),
-  tagId: z.string().optional(),
+  path: z.string().optional(),
   search: z.string().optional(),
   page: z.coerce.number().int().positive().optional(),
   limit: z.coerce.number().int().positive().max(100).optional(),
@@ -32,8 +31,9 @@ export const createArticleSchema = z.object({
       return false;
     }
   }, { message: '封面图片必须是有效的URL' }).optional(),
-  categoryId: z.string().min(1, '分类不能为空'),
-  tagNames: z.array(z.string()).optional(),
+  path: z.string().min(1, '文章路径不能为空').optional(),
+  sourcePath: z.string().optional(),
+  needsMeta: z.boolean().optional(),
   status: z.nativeEnum(ArticleStatus).optional(),
   author: z.string().max(100, '作者名称不能超过100字符').optional(),
   isRepost: z.boolean().optional(),

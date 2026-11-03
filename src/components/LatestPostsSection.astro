@@ -2,28 +2,18 @@
 // 最新文章章节组件
 // 组合 SectionHeader + ViewAllButton + BlogItem
 // 展示除置顶（最新一篇）外的 3 篇最新文章
-import { getAllPosts } from '@/lib/utils/posts'
-import { getCategories } from '@/lib/utils/categories'
+import { getAllPosts, getPostPath } from '@/lib/utils/posts'
 import BlogItem from '@/components/content/BlogItem.astro'
 import SectionHeader from '@/components/layout/SectionHeader.astro'
 import ViewAllButton from '@/components/layout/ViewAllButton.astro'
+import { getSectionName } from '@/lib/utils/section-names'
 
 const allPosts = await getAllPosts()
 // 排除第一篇（最新）——它作为 FeaturedPostCard 展示
 const latestPosts = allPosts.length > 1 ? allPosts.slice(1, 4) : []
-const categories = await getCategories()
 
 // 总文章数 ≤ 1 时隐藏整个章节
 if (latestPosts.length === 0) return null
-
-// 将分类 slug 映射为 {name, color} 对象
-const getCategoryInfo = (slug: string) => {
-  const cat = categories.find((c) => c.data.slug === slug)
-  return {
-    name: cat?.data.name || '未分类',
-    color: cat?.data.color,
-  }
-}
 ---
 
 <section
@@ -46,19 +36,21 @@ const getCategoryInfo = (slug: string) => {
 
     <div class="flex flex-col gap-6">
       {
-        latestPosts.map((post) => (
-          <a href={`/articles/${post.slug}`}>
-            <BlogItem
-              coverImage={post.data.coverImage || ''}
-              title={post.data.title}
-              description={post.data.description}
-              category={getCategoryInfo(post.data.category)}
-              publishDate={post.data.publishDate.toISOString().split('T')[0]}
-            />
-          </a>
-        ))
+        latestPosts.map((post) => {
+          const path = getPostPath(post)
+          return (
+            <a href={`/articles/${path.split('/').map(encodeURIComponent).join('/')}`}>
+              <BlogItem
+                coverImage={post.data.coverImage || ''}
+                title={post.data.title}
+                description={post.data.description}
+                section={getSectionName(path.split('/')[0])}
+                publishDate={post.data.publishDate.toISOString().split('T')[0]}
+              />
+            </a>
+          )
+        })
       }
     </div>
   </div>
 </section>
-

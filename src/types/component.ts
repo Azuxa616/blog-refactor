@@ -55,28 +55,8 @@ export interface BlogItemProps {
   coverImage: string;
   title: string;
   description: string;
-  category: {
-    name: string;
-    color?: string;
-  };
+  section: string;
   publishDate: string;
-}
-
-/**
- * 分类筛选器组件属性
- */
-export interface CategoryFilterProps {
-  categories: Array<{
-    name: string;
-    slug: string;
-    data: {
-      color: string;
-    };
-    articleCount?: number;
-  }>;
-  selectedCategory: string;
-  searchTerm: string;
-  sortType: string;
 }
 
 /**
@@ -152,15 +132,12 @@ export interface WebStatisticDataCardProps {
 }
 
 /**
- * 分类卡片组件属性
+ * 分区导航卡片组件属性
  */
-export interface CategoryCardProps {
-  category: {
-    name: string;
-    slug: string;
-    color: string;
-    articleCount?: number;
-  };
+export interface SectionCardProps {
+  name: string;
+  slugPath: string;
+  postCount: number;
   href?: string;
 }
 

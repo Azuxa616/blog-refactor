@@ -1,0 +1,54 @@
+---
+import { getPostPath } from '@/lib/utils/posts'
+import { getSectionName } from '@/lib/utils/section-names'
+import type { TreeNode } from '@/lib/utils/tree'
+
+interface Props {
+  node: TreeNode
+  open?: boolean
+}
+
+const { node, open = false } = Astro.props
+const sectionName = getSectionName(node.name)
+---
+
+<li class="ml-4 border-l border-border pl-4">
+  <details open={open} class="group py-2">
+    <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-sm py-1 font-medium text-foreground hover:text-primary">
+      <span class="flex items-center gap-2">
+        <span aria-hidden="true" class="text-xs transition-transform group-open:rotate-90">▶</span>
+        <a href={`/articles/${node.slugPath.split('/').map(encodeURIComponent).join('/')}`} class="hover:underline">
+          {sectionName}
+        </a>
+      </span>
+      <span class="text-xs font-normal text-muted">{node.postCount} 篇</span>
+    </summary>
+
+    {
+      node.posts.length > 0 && (
+        <ul class="ml-4 mt-2 flex flex-col gap-2 border-l border-border pl-4">
+          {node.posts.map((post) => (
+            <li>
+              <a
+                href={`/articles/${getPostPath(post).split('/').map(encodeURIComponent).join('/')}`}
+                class="text-sm text-muted transition-colors hover:text-primary"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      node.children.length > 0 && (
+        <ul class="mt-1">
+          {node.children.map((child) => (
+            <Astro.self node={child} />
+          ))}
+        </ul>
+      )
+    }
+  </details>
+</li>

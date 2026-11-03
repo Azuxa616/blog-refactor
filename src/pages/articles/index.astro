@@ -1,40 +1,27 @@
 ---
-// 文章列表页
-// 使用 Alpine.js 管理筛选和分页
-// 添加中文注释
-
+// 全部文章：保留关键词搜索与分页，分区链接进入对应目录索引。
 import BlogItem from '@/components/content/BlogItem.astro'
-import CategoryFilter from '@/components/interactions/CategoryFilter.astro'
 import Card from '@/components/layout/Card.astro'
 import ImageHeaderBar from '@/components/layout/ImageHeaderBar.astro'
 import Pagination from '@/components/react/Pagination'
-import { getAllPosts } from '@/lib/utils/posts'
-import { getCategories } from '@/lib/utils/categories'
+import { getAllPosts, getPostPath } from '@/lib/utils/posts'
 import type { PostWithSlug } from '@/lib/utils/posts'
+import { getSectionName } from '@/lib/utils/section-names'
+import { getTopSections } from '@/lib/utils/tree'
 import Layout from '@/layouts/Layout.astro'
 
 export const prerender = false
 
 const { searchParams } = Astro.url
 const searchTerm = searchParams.get('search') || ''
-const selectedCategory = searchParams.get('category') || 'all'
 const sortType = searchParams.get('sort') || 'latest'
 const currentPage = Math.max(1, parseInt(searchParams.get('page') || '1', 10))
 const articlesPerPage = 6
 
-// 获取所有文章和分类
 const allPosts = await getAllPosts()
-const categories = await getCategories()
+const sections = getTopSections(allPosts)
 
-// 筛选文章
 let filteredPosts = allPosts
-
-if (selectedCategory !== 'all') {
-  filteredPosts = filteredPosts.filter(
-    (post) => post.data.category === selectedCategory,
-  )
-}
-
 if (searchTerm) {
   const term = searchTerm.toLowerCase()
   filteredPosts = filteredPosts.filter(
@@ -44,31 +31,19 @@ if (searchTerm) {
   )
 }
 
-// 排序
 if (sortType === 'latest') {
   filteredPosts.sort(
     (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
   )
 }
 
-// 分页
 const startIndex = (currentPage - 1) * articlesPerPage
-const endIndex = startIndex + articlesPerPage
-const posts = filteredPosts.slice(startIndex, endIndex)
+const posts = filteredPosts.slice(startIndex, startIndex + articlesPerPage)
 const totalPages = Math.ceil(filteredPosts.length / articlesPerPage)
-
-// 格式化分类数据以匹配 CategoryFilter 组件期望的类型
-const formattedCategories = categories.map((cat) => ({
-  name: cat.data.name,
-  slug: cat.data.slug,
-  description: cat.data.description,
-  color: cat.data.color,
-  articleCount: cat.articleCount,
-}))
 ---
 
 <Layout class="min-h-screen bg-background">
-  <ImageHeaderBar 
+  <ImageHeaderBar
     src="/imgs/index-bg-img-04.png"
     title="Articles"
     subtitle="文章"
@@ -97,58 +72,55 @@ const formattedCategories = categories.map((cat) => ({
           </button>
         </form>
 
-        <!-- 分类筛选器 -->
-        <CategoryFilter
-          categories={formattedCategories}
-          selectedCategory={selectedCategory}
-          searchTerm={searchTerm}
-          sortType={sortType}
-        />
+        <!-- 分区导航 -->
+        <nav aria-label="分区导航" class="panel p-8 flex flex-col gap-4">
+          <h2 class="text-lg font-bold text-foreground mb-2">分区导航</h2>
+          <div class="flex flex-wrap gap-3">
+            {
+              sections.map((section) => (
+                <a
+                  href={`/articles/${encodeURIComponent(section.slugPath)}`}
+                  class="chip inline-flex items-center gap-2 px-3 py-1 text-sm font-semibold transition-colors hover:bg-muted-bg"
+                >
+                  <span class="h-2.5 w-2.5 bg-primary"></span>
+                  {getSectionName(section.name)} ({section.postCount})
+                </a>
+              ))
+            }
+          </div>
+          <a href="/archive" class="mt-2 text-sm font-medium text-primary hover:underline">
+            查看完整目录树 →
+          </a>
+        </nav>
       </div>
 
       <!-- 主内容区 -->
       <div class="flex-1">
-        <!-- 结果统计 -->
         <div class="mb-6">
-          <h2 class="text-2xl font-bold text-foreground mb-2">
-            {
-              selectedCategory && selectedCategory !== 'all'
-                ? categories.find((c) => c.data.slug === selectedCategory)?.data
-                    .name || selectedCategory
-                : '所有文章'
-            }
-          </h2>
+          <h2 class="text-2xl font-bold text-foreground mb-2">所有文章</h2>
           <p class="text-muted">
             共找到 {filteredPosts.length} 篇文章
             {searchTerm && `，包含关键词"${searchTerm}"`}
           </p>
         </div>
 
-        <!-- 文章列表 -->
         <div class="flex flex-col gap-6 mb-8">
           {
             posts.length > 0 ? (
-              posts.map((post: PostWithSlug) => (
-                <a href={`/articles/${post.slug}`}>
-                  <BlogItem
-                    coverImage={post.data.coverImage || ''}
-                    title={post.data.title}
-                    description={post.data.description}
-                    category={{
-                      name:
-                        categories.find(
-                          (c) => c.data.slug === post.data.category,
-                        )?.data.name || '未分类',
-                      color: categories.find(
-                        (c) => c.data.slug === post.data.category,
-                      )?.data.color,
-                    }}
-                    publishDate={
-                      post.data.publishDate.toISOString().split('T')[0]
-                    }
-                  />
-                </a>
-              ))
+              posts.map((post: PostWithSlug) => {
+                const path = getPostPath(post)
+                return (
+                  <a href={`/articles/${path.split('/').map(encodeURIComponent).join('/')}`}>
+                    <BlogItem
+                      coverImage={post.data.coverImage || ''}
+                      title={post.data.title}
+                      description={post.data.description}
+                      section={getSectionName(path.split('/')[0])}
+                      publishDate={post.data.publishDate.toISOString().split('T')[0]}
+                    />
+                  </a>
+                )
+              })
             ) : (
               <Card>
                 <div class="text-center py-12">
@@ -159,13 +131,9 @@ const formattedCategories = categories.map((cat) => ({
                     class="mx-auto mb-4"
                     alt="文件"
                   />
-                  <h3 class="text-lg font-medium text-gray-600 mb-2">
-                    暂无文章
-                  </h3>
+                  <h3 class="text-lg font-medium text-gray-600 mb-2">暂无文章</h3>
                   <p class="text-gray-500">
-                    {searchTerm
-                      ? '没有找到匹配的文章，请尝试其他关键词'
-                      : '该分类下暂无文章'}
+                    {searchTerm ? '没有找到匹配的文章，请尝试其他关键词' : '暂无文章'}
                   </p>
                 </div>
               </Card>
@@ -173,7 +141,6 @@ const formattedCategories = categories.map((cat) => ({
           }
         </div>
 
-        <!-- 分页 -->
         {
           totalPages > 1 && (
             <Pagination
@@ -182,13 +149,8 @@ const formattedCategories = categories.map((cat) => ({
               totalPages={totalPages}
               basePath="/articles"
               searchParams={{
-                ...(selectedCategory !== 'all'
-                  ? { category: selectedCategory }
-                  : {}),
                 ...(searchTerm ? { search: searchTerm } : {}),
-                ...(sortType && sortType !== 'latest'
-                  ? { sort: sortType }
-                  : {}),
+                ...(sortType && sortType !== 'latest' ? { sort: sortType } : {}),
               }}
             />
           )
@@ -197,4 +159,3 @@ const formattedCategories = categories.map((cat) => ({
     </div>
   </div>
 </Layout>
-

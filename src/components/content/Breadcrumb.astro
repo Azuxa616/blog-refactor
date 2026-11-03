@@ -1,0 +1,31 @@
+---
+import type { BreadcrumbItem } from '@/lib/utils/tree'
+
+interface Props {
+  items: BreadcrumbItem[]
+  className?: string
+}
+
+const { items, className = '' } = Astro.props
+---
+
+<nav aria-label="面包屑" class={`text-sm ${className}`}>
+  <ol class="flex flex-wrap items-center gap-2">
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-2">
+          {index > 0 && <span aria-hidden="true" class="text-muted">/</span>}
+          {index === items.length - 1 ? (
+            <span aria-current="page" class="font-medium text-foreground">
+              {item.name}
+            </span>
+          ) : (
+            <a href={item.href} class="text-muted transition-colors hover:text-primary">
+              {item.name}
+            </a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

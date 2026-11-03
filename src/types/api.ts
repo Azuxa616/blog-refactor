@@ -3,7 +3,7 @@ import type { ApiResponse, PaginatedResponse } from './common';
 // API 端点类型
 export interface ApiEndpoints {
   articles: string;
-  categories: string;
+  archive: string;
   upload: string;
   health: string;
   login: string;
@@ -13,16 +13,15 @@ export interface ApiEndpoints {
 export interface ArticleApiParams {
   page?: number;
   limit?: number;
-  category?: string;
-  tags?: string[];
+  path?: string;
   search?: string;
 }
 
-// 分类 API 参数
-export interface CategoryApiParams {
+// 分区 API 参数
+export interface SectionApiParams {
   page?: number;
   limit?: number;
-  sort?: 'name' | 'articleCount';
+  sort?: 'name' | 'postCount';
 }
 
 // 登录请求
