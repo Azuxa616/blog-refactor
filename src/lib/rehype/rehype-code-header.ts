@@ -1,21 +1,30 @@
 // 自定义 rehype 插件：为代码块添加 header（语言标签 + 复制按钮）
 import { visit } from 'unist-util-visit'
-import type { Root, Element } from 'mdast'
+import type { Root, Element } from 'hast'
+
+function isElement(node: unknown): node is Element {
+  return (
+    typeof node === 'object' &&
+    node !== null &&
+    (node as Element).type === 'element'
+  )
+}
 
 export default function rehypeCodeHeader() {
   return (tree: Root) => {
     visit(tree, 'element', (node: Element) => {
       // 处理 pre 元素
-      if (node.tagName === 'pre' && node.children[0]?.tagName === 'code') {
-        const codeNode = node.children[0]
+      const first = node.children[0]
+      if (node.tagName === 'pre' && isElement(first) && first.tagName === 'code') {
+        const codeNode = first
 
         // 获取语言类型
         const className = codeNode.properties?.className || []
         const langClass = Array.isArray(className)
-          ? className.find((c: string) => c.startsWith('language-'))
+          ? className.find((c) => String(c).startsWith('language-'))
           : null
         const lang = langClass
-          ? langClass.replace('language-', '')
+          ? String(langClass).replace('language-', '')
           : 'plaintext'
 
         // 创建 header
@@ -94,7 +103,7 @@ export default function rehypeCodeHeader() {
         }
 
         // 将 header 插入到 pre 元素的开头
-        node.children.unshift(header)
+        node.children.unshift(header as Element)
 
         // 添加 data-code-block 属性以便于选择
         node.properties = node.properties || {}

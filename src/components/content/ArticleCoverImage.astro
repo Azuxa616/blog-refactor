@@ -3,9 +3,6 @@
 // 文章封面图片组件（编辑部化：展示字体标题 + Neo 元数据芯片）
 // 用于显示文章详情页的封面图片和元数据
 
-import Tag from '@/components/content/Tag.astro'
-import CategoryBadge from '@/components/content/CategoryBadge.astro'
-
 interface Props {
   /** 封面图片 URL */
   coverImage?: string
@@ -17,33 +14,15 @@ interface Props {
   publishDate: Date
   /** 更新日期（可选） */
   updatedDate?: Date
-  /** 分类显示名称 */
-  category?: string
-  /** 分类颜色（16进制） */
-  categoryColor?: string
-  /** 文章标签 */
-  tags?: string[]
 }
 
-const {
-  coverImage,
-  title,
-  description,
-  publishDate,
-  updatedDate,
-  category,
-  categoryColor,
-  tags,
-} = Astro.props
+const { coverImage, title, description, publishDate, updatedDate } = Astro.props
 
 // 有封面图时，文字叠加在深色渐变上，使用白色；
 // 无封面图时，背景为页面底色，需使用主题前景色，避免浅色模式下白字不可读。
 const titleClass = coverImage ? 'text-white' : 'text-foreground'
 const descriptionClass = coverImage ? 'text-white/80' : 'text-muted'
 const metaClass = coverImage ? 'text-white/90' : 'text-foreground/90'
-const separatorClass = coverImage ? 'text-white/40' : 'text-muted'
-// 分类色点：有封面图时用白色与标题一致；无封面图时用分类主题色（与列表页统一）
-const categoryBadgeColor = coverImage ? '#ffffff' : categoryColor || '#D64550'
 ---
 
 <header class="relative h-96 overflow-hidden border-b-2 border-ink">
@@ -68,17 +47,7 @@ const categoryBadgeColor = coverImage ? '#ffffff' : categoryColor || '#D64550'
         </p>
       )
     }
-    <div
-      class={`flex flex-wrap items-center justify-center gap-4 text-sm ${metaClass}`}
-    >
-      {
-        category && (
-          <>
-            <CategoryBadge title={category} color={categoryBadgeColor} />
-            <span class={separatorClass}>|</span>
-          </>
-        )
-      }
+    <div class={`flex flex-wrap items-center justify-center gap-4 text-sm ${metaClass}`}>
       <span class="flex items-center gap-1.5">
         <img
           src="/svgs/calendar.svg"
@@ -95,18 +64,6 @@ const categoryBadgeColor = coverImage ? '#ffffff' : categoryColor || '#D64550'
           )
         }
       </span>
-      {
-        tags && tags.length > 0 && (
-          <>
-            <span class={separatorClass}>|</span>
-            <div class="flex flex-wrap items-center justify-center gap-2">
-              {tags.map((tag) => (
-                <Tag label={tag} bgColor="#ffffff" size="sm" />
-              ))}
-            </div>
-          </>
-        )
-      }
     </div>
   </div>
 </header>

@@ -3,11 +3,9 @@ import { stripMarkdown } from '@/lib/utils/markdown'
 // FeaturedPostCard.astro
 // 首页特色文章卡片 - 大尺寸高亮展示单篇最新文章（Neo-Brutalism）
 
-import CategoryBadge from '@/components/content/CategoryBadge.astro'
-
 interface Props {
-  /** 文章 slug */
-  slug: string
+  /** 文章树形路径 */
+  path: string
   /** 文章标题 */
   title: string
   /** 文章描述 */
@@ -16,24 +14,21 @@ interface Props {
   coverImage?: string
   /** 发布日期 */
   publishDate: string
-  /** 分类信息 */
-  category?: {
-    name: string
-    color?: string
-  }
+  /** 所属一级分区名称 */
+  section?: string
 }
 
 const {
-  slug,
+  path,
   title,
   description,
   coverImage,
   publishDate,
-  category,
+  section,
 } = Astro.props
 ---
 
-<a href={`/articles/${slug}`} class="block w-full">
+<a href={`/articles/${path.split('/').map(encodeURIComponent).join('/')}`} class="block w-full">
   <div class="neo min-h-80 md:min-h-96 bg-card-background overflow-hidden flex flex-col md:flex-row">
     <!-- 封面图片区域 (左侧 60%) -->
     <div class="w-full md:w-3/5 min-h-48 md:min-h-0 relative overflow-hidden">
@@ -60,13 +55,13 @@ const {
 
     <!-- 文本内容区域 (右侧 40%) -->
     <div class="w-full md:w-2/5 p-6 flex flex-col gap-4 bg-card-background">
-      <!-- 分类徽章 -->
+      <!-- 分区徽章 -->
       {
-        category && (
-          <CategoryBadge
-            title={category.name}
-            color={category.color}
-          />
+        section && (
+          <span class="inline-flex w-fit items-center gap-1.5 chip px-2 py-1 text-xs font-semibold">
+            <span class="h-2.5 w-2.5 bg-primary"></span>
+            {section}
+          </span>
         )
       }
 

@@ -10,11 +10,8 @@ interface Props {
   title?: string
   /** 文章描述 */
   description?: string
-  /** 分类信息 */
-  category?: {
-    name: string
-    color?: string
-  }
+  /** 所属一级分区名称 */
+  section?: string
   /** 发布日期 */
   publishDate?: string
   /** 浏览次数 */
@@ -27,7 +24,7 @@ const {
   coverImage = "",
   title = "Untitled",
   description = "No description",
-  category = { name: "未分类", color: "#D64550" },
+  section = '其他',
   publishDate = "未知时间",
   viewCount = 0,
   className = ""
@@ -58,7 +55,7 @@ const {
 
   <!-- 文章信息 -->
   <div class="flex flex-col flex-1 gap-3 justify-center items-start h-full w-full sm:w-auto px-4 sm:px-0 sm:mx-5 py-4 sm:py-0">
-    <!-- 标题和分类 -->
+    <!-- 标题和分区 -->
     <div class="flex items-start justify-between gap-3">
       <h3 class="text-2xl font-bold text-foreground line-clamp-2 flex-1 leading-tight">
         {title}
@@ -66,12 +63,8 @@ const {
       <span
         class="inline-flex flex-shrink-0 items-center gap-1.5 chip px-2 py-1 text-xs font-semibold"
       >
-        <span
-          class="h-2.5 w-2.5"
-          style={`background-color: ${category.color || '#D64550'}`}
-        >
-        </span>
-        {category.name}
+        <span class="h-2.5 w-2.5 bg-primary"></span>
+        {section}
       </span>
     </div>
 

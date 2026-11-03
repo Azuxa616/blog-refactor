@@ -67,6 +67,6 @@ export interface HealthCheckResponse {
   storage?: {
     status: 'ok' | 'error';
     totalArticles?: number;
-    totalCategories?: number;
+    totalSections?: number;
   };
 }
