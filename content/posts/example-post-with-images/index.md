@@ -1,10 +1,10 @@
 ---
 title: "示例文章：使用相对路径引用图片"
-slug: "example-post-with-images"
+slug: example-post-with-images
+path: site/example-post-with-images
+sourcePath: "Blog/站务/example-post-with-images.md"
 description: "演示如何在文章中使用相对路径引用同目录下的图片"
-publishDate: 2026-03-14
-category: tech
-tags: ["教程", "示例"]
+publishDate: 2026-03-14T00:00:00.000Z
 coverImage: "/blog-images/小黑.png"
 ---
 
